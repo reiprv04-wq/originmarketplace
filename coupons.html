@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>応援クーポン | ORIGIN</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@400;500;700;900&family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+    
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
+    
+    <style>
+        :root {
+            --color-atlas: #1E3A5F;
+            --color-meridian: #C9A84C;
+            --color-charcoal: #111827;
+            --font-display: 'Cormorant Garamond', serif;
+            --font-ui: 'Inter', 'Noto Sans JP', sans-serif;
+        }
+        body {
+            background-color: #F8FAFC;
+            color: var(--color-charcoal);
+            font-family: var(--font-ui);
+        }
+        .coupon-card {
+            border-radius: 0.75rem;
+            background-color: white;
+            border-width: 1px;
+            border-color: rgb(243 244 246);
+            box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition-property: all;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+            transition-duration: 200ms;
+        }
+        .coupon-card:hover {
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        .btn-atlas {
+            background-color: var(--color-atlas);
+            color: white;
+            transition: all 0.2s;
+        }
+        .btn-atlas:hover { background-color: #162a45; }
+    </style>
+</head>
+<body class="pt-16">
+
+    <!-- Header -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-100 h-16 flex items-center justify-between px-6">
+        <a class="font-display text-2xl font-bold" href="index.html">ORIGIN</a>
+        <div class="flex-1 max-w-xl mx-12">
+            <input class="w-full bg-gray-100 border-none rounded-full px-5 py-2 text-sm" placeholder="クーポン対応プロジェクトを探す" type="text"/>
+        </div>
+        <div class="flex items-center gap-4">
+             <i class="ph ph-bell text-xl text-gray-400"></i>
+             <div class="w-8 h-8 rounded-full bg-atlas"></div>
+        </div>
+    </header>
+
+    <main class="max-w-[1200px] mx-auto px-6 py-12">
+        
+        <!-- Coupon Hero -->
+        <div class="bg-white rounded-2xl p-12 mb-12 flex items-center gap-12 border border-gray-100">
+            <div class="flex -space-x-4">
+                <div class="w-20 h-12 bg-blue-500 rounded-lg flex items-center justify-center text-white text-[10px] font-bold shadow-lg transform rotate-[-10deg]">Coupon</div>
+                <div class="w-20 h-12 bg-green-500 rounded-lg flex items-center justify-center text-white text-[10px] font-bold shadow-lg transform rotate-[5deg]">Coupon</div>
+                <div class="w-20 h-12 bg-yellow-500 rounded-lg flex items-center justify-center text-white text-[10px] font-bold shadow-lg transform rotate-[15deg]">Coupon</div>
+            </div>
+            <div>
+                <h1 class="text-3xl font-black mb-2">プロジェクトで使える応援クーポン</h1>
+                <p class="text-gray-500 font-medium">クーポンでお得にプロジェクトを応援購入しよう！</p>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="flex gap-10 border-b border-gray-200 mb-10">
+            <button class="pb-4 text-sm font-black border-b-2 border-atlas">新着順</button>
+            <button class="pb-4 text-sm font-bold text-gray-400">人気順</button>
+        </div>
+
+        <!-- Coupon Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            
+            <!-- Coupon 1 -->
+            <div class="coupon-card">
+                <div class="aspect-video bg-gray-100 relative">
+                    <img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3XSrilkmRGgSVD1XLRiDVUGa3-LI579e2D2mZ1pnkAhofcXjQUyTYmkA4RUIhnFiBXWkX7MVn2Ni5kqMP1yKWlMm1LTamPeHkFK-NNKAMlgGzzOEN86ySIlsnK5uPQSDC1pg6rJx6cquzPkg2uj62EHYswnlmpFavtNu2S4QccujfdkdWFwcjJMVxC9Yl_-xGQY2xGfosTpbQm_NgqbphO8Z5SqCIQfTgc3aiJ4VzdRPIAsv5gadLneqTMKLtz704vfuj7JQmr60" alt="Item">
+                </div>
+                <div class="p-6 flex flex-col items-center text-center">
+                    <p class="text-xs font-bold text-gray-500 mb-2">【AI ツール特化】全アセット対象</p>
+                    <h3 class="text-2xl font-black text-atlas mb-6">¥1,000<span class="text-sm">OFF</span></h3>
+                    
+                    <div class="w-full space-y-3 mb-8 text-[11px] font-bold text-gray-400 text-left">
+                        <div class="flex items-center gap-2 italic"><i class="ph ph-clock"></i> 利用期限 2026年04月30日 23:59</div>
+                        <div class="flex items-center gap-2 italic"><i class="ph ph-currency-jpy"></i> 最低利用金額 10,000円</div>
+                    </div>
+
+                    <button class="w-full py-4 rounded-lg bg-gray-900 text-white font-black text-sm mb-4">クーポンを取得</button>
+                    <a href="#" class="text-xs font-bold text-blue-500 hover:underline">プロジェクト詳細を見る</a>
+                </div>
+            </div>
+
+            <!-- Coupon 2 -->
+            <div class="coupon-card">
+                <div class="aspect-video bg-gray-100 relative">
+                    <img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/ADBb0uguU9-Y-Ff2WIi4fDFIyGRL7XxrQcm2azkrbzoXCncjcYlagyBPkq8fobVaT4lqkgq1HywClXJWxyQf_70Rl_mkIgRgU1u3XMglZFyBv5RK4-zksEU6HF49w1xFkv0_aVyMOAiJPMm3g53y0CokRFrX3vBrU4QGotTZ4mdZziB1217RJ-bILW5a9nG0MoTVgYx9SFJiG6M6XrlVmR73ewo1OUTl9PH2Ku6t392BbfeP8S6RhcWusrMIxgAyk52vQ7Qj_UnVivup" alt="Item">
+                </div>
+                <div class="p-6 flex flex-col items-center text-center">
+                    <p class="text-xs font-bold text-gray-500 mb-2">【書類自動化】記念クーポン</p>
+                    <h3 class="text-2xl font-black text-atlas mb-6">¥700<span class="text-sm">OFF</span></h3>
+                    
+                    <div class="w-full space-y-3 mb-8 text-[11px] font-bold text-gray-400 text-left">
+                        <div class="flex items-center gap-2 italic"><i class="ph ph-clock"></i> 利用期限 2026年04月15日 23:59</div>
+                        <div class="flex items-center gap-2 italic"><i class="ph ph-currency-jpy"></i> 最低利用金額 5,000円</div>
+                    </div>
+
+                    <button class="w-full py-4 rounded-lg bg-gray-900 text-white font-black text-sm mb-4">クーポンを取得</button>
+                    <a href="#" class="text-xs font-bold text-blue-500 hover:underline">プロジェクト詳細を見る</a>
+                </div>
+            </div>
+
+            <!-- Coupon 3 -->
+            <div class="coupon-card">
+                <div class="aspect-video bg-gray-100 relative">
+                     <div class="w-full h-full flex items-center justify-center bg-gray-100 text-gray-300"><i class="ph ph-layout text-4xl"></i></div>
+                </div>
+                <div class="p-6 flex flex-col items-center text-center">
+                    <p class="text-xs font-bold text-gray-500 mb-2">【春のDX】応援キャンペーン</p>
+                    <h3 class="text-2xl font-black text-atlas mb-6">¥200<span class="text-sm">OFF</span></h3>
+                    
+                    <div class="w-full space-y-3 mb-8 text-[11px] font-bold text-gray-400 text-left">
+                        <div class="flex items-center gap-2 italic"><i class="ph ph-clock"></i> 利用期限 2026年05月30日 23:59</div>
+                        <div class="flex items-center gap-2 italic"><i class="ph ph-currency-jpy"></i> 最低利用金額 1,000円</div>
+                    </div>
+
+                    <button class="w-full py-4 rounded-lg bg-gray-900 text-white font-black text-sm mb-4">クーポンを取得</button>
+                    <a href="#" class="text-xs font-bold text-blue-500 hover:underline">プロジェクト詳細を見る</a>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="py-12 border-t border-gray-100 opacity-30 text-center font-display text-2xl font-bold">ORIGIN</footer>
+
+</body>
+</html>

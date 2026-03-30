@@ -1,0 +1,640 @@
+<html lang="ja"><head></head><body>```html
+
+
+
+    <meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ORIGIN — START HERE | AIアセットマーケットプレイス</title>
+<meta content="AIテンプレート・デジタルアセット特化型マーケットプレイス。ビルダーやクリエイター、AIネイティブな専門家のための起点（ORIGIN）。" name="description"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&amp;family=Noto+Sans+JP:wght@400;500;700;900&amp;family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Phosphor Icons -->
+<script src="https://unpkg.com/@phosphor-icons/web"></script>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style>
+        :root {
+            --color-atlas: #1E3A5F;
+            --color-meridian: #C9A84C;
+            --color-pale-steel: #F3F4F6;
+            --color-charcoal: #111827;
+            --color-white: #FFFFFF;
+            
+            --font-display: 'Cormorant Garamond', serif;
+            --font-editorial: 'Newsreader', serif;
+            --font-ui: 'Inter', 'Noto Sans JP', sans-serif;
+            
+            --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            background-color: #F8FAFC;
+            color: var(--color-charcoal);
+            font-family: var(--font-ui);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .font-display { font-family: var(--font-display); }
+        .font-editorial { font-family: var(--font-editorial); }
+        
+        .bg-atlas { background-color: var(--color-atlas); }
+        .text-atlas { color: var(--color-atlas); }
+        .border-atlas { border-color: var(--color-atlas); }
+        
+        .btn-atlas {
+            background-color: var(--color-atlas);
+            color: var(--color-white);
+            transition: var(--transition);
+        }
+        .btn-atlas:hover { 
+            background-color: #162a45;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(30, 58, 95, 0.15);
+        }
+
+        .sidebar-sticky {
+            position: sticky;
+            top: 80px;
+            height: calc(100vh - 100px);
+            overflow-y: auto;
+        }
+
+        .asset-card {
+            transition: var(--transition);
+            border: 1px solid #E5E7EB;
+            background: #FFFFFF;
+        }
+        .asset-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+            border-color: #D1D5DB;
+        }
+
+        .search-bar-container {
+            flex: 1;
+            max-width: 580px;
+            margin: 0 40px;
+        }
+
+        /* Sidebar Item Styles */
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #4B5563;
+            transition: all 0.2s;
+        }
+        .sidebar-link:hover {
+            background-color: #F3F4F6;
+            color: var(--color-atlas);
+        }
+        .sidebar-link.active {
+            background-color: #EEF2FF;
+            color: var(--color-atlas);
+            font-weight: 700;
+        }
+        .sidebar-sub-link {
+            display: block;
+            padding: 6px 12px 6px 44px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #6B7280;
+            transition: all 0.2s;
+            border-radius: 4px;
+        }
+        .sidebar-sub-link:hover {
+            background-color: #F3F4F6;
+            color: var(--color-charcoal);
+        }
+        .sidebar-section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 12px 8px;
+            font-size: 12px;
+            font-weight: 700;
+            color: #9CA3AF;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .price-display {
+            font-family: var(--font-display);
+            font-weight: 700;
+        }
+
+        .section-headline {
+            font-family: var(--font-display);
+            font-weight: 700;
+            letter-spacing: -0.01em;
+        }
+
+        .section-marker {
+            display: inline-block;
+            width: 32px;
+            height: 2px;
+            background-color: var(--color-atlas);
+            margin-bottom: 12px;
+        }
+
+        /* Tool Icons Branding */
+        .tool-icon-bg {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            background: #F9FAFB;
+            transition: var(--transition);
+        }
+        .asset-card:hover .tool-icon-bg {
+            background: #F3F4F6;
+        }
+    </style>
+<!-- Header -->
+<header class="sticky top-0 z-50 bg-white border-b border-gray-200">
+<div class="max-w-[1600px] mx-auto px-6 h-16 flex items-center justify-between">
+<!-- Logo -->
+<a class="flex-shrink-0 flex items-center" href="/">
+<img alt="ORIGIN" class="h-8 w-auto" src="https://lh3.googleusercontent.com/aida/ADBb0uhKQRQTYmQQJDJF1JeS62An5a_Fxd0C8H-8RBkA5yU5Bj7Pu3TmwQCG39ZHNqSWDXc0kKNfodonIg-XG-tlKYckFzOA7vYAPtQZFu6sCkH7U69SB7AJFjzq922Wk6vNnP7ehvaKGEmQgtEaVw3Qw74EhWgSVOGEgFfhtXoT4fOVgaLq67y3t501Ii1VWuofrg4UCkFufhQGKdpu5h-8idODgcI_BySX1ArVfBTWcfeZoMI0yq89YeaQZWhfRpJYO4nLhXXRysZJ"/>
+</a>
+<!-- Search -->
+<div class="search-bar-container">
+<div class="relative group">
+<i class="ph ph-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-lg group-focus-within:text-atlas"></i>
+<input class="w-full pl-11 pr-4 py-2 bg-gray-100 border-transparent rounded-lg text-sm font-medium focus:ring-2 focus:ring-atlas/10 focus:bg-white focus:border-atlas/30 transition-all outline-none" placeholder="AIアセット、ツール、課題から検索..." type="text"/>
+</div>
+</div>
+<!-- Actions -->
+<div class="flex items-center gap-6">
+<nav class="hidden lg:flex items-center gap-6 text-sm font-bold text-gray-500">
+<a class="hover:text-atlas transition-colors" href="#">出品ガイド</a>
+<a class="hover:text-atlas transition-colors" href="#">法人導入</a>
+</nav>
+<div class="flex items-center gap-3">
+<a class="text-sm font-bold text-gray-600 hover:text-atlas px-4 py-2" href="#">ログイン</a>
+<a class="btn-atlas px-5 py-2.5 rounded-lg text-sm font-bold" href="#">出品する</a>
+</div>
+</div>
+</div>
+</header>
+<div class="max-w-[1600px] mx-auto px-6 flex gap-10 py-10">
+<!-- Sidebar -->
+<aside class="w-64 flex-shrink-0 hidden lg:block">
+<div class="sidebar-sticky flex flex-col gap-6">
+<div class="flex flex-col gap-1">
+<a class="sidebar-link active" href="#"><i class="ph ph-house text-lg"></i> ホーム</a>
+<a class="sidebar-link" href="#"><i class="ph ph-ticket text-lg"></i> 応援クーポン</a>
+</div>
+<div class="flex flex-col">
+<div class="sidebar-section-header">
+<span>見つける</span>
+<i class="ph ph-caret-down text-[10px]"></i>
+</div>
+<div class="flex flex-col gap-0.5 mt-1">
+<a class="sidebar-sub-link" href="#">すべて</a>
+<a class="sidebar-sub-link" href="#">新着アセット</a>
+<a class="sidebar-sub-link" href="#">ランキング</a>
+<a class="sidebar-sub-link" href="#">ピックアップ</a>
+<a class="sidebar-sub-link text-atlas font-bold" href="#">Notionテンプレート</a>
+<a class="sidebar-sub-link text-atlas font-bold" href="#">n8nワークフロー</a>
+<a class="sidebar-sub-link text-atlas font-bold" href="#">Excel・スプレッドシート</a>
+</div>
+</div>
+<div class="flex flex-col">
+<div class="sidebar-section-header"><span>マイページ</span></div>
+<div class="flex flex-col gap-1 mt-1">
+<a class="sidebar-link" href="#"><i class="ph ph-clock-counter-clockwise text-lg"></i> 閲覧履歴</a>
+<a class="sidebar-link" href="#"><i class="ph ph-heart text-lg"></i> お気に入り</a>
+<a class="sidebar-link" href="#"><i class="ph ph-tag text-lg"></i> Myタグ設定</a>
+</div>
+</div>
+<div class="flex flex-col">
+<div class="sidebar-section-header"><span>人気のタグ</span></div>
+<div class="flex flex-wrap gap-2 px-3 mt-2">
+<a class="text-[11px] font-bold bg-white border border-gray-200 px-2.5 py-1 rounded-full hover:border-atlas hover:text-atlas transition-colors" href="#">#営業DX</a>
+<a class="text-[11px] font-bold bg-white border border-gray-200 px-2.5 py-1 rounded-full hover:border-atlas hover:text-atlas transition-colors" href="#">#自動化</a>
+<a class="text-[11px] font-bold bg-white border border-gray-200 px-2.5 py-1 rounded-full hover:border-atlas hover:text-atlas transition-colors" href="#">#SaaS</a>
+<a class="text-[11px] font-bold bg-white border border-gray-200 px-2.5 py-1 rounded-full hover:border-atlas hover:text-atlas transition-colors" href="#">#Notion</a>
+</div>
+</div>
+<div class="mt-auto pt-6 border-t border-gray-200">
+<p class="text-[10px] font-bold text-gray-400 leading-relaxed uppercase tracking-widest">
+                    © 2026 ORIGIN.<br/>Engineering the future.
+                </p>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 min-w-0">
+<!-- Hero Section -->
+<section class="mb-32 bg-white border border-gray-200 rounded-2xl overflow-hidden p-10 xl:p-16 relative shadow-sm">
+<div class="relative z-10 max-w-2xl">
+<h1 class="font-display text-5xl xl:text-7xl font-medium leading-[1.05] mb-8 text-black tracking-tight">
+                    Build from zero.<br/>Start here.
+                </h1>
+<p class="text-lg text-gray-500 mb-12 leading-relaxed max-w-lg font-medium">
+                    ORIGINは、ビルダーのために厳選されたAIテンプレート、ワークフロー、デジタルアセットが集結するプロフェッショナル・マーケットプレイスです。
+                </p>
+<div class="flex flex-wrap gap-5">
+<a class="btn-atlas px-10 py-4 rounded-lg font-bold text-base" href="#">アセットを探す</a>
+<a class="px-10 py-4 border border-gray-200 bg-white rounded-lg font-bold text-gray-700 hover:bg-gray-50 transition-colors shadow-sm" href="#">プラットフォーム詳細</a>
+</div>
+</div>
+<!-- Decorative Visual -->
+<div class="absolute top-0 right-0 h-full w-1/3 opacity-20 lg:opacity-100 pointer-events-none">
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gradient-to-br from-atlas/5 to-meridian/5 rounded-full blur-3xl"></div>
+<img alt="Decoration" class="relative z-0 h-full w-full object-contain p-12" src="https://lh3.googleusercontent.com/aida/ADBb0uguU9-Y-Ff2WIi4fDFIyGRL7XxrQcm2azkrbzoXCncjcYlagyBPkq8fobVaT4lqkgq1HywClXJWxyQf_70Rl_mkIgRgU1u3XMglZFyBv5RK4-zksEU6HF49w1xFkv0_aVyMOAiJPMm3g53y0CokRFrX3vBrU4QGotTZ4mdZziB1217RJ-bILW5a9nG0MoTVgYx9SFJiG6M6XrlVmR73ewo1OUTl9PH2Ku6t392BbfeP8S6RhcWusrMIxgAyk52vQ7Qj_UnVivup"/>
+</div>
+</section>
+<!-- Featured Section -->
+<section class="mb-32">
+<div class="flex items-end justify-between mb-12 border-b-2 border-atlas/5 pb-6">
+<div>
+<div class="section-marker"></div>
+<h2 class="section-headline text-4xl text-gray-900">スタッフおすすめ / 特集</h2>
+<p class="text-sm font-medium text-atlas/60 mt-2 uppercase tracking-wider">Curation &amp; Special Features</p>
+</div>
+<a class="text-sm font-bold text-atlas hover:underline" href="#">キュレーション一覧</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-8">
+<div class="md:col-span-8 group relative aspect-[16/8] rounded-2xl overflow-hidden cursor-pointer shadow-md">
+<img alt="Feature" class="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3XSrilkmRGgSVD1XLRiDVUGa3-LI579e2D2mZ1pnkAhofcXjQUyTYmkA4RUIhnFiBXWkX7MVn2Ni5kqMP1yKWlMm1LTamPeHkFK-NNKAMlgGzzOEN86ySIlsnK5uPQSDC1pg6rJx6cquzPkg2uj62EHYswnlmpFavtNu2S4QccujfdkdWFwcjJMVxC9Yl_-xGQY2xGfosTpbQm_NgqbphO8Z5SqCIQfTgc3aiJ4VzdRPIAsv5gadLneqTMKLtz704vfuj7JQmr60"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent z-10"></div>
+<div class="absolute bottom-0 left-0 p-10 z-20">
+<span class="inline-block px-3 py-1 bg-meridian text-white text-[10px] font-black tracking-widest uppercase mb-4 rounded">Monthly Selection</span>
+<h3 class="font-bold text-4xl text-white mb-3">営業DX：効率を極める10選</h3>
+<p class="text-white/80 text-sm font-medium max-w-md">リード獲得から商談管理まで。最新のAIツールを活用した営業フローの完全自動化アセット集。</p>
+</div>
+</div>
+<div class="md:col-span-4 flex flex-col gap-6">
+<div class="flex-1 bg-white rounded-2xl p-8 border border-gray-200 shadow-sm group cursor-pointer hover:border-atlas transition-all">
+<span class="text-[10px] font-black text-meridian uppercase tracking-widest mb-4 block">Design &amp; Creative</span>
+<h4 class="font-bold text-xl text-gray-900 mb-2">Modern UI Kit Pro</h4>
+<p class="text-xs font-medium text-gray-500 mb-6">SaaSプロダクト開発を加速させる最高品質のデザインリソース集。</p>
+<span class="text-xs font-bold text-atlas flex items-center gap-2">View Collection <i class="ph ph-arrow-right"></i></span>
+</div>
+<div class="flex-1 bg-gray-900 rounded-2xl p-8 shadow-sm group cursor-pointer hover:bg-black transition-all">
+<span class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-4 block">AI Engineering</span>
+<h4 class="font-bold text-xl text-white mb-2">Prompt Patterns</h4>
+<p class="text-xs font-medium text-white/60 mb-6">実務に即した高度なプロンプト設計ガイドとテンプレート。</p>
+<span class="text-xs font-bold text-white flex items-center gap-2">View Patterns <i class="ph ph-arrow-right"></i></span>
+</div>
+</div>
+</div>
+</section>
+<!-- Hot Assets -->
+<section class="mb-32">
+<div class="flex items-end justify-between mb-12 border-b-2 border-atlas/5 pb-6">
+<div>
+<div class="section-marker"></div>
+<h2 class="section-headline text-4xl text-gray-900">注目のアセット</h2>
+<p class="text-sm font-medium text-atlas/60 mt-2 uppercase tracking-wider">Top Performing Assets</p>
+</div>
+<a class="text-sm font-bold text-gray-500 hover:text-black transition-colors" href="#">すべて見る</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+<!-- Asset Card -->
+<div class="asset-card rounded-xl overflow-hidden flex flex-col group">
+<div class="aspect-[16/10] bg-gray-50 relative p-8 flex items-center justify-center border-b border-gray-100">
+<span class="absolute top-4 left-4 bg-atlas text-white text-[10px] font-bold px-2 py-1 rounded shadow-sm">NEW</span>
+<div class="tool-icon-bg w-20 h-20 shadow-md border border-gray-200 bg-white"><img alt="Notion" class="w-12 h-12 object-contain" src="https://lh3.googleusercontent.com/aida/ADBb0uhNv5WCGOqbxKyaOguUW7MTD13cvvDUFNVfJBBsILw-1GIcgJpgrEOmxneWHGpfub_w7hf0ijDL5jCwoAIcjI6bsHHV1JPdAhP9GvdoO6F0L-Pd0_tsABEw1jwJJiElR6E1c_PzeleEb6iIc9M-GsUYlTqpT0EMOe8_H9B3I6oYP5Fk5tDkx4SvldysLaeTXm9kHw-ikOas2UFKJNbLCMTSyx1zgu0-6yUQIiRpCs59RvxPCVwGcb9AhD_PAIMVmXfvaXFoK_51WQ"/></div>
+</div>
+<div class="p-6 flex-1 flex flex-col">
+<div class="flex items-center gap-2 mb-4">
+<img alt="Creator" class="w-5 h-5 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDjRhPg3BLV63bq2U17xurWM8CI_EzmCFmHd6-byHxvcHlpTIhGEhSrQ1kSbUeVrGpK58asNK71hC1DvMV4KMiJ7wzAIg76Ho6ATNlb53B4IKg8j7OaUb2cAvH2NWJ9JB-6ReOCo8NBohUXA7pRVggDpao5n0qxlFFwk1xR9bbExZ1jp5hhXX5HrfEHE-ATUkv3K-hw8YK3Ozzx0UEdOcy9dKXK_3TvaKEbpZ_lHSqrYoPZyzcka-EFLVYOaVuAYx5ZjarGvzYJ27M"/>
+<span class="text-[10px] font-bold text-gray-400 tracking-wide">ATLAS TECH LAB</span>
+</div>
+<h3 class="font-bold text-lg leading-tight mb-4 group-hover:text-atlas transition-colors">高度な営業管理 Notion テンプレート v2.1</h3>
+<div class="flex gap-2 mb-8">
+<span class="text-[10px] font-bold bg-gray-100 text-gray-500 px-2 py-0.5 rounded">Notion</span>
+<span class="text-[10px] font-bold bg-gray-100 text-gray-500 px-2 py-0.5 rounded">CRM</span>
+</div>
+<div class="mt-auto flex items-center justify-between">
+<span class="price-display text-2xl text-atlas">¥4,800</span>
+<div class="flex items-center gap-1.5">
+<i class="ph-fill ph-star text-meridian text-xs"></i>
+<span class="text-xs font-bold text-gray-900">4.9</span>
+<span class="text-[10px] text-gray-400 font-medium">(128 sales)</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Asset Card 2 -->
+<div class="asset-card rounded-xl overflow-hidden flex flex-col group">
+<div class="aspect-[16/10] bg-gray-50 relative p-8 flex items-center justify-center border-b border-gray-100">
+<span class="absolute top-4 left-4 bg-meridian text-white text-[10px] font-bold px-2 py-1 rounded shadow-sm">PREMIUM</span>
+<div class="tool-icon-bg w-20 h-20 shadow-md border border-gray-200 bg-white"><img alt="n8n" class="w-12 h-12 object-contain" src="https://lh3.googleusercontent.com/aida/ADBb0uiT2l2zhJ147KrMo8fm6xPaNSLerOkPozcNZrg7gq6PU1OqPxJTU6yayWidu9Nc2jVQhXaeyaxGUo2j7C6dKnURbyNXTVDp5bxDtsBOmLrasYIIGrXIoA259-29ll_QG2IA8Xj958jsym1wG5-bFxZL6DQGd38CL5PzYn8tpFw1ZMdhjIt5a1Y8rSPAEcOy5D5sKIEVIfoR_0LJZc091K8scWygBGelrfs1usJNbEbNC6s952sY-Z8m-4iGUL6MgFNftYdf_o8o3w"/></div>
+</div>
+<div class="p-6 flex-1 flex flex-col">
+<div class="flex items-center gap-2 mb-4">
+<img alt="Creator" class="w-5 h-5 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCxox_tmDsxOMjtI_g9v9F8rEM1B57lR2ewJlzXdqaKV_ixmlUlcz72xqCJ4CCCVNftWHBmKSKu74UzZEjiMSCMpkND5zNzP9HtvyrkKuWvZRqSKC7U8slzujXtCIUspFg7NmkamPbGxnPK6bqxvgZRwB6qXWchtcw-P2SIsMU-BvL4-u5cvG7hGF3DEmCi2m6VMyHc-9TLQ4at4oq6tPcqcdL7gBRrm3BHkZ6bCZTbPT247e2NTiNw2aVWGx7VAgNuFB8PWo8ggek"/>
+<span class="text-[10px] font-bold text-gray-400 tracking-wide">N8N MASTER</span>
+</div>
+<h3 class="font-bold text-lg leading-tight mb-4 group-hover:text-atlas transition-colors">リード自動生成ワークフロー</h3>
+<div class="flex gap-2 mb-8">
+<span class="text-[10px] font-bold bg-gray-100 text-gray-500 px-2 py-0.5 rounded">n8n</span>
+<span class="text-[10px] font-bold bg-gray-100 text-gray-500 px-2 py-0.5 rounded">Automation</span>
+</div>
+<div class="mt-auto flex items-center justify-between">
+<span class="price-display text-2xl text-atlas">¥12,000</span>
+<div class="flex items-center gap-1.5">
+<i class="ph-fill ph-star text-meridian text-xs"></i>
+<span class="text-xs font-bold text-gray-900">5.0</span>
+<span class="text-[10px] text-gray-400 font-medium">(42 sales)</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Asset Card 3 -->
+<div class="asset-card rounded-xl overflow-hidden flex flex-col group">
+<div class="aspect-[16/10] bg-gray-50 relative p-8 flex items-center justify-center border-b border-gray-100">
+<div class="tool-icon-bg w-20 h-20 shadow-md border border-gray-200 bg-white">
+<i class="ph ph-code text-4xl text-gray-400"></i>
+</div>
+</div>
+<div class="p-6 flex-1 flex flex-col">
+<div class="flex items-center gap-2 mb-4">
+<img alt="Creator" class="w-5 h-5 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB4PgNRzrMojdqFKrGd1Wg4vvXAik2sKh-PC-w7FEDiPhERQ0C6ohG9cLe0vUZnETWWhbL3UnsBaG8UtMIahi5nKZ1KRD0mJ1JQdxwlZU9ghv2k5dPcd6w_RL-8g-b5v9rLvbbtexp2pYCW1mMa4OKAeO2nodIPTNO9Bbo7vcdRWATVnGl-8yZY3XsK9jZ_Iicn20uGsWwjma4KyqXggT020jqlao6i6qiHFuLy3NaorEq_CRMuOTNWJ30HPce98VTa92B0WNSBOXU"/>
+<span class="text-[10px] font-bold text-gray-400 tracking-wide">ZERO DESIGN</span>
+</div>
+<h3 class="font-bold text-lg leading-tight mb-4 group-hover:text-atlas transition-colors">モダン SaaS UI コンポーネント</h3>
+<div class="flex gap-2 mb-8">
+<span class="text-[10px] font-bold bg-gray-100 text-gray-500 px-2 py-0.5 rounded">React</span>
+<span class="text-[10px] font-bold bg-gray-100 text-gray-500 px-2 py-0.5 rounded">Tailwind</span>
+</div>
+<div class="mt-auto flex items-center justify-between">
+<span class="price-display text-2xl text-atlas">¥3,500</span>
+<div class="flex items-center gap-1.5">
+<i class="ph-fill ph-star text-meridian text-xs"></i>
+<span class="text-xs font-bold text-gray-900">4.8</span>
+<span class="text-[10px] text-gray-400 font-medium">(89 sales)</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Category Section: Notion -->
+<section class="mb-32">
+<div class="flex items-end justify-between mb-12 border-b-2 border-atlas/5 pb-6">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-white rounded-xl shadow-sm border border-gray-100 flex items-center justify-center font-bold text-xl"><img alt="Notion" class="w-7 h-7 object-contain" src="https://lh3.googleusercontent.com/aida/ADBb0uhNv5WCGOqbxKyaOguUW7MTD13cvvDUFNVfJBBsILw-1GIcgJpgrEOmxneWHGpfub_w7hf0ijDL5jCwoAIcjI6bsHHV1JPdAhP9GvdoO6F0L-Pd0_tsABEw1jwJJiElR6E1c_PzeleEb6iIc9M-GsUYlTqpT0EMOe8_H9B3I6oYP5Fk5tDkx4SvldysLaeTXm9kHw-ikOas2UFKJNbLCMTSyx1zgu0-6yUQIiRpCs59RvxPCVwGcb9AhD_PAIMVmXfvaXFoK_51WQ"/></div>
+<div>
+<div class="section-marker mb-1"></div>
+<h2 class="section-headline text-3xl text-gray-900">Notion テンプレート</h2>
+<p class="text-[11px] font-medium text-atlas/60 uppercase tracking-widest">Workspace Efficiency &amp; Databases</p>
+</div>
+</div>
+<a class="text-xs font-bold text-gray-400 hover:text-black" href="#">Notion一覧へ →</a>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+<!-- Card -->
+<div class="asset-card p-6 rounded-xl hover:border-black/10 transition-all flex flex-col">
+<div class="bg-gray-50 rounded-lg aspect-video mb-5 flex items-center justify-center border border-gray-100">
+<i class="ph ph-layout text-3xl text-gray-300"></i>
+</div>
+<h3 class="font-bold text-sm mb-2 text-gray-900 line-clamp-1">Project Manager Pro</h3>
+<p class="text-[11px] text-gray-500 mb-5 line-clamp-2 leading-relaxed">タスク、マイルストーン、ドキュメントを一元管理する実務向け仕様。</p>
+<div class="mt-auto pt-4 border-t border-gray-100 flex items-center justify-between">
+<span class="price-display text-lg text-atlas">¥2,800</span>
+<span class="text-[10px] font-bold text-gray-400 uppercase tracking-tight">v1.2</span>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="asset-card p-6 rounded-xl hover:border-black/10 transition-all flex flex-col">
+<div class="bg-gray-50 rounded-lg aspect-video mb-5 flex items-center justify-center border border-gray-100">
+<i class="ph ph-users text-3xl text-gray-300"></i>
+</div>
+<h3 class="font-bold text-sm mb-2 text-gray-900 line-clamp-1">Unified CRM Template</h3>
+<p class="text-[11px] text-gray-500 mb-5 line-clamp-2 leading-relaxed">顧客対応履歴と案件進捗をシームレスに。中小規模チームに最適。</p>
+<div class="mt-auto pt-4 border-t border-gray-100 flex items-center justify-between">
+<span class="price-display text-lg text-atlas">¥3,500</span>
+<span class="text-[10px] font-bold text-gray-400 uppercase tracking-tight">v2.0</span>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="asset-card p-6 rounded-xl hover:border-black/10 transition-all flex flex-col">
+<div class="bg-gray-50 rounded-lg aspect-video mb-5 flex items-center justify-center border-gray-100 border">
+<i class="ph ph-book-open text-3xl text-gray-300"></i>
+</div>
+<h3 class="font-bold text-sm mb-2 text-gray-900 line-clamp-1">Knowledge Hub</h3>
+<p class="text-[11px] text-gray-500 mb-5 line-clamp-2 leading-relaxed">社内Wikiの標準化を実現する階層構造済みテンプレート。</p>
+<div class="mt-auto pt-4 border-t border-gray-100 flex items-center justify-between">
+<span class="price-display text-lg text-atlas">¥1,900</span>
+<span class="text-[10px] font-bold text-gray-400 uppercase tracking-tight">v1.0</span>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="asset-card p-6 rounded-xl hover:border-black/10 transition-all flex flex-col">
+<div class="bg-gray-50 rounded-lg aspect-video mb-5 flex items-center justify-center border border-gray-100">
+<i class="ph ph-monitor text-3xl text-gray-300"></i>
+</div>
+<h3 class="font-bold text-sm mb-2 text-gray-900 line-clamp-1">Team Dashboard</h3>
+<p class="text-[11px] text-gray-500 mb-5 line-clamp-2 leading-relaxed">各プロジェクトのOKRsとKPIを可視化する管理ボード。</p>
+<div class="mt-auto pt-4 border-t border-gray-100 flex items-center justify-between">
+<span class="price-display text-lg text-atlas">¥2,400</span>
+<span class="text-[10px] font-bold text-gray-400 uppercase tracking-tight">v1.1</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Category Section: n8n -->
+<section class="mb-32">
+<div class="flex items-end justify-between mb-12 border-b-2 border-atlas/5 pb-6">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-white rounded-full shadow-sm border border-gray-100 flex items-center justify-center font-bold text-xl"><img alt="n8n" class="w-8 h-8 object-contain" src="https://lh3.googleusercontent.com/aida/ADBb0uiT2l2zhJ147KrMo8fm6xPaNSLerOkPozcNZrg7gq6PU1OqPxJTU6yayWidu9Nc2jVQhXaeyaxGUo2j7C6dKnURbyNXTVDp5bxDtsBOmLrasYIIGrXIoA259-29ll_QG2IA8Xj958jsym1wG5-bFxZL6DQGd38CL5PzYn8tpFw1ZMdhjIt5a1Y8rSPAEcOy5D5sKIEVIfoR_0LJZc091K8scWygBGelrfs1usJNbEbNC6s952sY-Z8m-4iGUL6MgFNftYdf_o8o3w"/></div>
+<div>
+<div class="section-marker mb-1"></div>
+<h2 class="section-headline text-3xl text-gray-900">n8n ワークフロー</h2>
+<p class="text-[11px] font-medium text-atlas/60 uppercase tracking-widest">Automation &amp; Data Pipelines</p>
+</div>
+</div>
+<a class="text-xs font-bold text-gray-400 hover:text-black" href="#">n8n一覧へ →</a>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+<!-- n8n Card -->
+<div class="asset-card p-6 rounded-xl hover:border-orange-200 transition-all flex flex-col">
+<div class="bg-orange-50 rounded-lg aspect-video mb-5 flex items-center justify-center border border-orange-100">
+<i class="ph ph-magnifying-glass-plus text-3xl text-orange-200"></i>
+</div>
+<h3 class="font-bold text-sm mb-2 text-gray-900 line-clamp-1">Smart Lead Scraper</h3>
+<p class="text-[11px] text-gray-500 mb-5 line-clamp-2 leading-relaxed">特定サイトからターゲットリストを抽出しNotionへ同期。</p>
+<div class="mt-auto pt-4 border-t border-gray-100 flex items-center justify-between">
+<span class="price-display text-lg text-atlas">¥12,000</span>
+<div class="flex items-center gap-1">
+<i class="ph-fill ph-star text-meridian text-[10px]"></i>
+<span class="text-[10px] font-bold">5.0</span>
+</div>
+</div>
+</div>
+<!-- n8n Card 2 -->
+<div class="asset-card p-6 rounded-xl hover:border-orange-200 transition-all flex flex-col">
+<div class="bg-orange-50 rounded-lg aspect-video mb-5 flex items-center justify-center border border-orange-100">
+<i class="ph ph-receipt text-3xl text-orange-200"></i>
+</div>
+<h3 class="font-bold text-sm mb-2 text-gray-900 line-clamp-1">Auto-Invoice System</h3>
+<p class="text-[11px] text-gray-500 mb-5 line-clamp-2 leading-relaxed">Stripe決済完了を検知し、請求書を自動生成・メール送信。</p>
+<div class="mt-auto pt-4 border-t border-gray-100 flex items-center justify-between">
+<span class="price-display text-lg text-atlas">¥8,500</span>
+<div class="flex items-center gap-1">
+<i class="ph-fill ph-star text-meridian text-[10px]"></i>
+<span class="text-[10px] font-bold">4.9</span>
+</div>
+</div>
+</div>
+<!-- n8n Card 3 -->
+<div class="asset-card p-6 rounded-xl hover:border-orange-200 transition-all flex flex-col">
+<div class="bg-orange-50 rounded-lg aspect-video mb-5 flex items-center justify-center border border-orange-100">
+<i class="ph ph-chats-teardrop text-3xl text-orange-200"></i>
+</div>
+<h3 class="font-bold text-sm mb-2 text-gray-900 line-clamp-1">AI Support Slack Bot</h3>
+<p class="text-[11px] text-gray-500 mb-5 line-clamp-2 leading-relaxed">LangChain連携。ドキュメントを元にAIがSlackで回答。</p>
+<div class="mt-auto pt-4 border-t border-gray-100 flex items-center justify-between">
+<span class="price-display text-lg text-atlas">¥15,000</span>
+<div class="flex items-center gap-1">
+<i class="ph-fill ph-star text-meridian text-[10px]"></i>
+<span class="text-[10px] font-bold">5.0</span>
+</div>
+</div>
+</div>
+<!-- n8n Card 4 -->
+<div class="asset-card p-6 rounded-xl hover:border-orange-200 transition-all flex flex-col">
+<div class="bg-orange-50 rounded-lg aspect-video mb-5 flex items-center justify-center border border-orange-100">
+<i class="ph ph-arrows-left-right text-3xl text-orange-200"></i>
+</div>
+<h3 class="font-bold text-sm mb-2 text-gray-900 line-clamp-1">E-com Sync Flow</h3>
+<p class="text-[11px] text-gray-500 mb-5 line-clamp-2 leading-relaxed">Shopifyと社内DBをリアルタイムで同期する強固なフロー。</p>
+<div class="mt-auto pt-4 border-t border-gray-100 flex items-center justify-between">
+<span class="price-display text-lg text-atlas">¥18,000</span>
+<div class="flex items-center gap-1">
+<i class="ph-fill ph-star text-meridian text-[10px]"></i>
+<span class="text-[10px] font-bold">4.7</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- CTA Banner -->
+<section class="mb-32">
+<div class="bg-white border border-gray-200 rounded-2xl p-10 flex flex-col md:flex-row items-center justify-between gap-8 shadow-sm group">
+<div class="flex items-center gap-6">
+<div class="w-16 h-16 bg-atlas/5 rounded-full flex items-center justify-center text-atlas group-hover:scale-110 transition-transform">
+<i class="ph ph-megaphone text-3xl"></i>
+</div>
+<div>
+<h3 class="section-headline text-2xl mb-1 text-gray-900">アセットの掲載をご希望ですか？</h3>
+<p class="text-sm text-gray-500 font-medium">審査制のマーケットプレイスで、あなたの技術をビジネスアセットとして収益化。</p>
+</div>
+</div>
+<a class="btn-atlas px-10 py-4 rounded-xl font-bold flex items-center gap-3 whitespace-nowrap shadow-md" href="#">
+                    お問い合わせ <i class="ph ph-arrow-right"></i>
+</a>
+</div>
+</section>
+<!-- Blog Section -->
+<section class="mb-32">
+<div class="flex items-end justify-between mb-12 border-b-2 border-atlas/5 pb-6">
+<div>
+<div class="section-marker"></div>
+<h2 class="section-headline text-4xl text-gray-900">記事・ブログ</h2>
+<p class="text-sm font-medium text-atlas/60 mt-2 uppercase tracking-wider">Insights &amp; Perspectives</p>
+</div>
+<a class="text-sm font-bold text-gray-500 hover:text-black" href="#">すべて見る</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+<!-- Article 1 -->
+<a class="group cursor-pointer" href="#">
+<div class="aspect-video bg-gray-200 rounded-xl overflow-hidden mb-6 shadow-sm">
+<img alt="Blog" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDjRhPg3BLV63bq2U17xurWM8CI_EzmCFmHd6-byHxvcHlpTIhGEhSrQ1kSbUeVrGpK58asNK71hC1DvMV4KMiJ7wzAIg76Ho6ATNlb53B4IKg8j7OaUb2cAvH2NWJ9JB-6ReOCo8NBohUXA7pRVggDpao5n0qxlFFwk1xR9bbExZ1jp5hhXX5HrfEHE-ATUkv3K-hw8YK3Ozzx0UEdOcy9dKXK_3TvaKEbpZ_lHSqrYoPZyzcka-EFLVYOaVuAYx5ZjarGvzYJ27M"/>
+</div>
+<span class="text-[10px] font-black text-atlas uppercase tracking-widest mb-3 block">Company News</span>
+<h4 class="font-bold text-lg leading-snug mb-3 group-hover:text-atlas transition-colors">ビルダーの挑戦は「最高の伴走者づくり」。100年先へのバトン。</h4>
+<p class="text-xs text-gray-500 mb-5 line-clamp-2">ORIGINが目指すエコシステムと、クリエイターの役割についてCEOが語ります。</p>
+<p class="text-[10px] text-gray-400 font-bold">2026.02.13</p>
+</a>
+<!-- Article 2 -->
+<a class="group cursor-pointer" href="#">
+<div class="aspect-video bg-gray-200 rounded-xl overflow-hidden mb-6 shadow-sm">
+<img alt="Blog" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB4PgNRzrMojdqFKrGd1Wg4vvXAik2sKh-PC-w7FEDiPhERQ0C6ohG9cLe0vUZnETWWhbL3UnsBaG8UtMIahi5nKZ1KRD0mJ1JQdxwlZU9ghv2k5dPcd6w_RL-8g-b5v9rLvbbtexp2pYCW1mMa4OKAeO2nodIPTNO9Bbo7vcdRWATVnGl-8yZY3XsK9jZ_Iicn20uGsWwjma4KyqXggT020jqlao6i6qiHFuLy3NaorEq_CRMuOTNWJ30HPce98VTa92B0WNSBOXU"/>
+</div>
+<span class="text-[10px] font-black text-atlas uppercase tracking-widest mb-3 block">Updates</span>
+<h4 class="font-bold text-lg leading-snug mb-3 group-hover:text-atlas transition-colors">「コミュニティ連携」機能リリースと今後のロードマップ</h4>
+<p class="text-xs text-gray-500 mb-5 line-clamp-2">アセットのフィードバックを直接開発者に届けられる新機能を追加しました。</p>
+<p class="text-[10px] text-gray-400 font-bold">2026.01.26</p>
+</a>
+<!-- Article 3 -->
+<a class="group cursor-pointer" href="#">
+<div class="aspect-video bg-gray-200 rounded-xl overflow-hidden mb-6 shadow-sm">
+<div class="w-full h-full bg-atlas/10 flex items-center justify-center">
+<i class="ph ph-article text-4xl text-atlas/20"></i>
+</div>
+</div>
+<span class="text-[10px] font-black text-atlas uppercase tracking-widest mb-3 block">Privacy</span>
+<h4 class="font-bold text-lg leading-snug mb-3 group-hover:text-atlas transition-colors">【重要】プライバシーポリシー変更のお知らせ</h4>
+<p class="text-xs text-gray-500 mb-5 line-clamp-2">利用規約およびプライバシーポリシーの一部を改定いたしました。</p>
+<p class="text-[10px] text-gray-400 font-bold">2026.03.20</p>
+</a>
+</div>
+</section>
+<!-- Top Creators -->
+<section class="mb-32">
+<div class="flex items-end justify-between mb-12 border-b-2 border-atlas/5 pb-6">
+<div>
+<div class="section-marker"></div>
+<h2 class="section-headline text-4xl text-gray-900">トップクリエイター</h2>
+<p class="text-sm font-medium text-atlas/60 mt-2 uppercase tracking-wider">Marketplace Leaders</p>
+</div>
+<a class="text-sm font-bold text-gray-500 hover:text-black" href="#">ランキング一覧</a>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+<!-- Creator Card -->
+<a class="bg-white p-8 rounded-2xl border border-gray-200 text-center hover:border-atlas hover:shadow-lg transition-all group" href="#">
+<div class="w-20 h-20 bg-gray-100 rounded-full mx-auto mb-6 overflow-hidden ring-4 ring-gray-50">
+<img alt="Creator" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDjRhPg3BLV63bq2U17xurWM8CI_EzmCFmHd6-byHxvcHlpTIhGEhSrQ1kSbUeVrGpK58asNK71hC1DvMV4KMiJ7wzAIg76Ho6ATNlb53B4IKg8j7OaUb2cAvH2NWJ9JB-6ReOCo8NBohUXA7pRVggDpao5n0qxlFFwk1xR9bbExZ1jp5hhXX5HrfEHE-ATUkv3K-hw8YK3Ozzx0UEdOcy9dKXK_3TvaKEbpZ_lHSqrYoPZyzcka-EFLVYOaVuAYx5ZjarGvzYJ27M"/>
+</div>
+<h4 class="font-bold text-base mb-1 text-gray-900">Atlas Tech Lab</h4>
+<p class="text-[10px] text-gray-400 font-bold uppercase tracking-widest mb-4">Sales DX Expert</p>
+<div class="text-[11px] font-bold text-atlas bg-atlas/5 py-1.5 rounded-full">Total: 1.2k+ Sales</div>
+</a>
+<!-- Creator Card 2 -->
+<a class="bg-white p-8 rounded-2xl border border-gray-200 text-center hover:border-atlas hover:shadow-lg transition-all group" href="#">
+<div class="w-20 h-20 bg-gray-100 rounded-full mx-auto mb-6 overflow-hidden ring-4 ring-gray-50">
+<img alt="Creator" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCxox_tmDsxOMjtI_g9v9F8rEM1B57lR2ewJlzXdqaKV_ixmlUlcz72xqCJ4CCCVNftWHBmKSKu74UzZEjiMSCMpkND5zNzP9HtvyrkKuWvZRqSKC7U8slzujXtCIUspFg7NmkamPbGxnPK6bqxvgZRwB6qXWchtcw-P2SIsMU-BvL4-u5cvG7hGF3DEmCi2m6VMyHc-9TLQ4at4oq6tPcqcdL7gBRrm3BHkZ6bCZTbPT247e2NTiNw2aVWGx7VAgNuFB8PWo8ggek"/>
+</div>
+<h4 class="font-bold text-base mb-1 text-gray-900">N8N Master</h4>
+<p class="text-[10px] text-gray-400 font-bold uppercase tracking-widest mb-4">Automation Expert</p>
+<div class="text-[11px] font-bold text-atlas bg-atlas/5 py-1.5 rounded-full">Total: 840 Sales</div>
+</a>
+<!-- Creator Card 3 -->
+<a class="bg-white p-8 rounded-2xl border border-gray-200 text-center hover:border-atlas hover:shadow-lg transition-all group" href="#">
+<div class="w-20 h-20 bg-gray-100 rounded-full mx-auto mb-6 overflow-hidden ring-4 ring-gray-50">
+<img alt="Creator" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB4PgNRzrMojdqFKrGd1Wg4vvXAik2sKh-PC-w7FEDiPhERQ0C6ohG9cLe0vUZnETWWhbL3UnsBaG8UtMIahi5nKZ1KRD0mJ1JQdxwlZU9ghv2k5dPcd6w_RL-8g-b5v9rLvbbtexp2pYCW1mMa4OKAeO2nodIPTNO9Bbo7vcdRWATVnGl-8yZY3XsK9jZ_Iicn20uGsWwjma4KyqXggT020jqlao6i6qiHFuLy3NaorEq_CRMuOTNWJ30HPce98VTa92B0WNSBOXU"/>
+</div>
+<h4 class="font-bold text-base mb-1 text-gray-900">Zero Design</h4>
+<p class="text-[10px] text-gray-400 font-bold uppercase tracking-widest mb-4">UI/UX Craftman</p>
+<div class="text-[11px] font-bold text-atlas bg-atlas/5 py-1.5 rounded-full">Total: 2.1k+ Sales</div>
+</a>
+<!-- Creator Card 4 -->
+<a class="bg-white p-8 rounded-2xl border border-gray-200 text-center hover:border-atlas hover:shadow-lg transition-all group" href="#">
+<div class="w-20 h-20 bg-gray-100 rounded-full mx-auto mb-6 overflow-hidden ring-4 ring-gray-50">
+<img alt="Creator" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCntxpQeElJRKi004V7vAG47Gz7MaFbm2k6go7SWkZaOdy6fFU__xlg0Y-Q-9KONh9E6FeaU90o-w7HqAqukGYOHpvAA4QEd-dSDdXCLbCAwmS77fZH0sV9kluvYIUIl7KsCdVILYT9UsezQGejIvbN6O1tJCHdT6Gvw8R_pJgMlckPZS_bd4u__98jeC-xbOXpi8ml1RQIUwspaZZJDIcbsj0zGsao4EpfU-1oPaMWEYqwXkxjLzzgFHXglW9fe6PFblRX7sgPsEo"/>
+</div>
+<h4 class="font-bold text-base mb-1 text-gray-900">PromptEng</h4>
+<p class="text-[10px] text-gray-400 font-bold uppercase tracking-widest mb-4">AI Architect</p>
+<div class="text-[11px] font-bold text-atlas bg-atlas/5 py-1.5 rounded-full">Total: 960 Sales</div>
+</a>
+</div>
+</section>
+<!-- Final CTA -->
+<section class="mb-10 bg-atlas text-white rounded-3xl p-16 text-center relative overflow-hidden shadow-2xl">
+<div class="absolute inset-0 opacity-10 pointer-events-none">
+<svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 100 100">
+<circle cx="0" cy="0" fill="white" r="40"></circle>
+</svg></div></section></main></div></body></html>

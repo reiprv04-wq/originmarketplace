@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>気になる | ORIGIN</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@400;500;700;900&family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+    
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
+    
+    <style>
+        :root {
+            --color-atlas: #1E3A5F;
+            --color-meridian: #C9A84C;
+            --color-charcoal: #111827;
+            --font-display: 'Cormorant Garamond', serif;
+            --font-ui: 'Inter', 'Noto Sans JP', sans-serif;
+        }
+        body {
+            background-color: #F8FAFC;
+            color: var(--color-charcoal);
+            font-family: var(--font-ui);
+        }
+        .progress-gradient {
+            background: linear-gradient(to right, #00CFFF, #B400FF, #FF00E4, #FFB800);
+        }
+    </style>
+</head>
+<body class="pt-16">
+
+    <header class="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-100 h-16 flex items-center justify-between px-6">
+        <a class="font-display text-2xl font-bold" href="index.html">ORIGIN</a>
+        <div class="flex-1 max-w-xl mx-12">
+            <input class="w-full bg-gray-100 border-none rounded-full px-5 py-2 text-sm" placeholder="アセットを検索" type="text"/>
+        </div>
+        <div class="flex items-center gap-4">
+             <i class="ph ph-bell text-xl text-gray-400"></i>
+             <div class="w-8 h-8 rounded-full bg-atlas"></div>
+        </div>
+    </header>
+
+    <main class="max-w-[1200px] mx-auto px-6 py-12">
+        
+        <!-- Breadcrumb -->
+        <nav class="flex gap-2 text-xs font-bold text-gray-400 uppercase tracking-widest mb-10">
+            <a href="index.html" class="hover:text-atlas">ホーム</a>
+            <i class="ph ph-caret-right mt-0.5"></i>
+            <span class="text-gray-900">気になる</span>
+        </nav>
+
+        <h1 class="text-3xl font-black mb-12">気になる</h1>
+
+        <!-- Empty State -->
+        <div class="bg-white rounded-2xl py-24 text-center border border-gray-100 mb-20 shadow-sm">
+            <div class="w-16 h-16 bg-rose-50 rounded-full flex items-center justify-center mx-auto mb-6">
+                <i class="ph ph-heart-fill text-rose-500 text-2xl"></i>
+            </div>
+            <h2 class="text-xl font-black text-gray-900 mb-2">プロジェクトはありません</h2>
+            <p class="text-gray-400 text-sm font-medium">一覧やプロジェクトページから登録すると、ここで見ることができます。</p>
+        </div>
+
+        <!-- Recommendations Section -->
+        <div>
+            <h2 class="text-2xl font-black mb-8">あなたへのおすすめ</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Recommendation Item 1 (Manual Card) -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 group">
+                    <div class="aspect-video relative overflow-hidden">
+                        <img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3XSrilkmRGgSVD1XLRiDVUGa3-LI579e2D2mZ1pnkAhofcXjQUyTYmkA4RUIhnFiBXWkX7MVn2Ni5kqMP1yKWlMm1LTamPeHkFK-NNKAMlgGzzOEN86ySIlsnK5uPQSDC1pg6rJx6cquzPkg2uj62EHYswnlmpFavtNu2S4QccujfdkdWFwcjJMVxC9Yl_-xGQY2xGfosTpbQm_NgqbphO8Z5SqCIQfTgc3aiJ4VzdRPIAsv5gadLneqTMKLtz704vfuj7JQmr60" alt="Rec1">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-6 h-6 rounded-full bg-atlas flex items-center justify-center text-[8px] text-white font-bold">ED</div>
+                            <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">EDITORIAL INC.</span>
+                        </div>
+                        <h3 class="font-bold text-lg mb-4 text-gray-900 leading-snug">機能も中身も詰めて史上最強へ！新構造AI活用財布</h3>
+                        <div class="flex justify-between items-baseline mb-4">
+                            <span class="text-2xl font-black text-gray-900">¥4,951,726</span>
+                            <button class="text-gray-400 hover:text-rose-500 transition-colors"><i class="ph ph-heart text-2xl"></i></button>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="h-2 w-full bg-gray-100 rounded-full overflow-hidden">
+                                <div class="h-full progress-gradient" style="width: 85%"></div>
+                            </div>
+                            <div class="flex justify-between text-[11px] font-black italic text-gray-400 uppercase tracking-tighter">
+                                <span><i class="ph ph-clock"></i> 残り21時間</span>
+                                <span class="text-atlas">16926% 達成</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recommendation Item 2 (Manual Card) -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 group">
+                    <div class="aspect-video relative overflow-hidden">
+                        <img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida/ADBb0uguU9-Y-Ff2WIi4fDFIyGRL7XxrQcm2azkrbzoXCncjcYlagyBPkq8fobVaT4lqkgq1HywClXJWxyQf_70Rl_mkIgRgU1u3XMglZFyBv5RK4-zksEU6HF49w1xFkv0_aVyMOAiJPMm3g53y0CokRFrX3vBrU4QGotTZ4mdZziB1217RJ-bILW5a9nG0MoTVgYx9SFJiG6M6XrlVmR73ewo1OUTl9PH2Ku6t392BbfeP8S6RhcWusrMIxgAyk52vQ7Qj_UnVivup" alt="Rec2">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-6 h-6 rounded-full bg-gray-900 flex items-center justify-center text-[8px] text-white font-bold">WE</div>
+                            <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">WISE ENGINEERING</span>
+                        </div>
+                        <h3 class="font-bold text-lg mb-4 text-gray-900 leading-snug">「書類自動化 AI」から、待望のプロフェッショナルシリーズ誕生！</h3>
+                        <div class="flex justify-between items-baseline mb-4">
+                            <span class="text-2xl font-black text-gray-900">¥7,704,750</span>
+                            <button class="text-gray-400 hover:text-rose-500 transition-colors"><i class="ph ph-heart text-2xl"></i></button>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="h-2 w-full bg-gray-100 rounded-full overflow-hidden">
+                                <div class="h-full progress-gradient" style="width: 70%"></div>
+                            </div>
+                            <div class="flex justify-between text-[11px] font-black italic text-gray-400 uppercase tracking-tighter">
+                                <span><i class="ph ph-clock"></i> 残り74日</span>
+                                <span class="text-atlas">7704% 達成</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="py-12 border-t border-gray-100 opacity-10 text-center font-display text-4xl font-bold tracking-tighter">ORIGIN</footer>
+
+</body>
+</html>

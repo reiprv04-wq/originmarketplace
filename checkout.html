@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>応援購入の内容を確認する | ORIGIN</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@400;500;700;900&family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+    
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
+    
+    <style>
+        :root {
+            --color-atlas: #1E3A5F;
+            --color-meridian: #C9A84C;
+            --color-pale-steel: #F8FAFC;
+            --color-charcoal: #111827;
+            --color-white: #FFFFFF;
+            
+            --font-display: 'Cormorant Garamond', serif;
+            --font-editorial: 'Newsreader', serif;
+            --font-ui: 'Inter', 'Noto Sans JP', sans-serif;
+        }
+
+        body {
+            background-color: #FFFFFF;
+            color: var(--color-charcoal);
+            font-family: var(--font-ui);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .font-display { font-family: var(--font-display); }
+        .font-editorial { font-family: var(--font-editorial); }
+
+        .progress-line {
+            height: 4px;
+            background: #E5E7EB;
+            position: relative;
+        }
+        .progress-active {
+            height: 4px;
+            background: #FFD200; /* Makuake Yellow */
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 33%;
+        }
+        .progress-dot {
+            width: 14px;
+            height: 14px;
+            background: #FFD200;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 33%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 0 4px rgba(255, 210, 0, 0.2);
+        }
+
+        .section-accent {
+            border-left: 5px solid #FFD200;
+            padding-left: 1.5rem;
+        }
+
+        .btn-atlas {
+            background-color: var(--color-atlas);
+            color: var(--color-white);
+            transition: all 0.2s;
+        }
+        .btn-atlas:hover { 
+            background-color: #162a45;
+            transform: translateY(-1px);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <!-- Stepper -->
+    <div class="bg-white border-b border-gray-100 py-8 px-6">
+        <div class="max-w-3xl mx-auto">
+            <div class="progress-line rounded-full">
+                <div class="progress-active rounded-full"></div>
+                <div class="progress-dot"></div>
+            </div>
+            <div class="flex justify-between mt-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+                <span class="text-gray-900">1. Confirm Details</span>
+                <span>2. Payment</span>
+                <span>3. Complete</span>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-3xl mx-auto px-6 py-12">
+        
+        <!-- Header Section -->
+        <div class="mb-12">
+            <h1 class="text-2xl font-black text-gray-900 section-accent">応援購入の内容を確認する</h1>
+        </div>
+
+        <!-- Content Card -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+            
+            <!-- Availability Banner -->
+            <div class="bg-gray-50/50 py-3 text-center border-b border-gray-100">
+                <p class="text-xs font-medium text-gray-500">
+                    あと <span class="text-rose-500 font-black">1491</span> 人が応援購入できます
+                </p>
+            </div>
+
+            <div class="p-10">
+                
+                <!-- Main Product Image -->
+                <div class="aspect-video bg-white mb-10 rounded-xl overflow-hidden border border-gray-100 shadow-sm relative group">
+                    <img alt="書類自動化 AI" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/ADBb0uguU9-Y-Ff2WIi4fDFIyGRL7XxrQcm2azkrbzoXCncjcYlagyBPkq8fobVaT4lqkgq1HywClXJWxyQf_70Rl_mkIgRgU1u3XMglZFyBv5RK4-zksEU6HF49w1xFkv0_aVyMOAiJPMm3g53y0CokRFrX3vBrU4QGotTZ4mdZziB1217RJ-bILW5a9nG0MoTVgYx9SFJiG6M6XrlVmR73ewo1OUTl9PH2Ku6t392BbfeP8S6RhcWusrMIxgAyk52vQ7Qj_UnVivup"/>
+                    <div class="absolute inset-0 bg-black/5"></div>
+                </div>
+
+                <!-- Reward Details -->
+                <div class="space-y-8">
+                    <div>
+                        <h2 class="text-xl font-black text-gray-900 mb-6 leading-tight">
+                            【追加送料】中継料金が必要な離島地区向け
+                        </h2>
+                        
+                        <div class="space-y-4">
+                            <div class="flex items-center gap-3 text-sm font-bold text-gray-600">
+                                <i class="ph ph-users-three text-lg text-gray-400"></i>
+                                <span>9人のサポーター</span>
+                            </div>
+                            <div class="flex items-center gap-3 text-sm font-bold text-gray-600">
+                                <i class="ph ph-package text-lg text-gray-400"></i>
+                                <span>2026年05月末 までにお届け予定</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="border-t border-gray-100 pt-8">
+                        <div class="text-sm text-gray-500 leading-relaxed space-y-4">
+                            <p>離島地区向けの追加送料は税込1,900円です。</p>
+                            <p>単体で購入することができません。必ず製品と合わせてご購入ください。</p>
+                            <p>該当地域にお住まいで、追加送料を購... <span class="text-atlas font-bold cursor-pointer hover:underline">もっと見る</span></p>
+                            <p class="font-bold text-gray-900 mt-6">インボイス（適格請求書）：対応可</p>
+                        </div>
+                    </div>
+
+                    <!-- Footer / Price / Actions -->
+                    <div class="border-t border-gray-100 pt-10 mt-10">
+                        <div class="flex items-center justify-between mb-8">
+                            <span class="text-sm font-bold text-gray-400">決済金額</span>
+                            <span class="text-3xl font-black text-gray-900">¥1,900 <span class="text-sm font-bold text-gray-400">税込</span></span>
+                        </div>
+                        
+                        <div class="flex flex-col gap-4">
+                        <a class="w-full btn-atlas py-5 rounded-xl font-black text-lg shadow-xl flex items-center justify-center gap-3" href="payment.html">
+                            支払い画面へ進む <i class="ph ph-arrow-right"></i>
+                        </a>
+                            <a href="product.html" class="text-center text-sm font-bold text-gray-400 hover:text-gray-900 transition-colors">
+                                前の画面に戻る
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Trust Info -->
+        <div class="mt-12 text-center text-[10px] font-bold text-gray-400 uppercase tracking-widest leading-loose">
+            Security Guaranteed • SSL Encrypted Transaction<br/>
+            ORIGIN MARKETPLACE VERIFIED PAYMENT SYSTEM
+        </div>
+
+    </main>
+
+    <footer class="py-12 px-6 border-t border-gray-100 mt-20">
+        <div class="max-w-3xl mx-auto flex items-center justify-between opacity-30">
+            <span class="font-display text-2xl font-bold">ORIGIN</span>
+            <p class="text-[10px] font-bold">© 2026 ORIGIN INC.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

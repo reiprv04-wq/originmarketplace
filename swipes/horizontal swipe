@@ -1,0 +1,34 @@
+"use client"
+
+import { HorizontalScrollCarousel } from "@/components/ui/horizontal-scroll-carousel"
+
+const images = [
+    "https://images.unsplash.com/photo-1572099606223-6e29045d7de3?q=80&w=2070",
+    "https://images.unsplash.com/photo-1572099606223-6e29045d7de3?q=80&w=2070",
+    "https://images.unsplash.com/photo-1572099606223-6e29045d7de3?q=80&w=2070",
+    "https://images.unsplash.com/photo-1572099606223-6e29045d7de3?q=80&w=2070",
+    "https://images.unsplash.com/photo-1572099606223-6e29045d7de3?q=80&w=2070",
+    "https://images.unsplash.com/photo-1572099606223-6e29045d7de3?q=80&w=2070",
+    "https://images.unsplash.com/photo-1572099606223-6e29045d7de3?q=80&w=2070",
+    "https://images.unsplash.com/photo-1572099606223-6e29045d7de3?q=80&w=2070",
+    "https://images.unsplash.com/photo-1572099606223-6e29045d7de3?q=80&w=2070",
+    "https://images.unsplash.com/photo-1572099606223-6e29045d7de3?q=80&w=2070",
+]
+
+function HorizontalScrollCarouselDemo() {
+    return (
+        <div className="min-h-[500vh] mt-[200vh] bg-stone-200 dark:bg-stone-900">
+            <h1 className="py-20 text-center text-4xl">
+                Scroll Down to See the Carousel
+            </h1>
+
+            <HorizontalScrollCarousel images={images} />
+
+            <h2 className="py-20 text-center text-2xl text-gray-500 dark:text-gray-600">
+                Enjoy the Horizontal Scroll Effect
+            </h2>
+        </div>
+    )
+}
+
+export { HorizontalScrollCarouselDemo };

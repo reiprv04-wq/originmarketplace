@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>お支払い方法を選択する | ORIGIN</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@400;500;700;900&family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+    
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
+    
+    <style>
+        :root {
+            --color-atlas: #1E3A5F;
+            --color-meridian: #C9A84C;
+            --color-pale-steel: #F8FAFC;
+            --color-charcoal: #111827;
+            --color-white: #FFFFFF;
+            
+            --font-display: 'Cormorant Garamond', serif;
+            --font-editorial: 'Newsreader', serif;
+            --font-ui: 'Inter', 'Noto Sans JP', sans-serif;
+        }
+
+        body {
+            background-color: #F8FAFC;
+            color: var(--color-charcoal);
+            font-family: var(--font-ui);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .font-display { font-family: var(--font-display); }
+        
+        .progress-line {
+            height: 4px;
+            background: #E5E7EB;
+            position: relative;
+        }
+        .progress-active {
+            height: 4px;
+            background: #FFD200;
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 66%;
+        }
+        .progress-dot {
+            width: 14px;
+            height: 14px;
+            background: #FFD200;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 66%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 0 4px rgba(255, 210, 0, 0.2);
+        }
+
+        .section-accent {
+            border-left: 5px solid #FFD200;
+            padding-left: 1.5rem;
+        }
+
+        .btn-atlas {
+            background-color: var(--color-atlas);
+            color: var(--color-white);
+            transition: all 0.2s;
+        }
+        .btn-atlas:hover { 
+            background-color: #162a45;
+            transform: translateY(-1px);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <!-- Stepper -->
+    <div class="bg-white border-b border-gray-100 py-8 px-6">
+        <div class="max-w-3xl mx-auto">
+            <div class="progress-line rounded-full">
+                <div class="progress-active rounded-full"></div>
+                <div class="progress-dot"></div>
+            </div>
+            <div class="flex justify-between mt-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+                <span>1. Confirm Details</span>
+                <span class="text-gray-900">2. Payment</span>
+                <span>3. Complete</span>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-3xl mx-auto px-6 py-12">
+        
+        <div class="mb-12">
+            <h1 class="text-2xl font-black text-gray-900 section-accent">お支払い方法を選択する</h1>
+        </div>
+
+        <div class="grid grid-cols-1 gap-10">
+            
+            <!-- Payment Methods -->
+            <div class="space-y-6">
+                <!-- Option 1 -->
+                <div class="p-4 border border-atlas bg-atlas/5 ring-1 ring-atlas rounded-xl flex items-center justify-between">
+                    <div class="flex items-center gap-4">
+                        <i class="ph ph-credit-card text-2xl text-atlas"></i>
+                        <span class="font-bold">クレジットカード</span>
+                    </div>
+                    <div class="flex gap-2">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" class="h-4 opacity-50" alt="Visa">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" class="h-4 opacity-50" alt="Mastercard">
+                    </div>
+                </div>
+
+                <!-- Form -->
+                <div class="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm space-y-6">
+                    <div>
+                        <label class="block text-xs font-black text-gray-400 uppercase tracking-widest mb-3">カード番号</label>
+                        <input type="text" class="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-atlas/10 focus:border-atlas outline-none transition-all" placeholder="0000 0000 0000 0000">
+                    </div>
+                    <div class="grid grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs font-black text-gray-400 uppercase tracking-widest mb-3">有効期限</label>
+                            <input type="text" class="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-atlas/10 focus:border-atlas outline-none transition-all" placeholder="MM / YY">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-black text-gray-400 uppercase tracking-widest mb-3">セキュリティコード</label>
+                            <input type="text" class="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-atlas/10 focus:border-atlas outline-none transition-all" placeholder="CVV">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-black text-gray-400 uppercase tracking-widest mb-3">カード名義</label>
+                        <input type="text" class="w-full px-4 py-3 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-atlas/10 focus:border-atlas outline-none transition-all" placeholder="TARŌ YAMADA">
+                    </div>
+                </div>
+
+                <!-- Option 2 -->
+                <div class="p-4 border border-gray-200 rounded-xl bg-white hover:border-gray-300 transition-all flex items-center justify-between">
+                    <div class="flex items-center gap-4">
+                        <i class="ph ph-bank text-2xl text-gray-400"></i>
+                        <span class="font-bold text-gray-400">銀行振込</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Summary -->
+            <div class="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm">
+                <h3 class="font-bold text-gray-900 mb-6">注文内容の合計</h3>
+                <div class="space-y-4 text-sm font-medium">
+                    <div class="flex justify-between">
+                        <span class="text-gray-500">書類自動化 AI パッケージ</span>
+                        <span>¥45,000</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-500">離島追加送料</span>
+                        <span>¥1,900</span>
+                    </div>
+                    <div class="border-t border-gray-100 pt-4 flex justify-between items-baseline">
+                        <span class="text-gray-900 font-black">合計金額</span>
+                        <span class="text-2xl font-black text-atlas">¥46,900 <span class="text-[10px] text-gray-400">税込</span></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action -->
+            <div class="flex flex-col gap-4">
+                <a class="w-full btn-atlas py-5 rounded-xl font-black text-lg shadow-xl flex items-center justify-center gap-3" href="complete.html">
+                    応援購入を確定する <i class="ph ph-check-circle"></i>
+                </a>
+                <a href="checkout.html" class="text-center text-sm font-bold text-gray-400 hover:text-gray-900 transition-colors">
+                    前の画面に戻る
+                </a>
+            </div>
+
+        </div>
+
+        <div class="mt-12 text-center text-[10px] font-bold text-gray-400 uppercase tracking-widest leading-loose">
+            Your data is protected by AES-256 encryption.<br/>
+            ORIGIN PROPRIETARY SECURE CHECKOUT
+        </div>
+
+    </main>
+
+    <footer class="py-12 px-6 border-t border-gray-100 mt-20">
+        <div class="max-w-3xl mx-auto flex items-center justify-between opacity-30 text-gray-500">
+            <span class="font-display text-2xl font-bold">ORIGIN</span>
+            <p class="text-[10px] font-bold">© 2026 ORIGIN INC.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

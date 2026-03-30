@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>書類自動化 AI - 応募フォームから書類へ自動転記 | ORIGIN</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@400;500;700;900&family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+    
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
+    
+    <style>
+        :root {
+            --color-atlas: #1E3A5F;
+            --color-meridian: #C9A84C;
+            --color-pale-steel: #F8FAFC;
+            --color-charcoal: #111827;
+            --color-white: #FFFFFF;
+            
+            --font-display: 'Cormorant Garamond', serif;
+            --font-editorial: 'Newsreader', serif;
+            --font-ui: 'Inter', 'Noto Sans JP', sans-serif;
+            
+            --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            background-color: var(--color-pale-steel);
+            color: var(--color-charcoal);
+            font-family: var(--font-ui);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .font-display { font-family: var(--font-display); }
+        .font-editorial { font-family: var(--font-editorial); }
+        .bg-atlas { background-color: var(--color-atlas); }
+
+        /* Custom Tabs */
+        .tab-button {
+            transition: all 0.2s;
+            position: relative;
+        }
+        .tab-button.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: var(--color-atlas);
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .btn-atlas {
+            background-color: var(--color-atlas);
+            color: var(--color-white);
+            transition: var(--transition);
+        }
+        .btn-atlas:hover { 
+            background-color: #162a45;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(30, 58, 95, 0.15);
+        }
+    </style>
+</head>
+<body class="pt-16">
+
+    <!-- Header -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100 h-16">
+        <div class="max-w-[1400px] mx-auto px-6 h-full flex items-center justify-between">
+            <div class="flex items-center gap-8">
+                <a class="flex items-center gap-2" href="index.html">
+                    <span class="font-display text-2xl font-bold tracking-tight">ORIGIN</span>
+                    <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest hidden md:block">Start Here</span>
+                </a>
+                <nav class="hidden md:flex items-center gap-6 text-sm font-bold text-gray-400">
+                    <a class="hover:text-atlas transition-colors" href="#">Business DX</a>
+                    <a class="hover:text-atlas transition-colors" href="#">Design</a>
+                    <a class="hover:text-atlas transition-colors" href="#">Components</a>
+                </nav>
+            </div>
+            <div class="flex items-center gap-4">
+                <i class="ph ph-magnifying-glass text-xl text-gray-400 cursor-pointer"></i>
+                <div class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-400">
+                    <i class="ph ph-user"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-[1400px] mx-auto px-6 py-10">
+        
+        <!-- Breadcrumbs -->
+        <nav class="flex items-center gap-2 text-xs font-bold text-gray-400 mb-8 uppercase tracking-widest">
+            <a class="hover:text-atlas" href="index.html">Home</a>
+            <i class="ph ph-caret-right text-[10px]"></i>
+            <a class="hover:text-atlas" href="#">Business DX</a>
+            <i class="ph ph-caret-right text-[10px]"></i>
+            <span class="text-gray-900">書類自動化 AI</span>
+        </nav>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+            
+            <!-- Left: Media & Details -->
+            <div class="lg:col-span-8">
+                
+                <!-- Media Section -->
+                <section class="mb-12">
+                    <div class="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm aspect-video mb-4 relative group">
+                        <!-- Use the provided picture URL (Makuake/Mockup style) -->
+                        <img alt="書類自動化 Hero" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/ADBb0uguU9-Y-Ff2WIi4fDFIyGRL7XxrQcm2azkrbzoXCncjcYlagyBPkq8fobVaT4lqkgq1HywClXJWxyQf_70Rl_mkIgRgU1u3XMglZFyBv5RK4-zksEU6HF49w1xFkv0_aVyMOAiJPMm3g53y0CokRFrX3vBrU4QGotTZ4mdZziB1217RJ-bILW5a9nG0MoTVgYx9SFJiG6M6XrlVmR73ewo1OUTl9PH2Ku6t392BbfeP8S6RhcWusrMIxgAyk52vQ7Qj_UnVivup"/>
+                        <div class="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-all pointer-events-none"></div>
+                    </div>
+                    <div class="grid grid-cols-5 gap-4">
+                        <div class="aspect-square bg-gray-200 rounded-lg border-2 border-atlas overflow-hidden cursor-pointer">
+                            <img alt="Thumb 1" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/ADBb0uguU9-Y-Ff2WIi4fDFIyGRL7XxrQcm2azkrbzoXCncjcYlagyBPkq8fobVaT4lqkgq1HywClXJWxyQf_70Rl_mkIgRgU1u3XMglZFyBv5RK4-zksEU6HF49w1xFkv0_aVyMOAiJPMm3g53y0CokRFrX3vBrU4QGotTZ4mdZziB1217RJ-bILW5a9nG0MoTVgYx9SFJiG6M6XrlVmR73ewo1OUTl9PH2Ku6t392BbfeP8S6RhcWusrMIxgAyk52vQ7Qj_UnVivup"/>
+                        </div>
+                        <div class="aspect-square bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors flex items-center justify-center text-gray-300">
+                            <i class="ph ph-video-camera text-2xl"></i>
+                        </div>
+                        <div class="aspect-square bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors flex items-center justify-center text-gray-300">
+                            <i class="ph ph-image text-2xl"></i>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Information Section -->
+                <section class="mb-12">
+                    <h1 class="font-display text-4xl font-bold mb-4 tracking-tight leading-snug">
+                        書類自動化 AI - 応募フォームから書類へ自動転記<br/>
+                        <span class="text-atlas text-2xl">中小企業の業務効率化＆ミス削減パッケージ</span>
+                    </h1>
+                    <div class="flex items-center gap-6 mb-8 pb-8 border-b border-gray-100">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-full bg-atlas flex items-center justify-center text-white text-xs font-bold">WE</div>
+                            <span class="text-sm font-bold">WISE Engineering</span>
+                        </div>
+                        <div class="flex items-center gap-1.5">
+                            <i class="ph-fill ph-star text-meridian text-sm"></i>
+                            <span class="text-sm font-black">4.9</span>
+                            <span class="text-xs text-gray-400 font-medium">(256 応援購入者)</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-xs font-bold text-gray-400 px-3 py-1 bg-gray-100 rounded-full">
+                            <i class="ph ph-check-circle-fill text-success"></i> 認証済み
+                        </div>
+                    </div>
+
+                    <!-- Tabs -->
+                    <div class="border-b border-gray-200 mb-8 flex gap-10">
+                        <button class="tab-button active pb-4 text-sm font-bold text-gray-900">概要</button>
+                        <button class="tab-button pb-4 text-sm font-bold text-gray-400 hover:text-gray-900">セットアップ</button>
+                        <button class="tab-button pb-4 text-sm font-bold text-gray-400 hover:text-gray-900">必須要件</button>
+                        <button class="tab-button pb-4 text-sm font-bold text-gray-400 hover:text-gray-900">含まれるファイル</button>
+                    </div>
+
+                    <div class="prose prose-sm max-w-none text-gray-600 leading-relaxed">
+                        <h3 class="font-display text-2xl text-gray-900 mb-4">背景・課題</h3>
+                        <p class="mb-6">
+                            媒体経由応募の増加により、履歴書依頼・受領確認・一次通過通知・面談調整といった業務工数が増大し、人事の単純作業が増加しています。
+                            特に大学1・2年生にとって履歴書作成は応募ハードルとなり、優秀層獲得の機会損失にもつながっています。
+                        </p>
+                        
+                        <h3 class="font-display text-2xl text-gray-900 mb-4">目的と提供価値</h3>
+                        <p class="mb-6 font-medium text-gray-900">
+                            「自走力型人材育成」と整合した採用プロセスへの再設計。
+                        </p>
+                        <ul class="list-disc pl-5 mb-8 space-y-2">
+                            <li>履歴書不要の人物重視型スクリーニング構築</li>
+                            <li>AIによる候補者メモの自動生成（一次通過判定・社内共有の自動化）</li>
+                            <li>Slack通知連携による、抜け漏れのない採用管理の実現</li>
+                        </ul>
+
+                        <div class="bg-atlas/5 p-8 rounded-2xl border border-atlas/10 mb-10">
+                            <h4 class="font-bold text-atlas mb-4 flex items-center gap-2">
+                                <i class="ph ph-chart-line"></i> 実現する成果 (KGI)
+                            </h4>
+                            <p class="text-atlas text-sm font-medium">
+                                採用関連単純作業時間の<strong>60%以上削減</strong>。
+                                履歴書提出フローを廃止し、応募から一次面談設定までをノンストップで自動化。
+                                一次・二次の面談品質を均質化し、人物採用の精度を極限まで高めます。
+                            </p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Right: Purchasing Panel -->
+            <div class="lg:col-span-4">
+                <div class="sticky top-24 space-y-6">
+                    
+                    <!-- Sales Status Card (Makuake Style) -->
+                    <div class="bg-white rounded-2xl p-8 border border-gray-100 shadow-xl overflow-hidden relative">
+                        <div class="absolute top-0 right-0 p-4">
+                            <span class="bg-meridian text-white text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-tighter">SUCCESS!</span>
+                        </div>
+                        
+                        <div class="mb-8">
+                            <span class="text-xs font-bold text-gray-400 block mb-2">現在の応援購入総額</span>
+                            <div class="flex items-baseline gap-2">
+                                <span class="text-4xl font-black text-gray-900">¥1,280,000</span>
+                                <span class="text-sm font-bold text-gray-400">/ 目標 30万</span>
+                            </div>
+                        </div>
+
+                        <!-- Progress Bar -->
+                        <div class="h-3 bg-gray-100 rounded-full mb-8 overflow-hidden">
+                            <div class="h-full bg-gradient-to-r from-atlas to-meridian" style="width: 426%;"></div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-8 mb-8">
+                            <div>
+                                <span class="text-xs font-bold text-gray-400 block mb-1">サポーター</span>
+                                <span class="text-2xl font-black text-gray-900">256人</span>
+                            </div>
+                            <div>
+                                <span class="text-xs font-bold text-gray-400 block mb-1">残り日数</span>
+                                <span class="text-2xl font-black text-gray-900">42日</span>
+                            </div>
+                        </div>
+
+                        <a class="w-full btn-atlas py-5 rounded-xl font-black text-lg mb-4 flex items-center justify-center gap-3" href="checkout.html">
+                             応援購入する <i class="ph ph-arrow-right"></i>
+                        </a>
+                        <p class="text-[10px] text-center text-gray-400 font-bold uppercase tracking-widest">
+                            Built with n8n & OpenAI API Integration
+                        </p>
+                    </div>
+
+                    <!-- Side Info Panels -->
+                    <div class="glass-panel p-6 rounded-2xl border border-gray-100">
+                        <h4 class="text-sm font-black mb-4 flex items-center gap-2">
+                            <i class="ph ph-info"></i> バッジと信頼
+                        </h4>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="text-[10px] font-bold bg-white border border-gray-200 px-2.5 py-1 rounded-full">#認定クリエイター</span>
+                            <span class="text-[10px] font-bold bg-white border border-gray-200 px-2.5 py-1 rounded-full">#サポート充実</span>
+                            <span class="text-[10px] font-bold bg-atlas text-white px-2.5 py-1 rounded-full">#ベストセラー</span>
+                        </div>
+                    </div>
+
+                    <div class="p-6">
+                        <div class="flex items-center justify-between text-xs font-bold text-gray-400 mb-4">
+                            <span>シェアする</span>
+                            <div class="flex gap-4">
+                                <i class="ph ph-twitter-logo hover:text-atlas cursor-pointer"></i>
+                                <i class="ph ph-facebook-logo hover:text-atlas cursor-pointer"></i>
+                                <i class="ph ph-paper-plane-tilt hover:text-atlas cursor-pointer"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Dashboard Preview Section -->
+        <section class="mt-24 pt-24 border-t border-gray-200">
+            <div class="flex items-end justify-between mb-12">
+                <div>
+                    <span class="w-12 h-1 bg-atlas inline-block mb-4"></span>
+                    <h2 class="font-display text-4xl font-bold">Preview Mode</h2>
+                    <p class="text-gray-400 text-sm font-bold uppercase tracking-widest mt-2">Visualizing the Implementation</p>
+                </div>
+            </div>
+
+            <div class="bg-gray-100 rounded-3xl p-8 lg:p-16 border border-gray-200 relative overflow-hidden">
+                <!-- Device Picker -->
+                <div class="flex items-center justify-center gap-4 mb-12">
+                    <button class="bg-white px-6 py-2.5 rounded-full text-xs font-bold shadow-sm flex items-center gap-2 text-atlas border border-atlas/20">
+                        <i class="ph ph-desktop"></i> Desktop
+                    </button>
+                    <button class="bg-white/50 px-6 py-2.5 rounded-full text-xs font-bold hover:bg-white transition-all flex items-center gap-2 text-gray-400">
+                        <i class="ph ph-device-tablet"></i> Tablet
+                    </button>
+                    <button class="bg-white/50 px-6 py-2.5 rounded-full text-xs font-bold hover:bg-white transition-all flex items-center gap-2 text-gray-400">
+                        <i class="ph ph-device-mobile"></i> Mobile
+                    </button>
+                </div>
+
+                <!-- Actual Preview Image (The Laptop Picture) -->
+                <div class="max-w-5xl mx-auto bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-300">
+                   <div class="bg-gray-200 px-4 py-2 flex items-center gap-2 border-b border-gray-300">
+                       <div class="flex gap-1.5">
+                           <div class="w-2.5 h-2.5 rounded-full bg-red-400"></div>
+                           <div class="w-2.5 h-2.5 rounded-full bg-yellow-400"></div>
+                           <div class="w-2.5 h-2.5 rounded-full bg-green-400"></div>
+                       </div>
+                       <div class="flex-1 text-center font-bold text-[10px] text-gray-400 uppercase tracking-widest">
+                           https://origin.marketplace/preview/document-automation-ai
+                       </div>
+                   </div>
+                   <img alt="n8n Dashboard Preview" class="w-full" src="https://lh3.googleusercontent.com/aida/ADBb0uguU9-Y-Ff2WIi4fDFIyGRL7XxrQcm2azkrbzoXCncjcYlagyBPkq8fobVaT4lqkgq1HywClXJWxyQf_70Rl_mkIgRgU1u3XMglZFyBv5RK4-zksEU6HF49w1xFkv0_aVyMOAiJPMm3g53y0CokRFrX3vBrU4QGotTZ4mdZziB1217RJ-bILW5a9nG0MoTVgYx9SFJiG6M6XrlVmR73ewo1OUTl9PH2Ku6t392BbfeP8S6RhcWusrMIxgAyk52vQ7Qj_UnVivup"/>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-gray-900 py-20 text-white mt-24">
+        <div class="max-w-[1400px] mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12">
+            <div>
+                <span class="font-display text-4xl font-bold mb-4 block tracking-tighter">ORIGIN</span>
+                <p class="text-gray-500 text-sm font-medium">Build from zero. Start here. 次世代のビルトエンジニアとAIクリエイターのためのマーケットプレイス。</p>
+            </div>
+            <!-- Links omitted for brevity -->
+        </div>
+    </footer>
+
+</body>
+</html>
