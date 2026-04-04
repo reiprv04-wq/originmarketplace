@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>アカウント設定 | ORIGIN</title>
+    <meta content="プロフィール・通知・決済・セキュリティの設定。" name="description"/>
+    <link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@400;500;700;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="/api-client.js"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <style>
+        :root{--color-atlas:#1E3A5F;--color-meridian:#C9A84C;--font-display:'Cormorant Garamond',serif;--font-ui:'Inter','Noto Sans JP',sans-serif;--transition:0.2s cubic-bezier(0.4,0,0.2,1);}
+        body{background:#F8FAFC;color:#111827;font-family:var(--font-ui);-webkit-font-smoothing:antialiased;}
+        .font-display{font-family:var(--font-display);}.bg-atlas{background-color:var(--color-atlas);}.text-atlas{color:var(--color-atlas);}
+        .btn-atlas{background-color:var(--color-atlas);color:#fff;transition:var(--transition);}.btn-atlas:hover{background-color:#162a45;transform:translateY(-1px);box-shadow:0 4px 12px rgba(30,58,95,.15);}
+        .dash-nav-item{transition:var(--transition);display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:10px;font-size:13px;font-weight:600;color:#6B7280;}
+        .dash-nav-item:hover{background:#F3F4F6;color:var(--color-atlas);}
+        .dash-nav-item.active{background:#EEF2FF;color:var(--color-atlas);font-weight:700;}
+        .settings-tab{transition:all .2s;cursor:pointer;padding:10px 16px;border-radius:10px;font-size:13px;font-weight:600;color:#6B7280;display:flex;align-items:center;gap:8px;}
+        .settings-tab:hover{background:#F3F4F6;color:var(--color-atlas);}
+        .settings-tab.active{background:var(--color-atlas);color:#fff;}
+        .settings-panel{display:none;}.settings-panel.active{display:block;}
+        .toggle-track{width:44px;height:24px;border-radius:12px;background:#E5E7EB;position:relative;cursor:pointer;transition:all .2s;}
+        .toggle-track.on{background:var(--color-atlas);}
+        .toggle-thumb{width:20px;height:20px;border-radius:50%;background:#fff;position:absolute;top:2px;left:2px;transition:all .2s;box-shadow:0 1px 3px rgba(0,0,0,.1);}
+        .toggle-track.on .toggle-thumb{left:22px;}
+        .form-input{width:100%;border:1px solid #E5E7EB;border-radius:10px;padding:10px 14px;font-size:14px;outline:none;transition:all .2s;}
+        .form-input:focus{border-color:rgba(30,58,95,.3);box-shadow:0 0 0 3px rgba(30,58,95,.05);}
+    </style>
+    <link rel="stylesheet" href="/global-glass.css" />
+</head>
+<body class="pt-16">
+    <header class="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-100 h-16">
+        <div class="max-w-[1400px] mx-auto px-6 h-full flex items-center justify-between">
+            <a href="index.html" class="inline-block group"><img src="/uploads/origin_logo.png" alt="ORIGIN Logo" class="h-20 -my-2 w-auto object-contain group-hover:opacity-80 transition-opacity" style="image-rendering:-webkit-optimize-contrast; image-rendering:crisp-edges;" /></a>
+            <div class="flex items-center gap-4" id="header-auth">
+                <a class="relative p-2 text-gray-400 hover:text-atlas" href="#"><i class="ph ph-bell text-xl"></i></a>
+                <a class="relative p-2 text-gray-400 hover:text-atlas" href="cart.html"><i class="ph ph-shopping-cart text-xl"></i></a>
+                <div class="w-8 h-8 rounded-full bg-atlas flex items-center justify-center text-white text-xs font-bold cursor-pointer" id="headerInitials">YY</div>
+            </div>
+        </div>
+    </header>
+
+    <div class="max-w-[1400px] mx-auto px-6 py-8 flex gap-8">
+        <!-- Sidebar -->
+        <aside class="w-56 flex-shrink-0 hidden lg:block">
+            <div class="sticky top-24 space-y-1">
+                <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-4 px-3">マイページ</p>
+                <a class="dash-nav-item" href="buyer-dashboard.html"><i class="ph ph-books text-lg"></i> マイライブラリ</a>
+                <a class="dash-nav-item" href="favorites.html"><i class="ph ph-heart text-lg"></i> お気に入り</a>
+                <a class="dash-nav-item" href="history.html"><i class="ph ph-clock-counter-clockwise text-lg"></i> 閲覧履歴</a>
+                <a class="dash-nav-item" href="#"><i class="ph ph-receipt text-lg"></i> 購入履歴</a>
+                <a class="dash-nav-item" href="#"><i class="ph ph-bell text-lg"></i> 通知</a>
+                <div class="border-t border-gray-100 my-4"></div>
+                <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-4 px-3">クリエイター</p>
+                <a class="dash-nav-item" href="creator-dashboard.html"><i class="ph ph-chart-line-up text-lg"></i> ダッシュボード</a>
+                <a class="dash-nav-item" href="sell.html"><i class="ph ph-plus-circle text-lg"></i> 新規出品</a>
+                <div class="border-t border-gray-100 my-4"></div>
+                <a class="dash-nav-item active" href="settings.html"><i class="ph ph-gear text-lg"></i> アカウント設定</a>
+            </div>
+        </aside>
+
+        <!-- Main -->
+        <main class="flex-1 min-w-0">
+            <h1 class="font-display text-3xl font-bold mb-8">アカウント設定</h1>
+
+            <!-- Settings Tabs -->
+            <div class="flex flex-wrap gap-2 mb-8" id="settingsTabs">
+                <button class="settings-tab active" data-tab="profile"><i class="ph ph-user"></i> プロフィール</button>
+                <button class="settings-tab" data-tab="notifications"><i class="ph ph-bell"></i> 通知</button>
+                <button class="settings-tab" data-tab="payment"><i class="ph ph-credit-card"></i> 決済・振込</button>
+                <button class="settings-tab" data-tab="security"><i class="ph ph-shield-check"></i> セキュリティ</button>
+                <button class="settings-tab" data-tab="privacy"><i class="ph ph-eye-slash"></i> プライバシー</button>
+            </div>
+
+            <!-- Panel: Profile -->
+            <div class="settings-panel active" id="panel-profile">
+                <div class="bg-white border border-gray-100 rounded-2xl p-8 mb-6">
+                    <h3 class="text-sm font-bold mb-6">基本情報</h3>
+                    <!-- Avatar -->
+                    <div class="flex items-center gap-6 mb-8 pb-8 border-b border-gray-100">
+                        <div class="w-20 h-20 rounded-full bg-atlas flex items-center justify-center text-white text-2xl font-bold" id="profileInitials">..</div>
+                        <div>
+                            <button class="text-xs font-bold text-atlas border border-atlas/20 px-4 py-2 rounded-lg hover:bg-atlas hover:text-white transition-all">画像を変更</button>
+                            <p class="text-[10px] text-gray-400 mt-2">JPG, PNG, GIF。最大2MB。</p>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div><label class="text-xs font-bold text-gray-600 block mb-2">表示名</label><input class="form-input" id="profileName" type="text"/></div>
+                        <div><label class="text-xs font-bold text-gray-600 block mb-2">ユーザーID</label><input class="form-input bg-gray-50" id="profileUserId" type="text" readonly/></div>
+                        <div><label class="text-xs font-bold text-gray-600 block mb-2">メールアドレス</label><input class="form-input bg-gray-50" id="profileEmail" type="email" readonly/></div>
+                        <div><label class="text-xs font-bold text-gray-600 block mb-2">電話番号（任意）</label><input class="form-input" id="profilePhone" placeholder="090-0000-0000" type="tel"/></div>
+                        <div class="md:col-span-2"><label class="text-xs font-bold text-gray-600 block mb-2">自己紹介</label><textarea class="form-input h-24 resize-none" id="profileBio" placeholder="あなたについて教えてください..."></textarea></div>
+                    </div>
+                </div>
+
+                <!-- Creator Profile -->
+                <div class="bg-white border border-gray-100 rounded-2xl p-8 mb-6">
+                    <h3 class="text-sm font-bold mb-6 flex items-center gap-2"><i class="ph ph-storefront text-atlas"></i> クリエイタープロフィール</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div><label class="text-xs font-bold text-gray-600 block mb-2">ブランド名</label><input class="form-input" value="WISE Engineering" type="text"/></div>
+                        <div><label class="text-xs font-bold text-gray-600 block mb-2">専門分野</label>
+                            <select class="form-input"><option>業務自動化・DX</option><option>デザイン</option><option>コンポーネント</option><option>教育</option></select>
+                        </div>
+                        <div><label class="text-xs font-bold text-gray-600 block mb-2">Webサイト</label><input class="form-input" placeholder="https://..." type="url"/></div>
+                        <div><label class="text-xs font-bold text-gray-600 block mb-2">X (Twitter)</label><input class="form-input" placeholder="@username" type="text"/></div>
+                    </div>
+                </div>
+
+                <!-- Badges -->
+                <div class="bg-white border border-gray-100 rounded-2xl p-8 mb-6">
+                    <h3 class="text-sm font-bold mb-4">取得済みバッジ</h3>
+                    <div class="flex flex-wrap gap-3">
+                        <div class="flex items-center gap-2 bg-emerald-50 border border-emerald-200 rounded-full px-4 py-2"><i class="ph ph-seal-check text-emerald-600"></i><span class="text-xs font-bold text-emerald-800">認定クリエイター</span></div>
+                        <div class="flex items-center gap-2 bg-blue-50 border border-blue-200 rounded-full px-4 py-2"><i class="ph ph-star text-blue-600"></i><span class="text-xs font-bold text-blue-800">トップセラー</span></div>
+                        <div class="flex items-center gap-2 bg-amber-50 border border-amber-200 rounded-full px-4 py-2"><i class="ph ph-chat-circle-dots text-amber-600"></i><span class="text-xs font-bold text-amber-800">サポート充実</span></div>
+                        <div class="flex items-center gap-2 bg-gray-100 border border-gray-200 rounded-full px-4 py-2"><i class="ph ph-lock text-gray-400"></i><span class="text-xs font-bold text-gray-500">100販売達成（未取得）</span></div>
+                    </div>
+                </div>
+
+                <div class="flex justify-end gap-3">
+                    <button class="px-6 py-2.5 border border-gray-200 rounded-lg text-sm font-bold text-gray-600 hover:border-gray-300 transition-all">キャンセル</button>
+                    <button class="btn-atlas px-6 py-2.5 rounded-lg text-sm font-bold" id="saveProfileBtn">変更を保存</button>
+                </div>
+            </div>
+
+            <!-- Panel: Notifications -->
+            <div class="settings-panel" id="panel-notifications">
+                <div class="bg-white border border-gray-100 rounded-2xl p-8 mb-6">
+                    <h3 class="text-sm font-bold mb-6">メール通知</h3>
+                    <div class="space-y-5">
+                        <div class="flex items-center justify-between"><div><p class="text-sm font-bold">購入完了通知</p><p class="text-xs text-gray-400">購入時に確認メールを受け取る</p></div><div class="toggle-track on" onclick="this.classList.toggle('on')"><div class="toggle-thumb"></div></div></div>
+                        <div class="flex items-center justify-between"><div><p class="text-sm font-bold">アセット更新通知</p><p class="text-xs text-gray-400">購入済みアセットの更新時に通知</p></div><div class="toggle-track on" onclick="this.classList.toggle('on')"><div class="toggle-thumb"></div></div></div>
+                        <div class="flex items-center justify-between"><div><p class="text-sm font-bold">新着アセット通知</p><p class="text-xs text-gray-400">フォロー中クリエイターの新規出品</p></div><div class="toggle-track on" onclick="this.classList.toggle('on')"><div class="toggle-thumb"></div></div></div>
+                        <div class="flex items-center justify-between"><div><p class="text-sm font-bold">セール・クーポン通知</p><p class="text-xs text-gray-400">割引やクーポンのお知らせ</p></div><div class="toggle-track" onclick="this.classList.toggle('on')"><div class="toggle-thumb"></div></div></div>
+                        <div class="flex items-center justify-between"><div><p class="text-sm font-bold">マーケティングメール</p><p class="text-xs text-gray-400">ニュースレター、おすすめ情報</p></div><div class="toggle-track" onclick="this.classList.toggle('on')"><div class="toggle-thumb"></div></div></div>
+                    </div>
+                </div>
+                <div class="bg-white border border-gray-100 rounded-2xl p-8 mb-6">
+                    <h3 class="text-sm font-bold mb-6">クリエイター通知</h3>
+                    <div class="space-y-5">
+                        <div class="flex items-center justify-between"><div><p class="text-sm font-bold">販売通知</p><p class="text-xs text-gray-400">アセットが購入された時</p></div><div class="toggle-track on" onclick="this.classList.toggle('on')"><div class="toggle-thumb"></div></div></div>
+                        <div class="flex items-center justify-between"><div><p class="text-sm font-bold">レビュー通知</p><p class="text-xs text-gray-400">新しいレビューが投稿された時</p></div><div class="toggle-track on" onclick="this.classList.toggle('on')"><div class="toggle-thumb"></div></div></div>
+                        <div class="flex items-center justify-between"><div><p class="text-sm font-bold">Q&A通知</p><p class="text-xs text-gray-400">新しい質問が投稿された時</p></div><div class="toggle-track on" onclick="this.classList.toggle('on')"><div class="toggle-thumb"></div></div></div>
+                        <div class="flex items-center justify-between"><div><p class="text-sm font-bold">振込通知</p><p class="text-xs text-gray-400">売上金の振込が完了した時</p></div><div class="toggle-track on" onclick="this.classList.toggle('on')"><div class="toggle-thumb"></div></div></div>
+                    </div>
+                </div>
+                <div class="flex justify-end"><button class="btn-atlas px-6 py-2.5 rounded-lg text-sm font-bold">変更を保存</button></div>
+            </div>
+
+            <!-- Panel: Payment -->
+            <div class="settings-panel" id="panel-payment">
+                <div class="bg-white border border-gray-100 rounded-2xl p-8 mb-6">
+                    <h3 class="text-sm font-bold mb-6">お支払い方法</h3>
+                    <div class="space-y-4 mb-6">
+                        <div class="border border-gray-200 rounded-xl p-4 flex items-center gap-4">
+                            <div class="w-12 h-8 bg-blue-100 rounded flex items-center justify-center text-[10px] font-bold text-blue-600">VISA</div>
+                            <div class="flex-1"><p class="text-sm font-bold">•••• •••• •••• 4242</p><p class="text-[10px] text-gray-400">有効期限: 12/28</p></div>
+                            <span class="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full">メイン</span>
+                            <button class="text-xs text-gray-400 hover:text-red-500 font-bold">削除</button>
+                        </div>
+                        <div class="border border-gray-200 rounded-xl p-4 flex items-center gap-4">
+                            <div class="w-12 h-8 bg-red-100 rounded flex items-center justify-center text-[10px] font-bold text-red-500">MC</div>
+                            <div class="flex-1"><p class="text-sm font-bold">•••• •••• •••• 8888</p><p class="text-[10px] text-gray-400">有効期限: 06/27</p></div>
+                            <button class="text-xs text-gray-400 hover:text-atlas font-bold">メインに設定</button>
+                            <button class="text-xs text-gray-400 hover:text-red-500 font-bold">削除</button>
+                        </div>
+                    </div>
+                    <button class="text-sm font-bold text-atlas border border-atlas/20 px-5 py-2.5 rounded-lg hover:bg-atlas hover:text-white transition-all flex items-center gap-2"><i class="ph ph-plus"></i> カードを追加</button>
+                </div>
+                <div class="bg-white border border-gray-100 rounded-2xl p-8 mb-6">
+                    <h3 class="text-sm font-bold mb-6">振込先口座（クリエイター売上）</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div><label class="text-xs font-bold text-gray-600 block mb-2">銀行名</label><input class="form-input" value="三菱UFJ銀行" type="text"/></div>
+                        <div><label class="text-xs font-bold text-gray-600 block mb-2">支店名</label><input class="form-input" value="渋谷支店" type="text"/></div>
+                        <div><label class="text-xs font-bold text-gray-600 block mb-2">口座種別</label><select class="form-input"><option>普通</option><option>当座</option></select></div>
+                        <div><label class="text-xs font-bold text-gray-600 block mb-2">口座番号</label><input class="form-input" value="•••••1234" type="text"/></div>
+                        <div><label class="text-xs font-bold text-gray-600 block mb-2">口座名義（カナ）</label><input class="form-input" value="ヨシダ ユウマ" type="text"/></div>
+                    </div>
+                    <div class="mt-6 pt-6 border-t border-gray-100 flex items-center justify-between">
+                        <div><p class="text-xs text-gray-400">次回振込予定</p><p class="text-sm font-bold">2026年4月15日 — <span class="text-atlas">¥348,000</span></p></div>
+                        <button class="btn-atlas px-5 py-2 rounded-lg text-sm font-bold">口座を更新</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Panel: Security -->
+            <div class="settings-panel" id="panel-security">
+                <div class="bg-white border border-gray-100 rounded-2xl p-8 mb-6">
+                    <h3 class="text-sm font-bold mb-6">パスワード変更</h3>
+                    <div class="space-y-4 max-w-md">
+                        <div><label class="text-xs font-bold text-gray-600 block mb-2">現在のパスワード</label><input class="form-input" placeholder="••••••••" type="password"/></div>
+                        <div><label class="text-xs font-bold text-gray-600 block mb-2">新しいパスワード</label><input class="form-input" placeholder="8文字以上" type="password"/></div>
+                        <div><label class="text-xs font-bold text-gray-600 block mb-2">新しいパスワード（確認）</label><input class="form-input" placeholder="もう一度入力" type="password"/></div>
+                    </div>
+                    <button class="btn-atlas px-5 py-2.5 rounded-lg text-sm font-bold mt-6">パスワードを変更</button>
+                </div>
+                <div class="bg-white border border-gray-100 rounded-2xl p-8 mb-6">
+                    <h3 class="text-sm font-bold mb-6">二段階認証</h3>
+                    <div class="flex items-center justify-between mb-6">
+                        <div><p class="text-sm font-bold text-emerald-600 flex items-center gap-2"><i class="ph ph-shield-check"></i> 有効</p><p class="text-xs text-gray-400 mt-1">Google Authenticator で設定済み</p></div>
+                        <button class="text-xs font-bold text-gray-500 border border-gray-200 px-4 py-2 rounded-lg hover:border-red-300 hover:text-red-500 transition-all">無効にする</button>
+                    </div>
+                </div>
+                <div class="bg-white border border-gray-100 rounded-2xl p-8 mb-6">
+                    <h3 class="text-sm font-bold mb-4">ログイン履歴</h3>
+                    <div class="space-y-3 text-sm">
+                        <div class="flex items-center justify-between py-2 border-b border-gray-50"><div><p class="font-bold text-xs">macOS · Chrome</p><p class="text-[10px] text-gray-400">Tokyo, JP · 今日 14:30</p></div><span class="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">現在のセッション</span></div>
+                        <div class="flex items-center justify-between py-2 border-b border-gray-50"><div><p class="font-bold text-xs">iOS · Safari</p><p class="text-[10px] text-gray-400">Tokyo, JP · 昨日 09:15</p></div><button class="text-[10px] font-bold text-red-500 hover:underline">ログアウト</button></div>
+                        <div class="flex items-center justify-between py-2"><div><p class="font-bold text-xs">Windows · Edge</p><p class="text-[10px] text-gray-400">Osaka, JP · 3月30日</p></div><button class="text-[10px] font-bold text-red-500 hover:underline">ログアウト</button></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Panel: Privacy -->
+            <div class="settings-panel" id="panel-privacy">
+                <div class="bg-white border border-gray-100 rounded-2xl p-8 mb-6">
+                    <h3 class="text-sm font-bold mb-6">プロフィール公開設定</h3>
+                    <div class="space-y-5">
+                        <div class="flex items-center justify-between"><div><p class="text-sm font-bold">プロフィールを公開</p><p class="text-xs text-gray-400">他のユーザーにプロフィールを表示する</p></div><div class="toggle-track on" onclick="this.classList.toggle('on')"><div class="toggle-thumb"></div></div></div>
+                        <div class="flex items-center justify-between"><div><p class="text-sm font-bold">購入履歴を公開</p><p class="text-xs text-gray-400">購入したアセットを他のユーザーに表示</p></div><div class="toggle-track" onclick="this.classList.toggle('on')"><div class="toggle-thumb"></div></div></div>
+                        <div class="flex items-center justify-between"><div><p class="text-sm font-bold">お気に入りを公開</p><p class="text-xs text-gray-400">お気に入りリストを他のユーザーに表示</p></div><div class="toggle-track" onclick="this.classList.toggle('on')"><div class="toggle-thumb"></div></div></div>
+                    </div>
+                </div>
+                <div class="bg-white border border-gray-100 rounded-2xl p-8 mb-6">
+                    <h3 class="text-sm font-bold mb-6">データ管理</h3>
+                    <div class="space-y-4">
+                        <button class="text-sm font-bold text-atlas flex items-center gap-2 hover:underline"><i class="ph ph-download-simple"></i> 個人データをエクスポート</button>
+                        <p class="text-xs text-gray-400">アカウントに関連する全データのJSON形式でのエクスポート</p>
+                    </div>
+                </div>
+                <div class="bg-red-50 border border-red-200 rounded-2xl p-8">
+                    <h3 class="text-sm font-bold text-red-700 mb-4 flex items-center gap-2"><i class="ph ph-warning"></i> 危険な操作</h3>
+                    <p class="text-xs text-gray-600 mb-4">アカウントを削除すると、すべてのデータ・購入履歴・出品情報が完全に消去されます。この操作は取り消せません。</p>
+                    <button class="text-xs font-bold text-red-600 border border-red-300 px-4 py-2 rounded-lg hover:bg-red-600 hover:text-white transition-all">アカウントを削除</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer class="bg-white border-t border-gray-100 py-8 mt-8">
+        <div class="max-w-[1400px] mx-auto px-6 flex items-center justify-between">
+            <img src="/uploads/origin_logo.png" alt="ORIGIN Logo" class="h-20 -my-2 w-auto object-contain group-hover:opacity-80 transition-opacity" style="image-rendering:-webkit-optimize-contrast; image-rendering:crisp-edges;" />
+            <p class="text-xs text-gray-400">© 2026 ORIGIN. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.querySelectorAll('.settings-tab').forEach(tab=>{
+            tab.addEventListener('click',()=>{
+                document.querySelectorAll('.settings-tab').forEach(t=>t.classList.remove('active'));
+                document.querySelectorAll('.settings-panel').forEach(p=>p.classList.remove('active'));
+                tab.classList.add('active');
+                document.getElementById('panel-'+tab.dataset.tab).classList.add('active');
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            if(!requireLogin('/settings.html')) return;
+            initHeaderAuth();
+            
+            const user = await API.getMe();
+            if(user) {
+                document.getElementById('headerInitials').textContent = initials(user.display_name);
+                document.getElementById('profileInitials').textContent = initials(user.display_name);
+                document.getElementById('profileName').value = user.display_name || '';
+                document.getElementById('profileEmail').value = user.email || '';
+                document.getElementById('profileUserId').value = '@' + (user.email ? user.email.split('@')[0] : 'user');
+            }
+            
+            document.getElementById('saveProfileBtn').addEventListener('click', async () => {
+                const updatedName = document.getElementById('profileName').value;
+                try {
+                    await API.updateProfile({ display_name: updatedName });
+                    alert('プロフィールを保存しました。');
+                    window.location.reload();
+                } catch(e) {
+                    alert('プロフィールの保存に失敗しました: ' + e.message);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

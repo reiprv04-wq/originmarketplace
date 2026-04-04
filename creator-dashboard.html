@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>クリエイターダッシュボード | ORIGIN</title>
+    <meta content="売上状況・アナリティクス・出品管理。" name="description"/>
+    <link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@400;500;700;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="/api-client.js"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <style>
+        :root{--color-atlas:#1E3A5F;--color-meridian:#C9A84C;--font-display:'Cormorant Garamond',serif;--font-ui:'Inter','Noto Sans JP',sans-serif;--transition:0.2s cubic-bezier(0.4,0,0.2,1);}
+        body{background:#F8FAFC;color:#111827;font-family:var(--font-ui);-webkit-font-smoothing:antialiased;}
+        .font-display{font-family:var(--font-display);}.bg-atlas{background-color:var(--color-atlas);}.text-atlas{color:var(--color-atlas);}
+        .btn-atlas{background-color:var(--color-atlas);color:#fff;transition:var(--transition);}.btn-atlas:hover{background-color:#162a45;transform:translateY(-1px);}
+        .price-display{font-family:var(--font-display);font-weight:700;}
+        .dash-nav-item{transition:var(--transition);display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:10px;font-size:13px;font-weight:600;color:#6B7280;}
+        .dash-nav-item:hover{background:#F3F4F6;color:var(--color-atlas);}
+        .dash-nav-item.active{background:#EEF2FF;color:var(--color-atlas);font-weight:700;}
+        .kpi-card{background:#fff;border:1px solid #E5E7EB;border-radius:16px;padding:24px;transition:var(--transition);}
+        .kpi-card:hover{box-shadow:0 10px 15px -3px rgba(0,0,0,.05);}
+        .chart-bar{border-radius:4px 4px 0 0;transition:all .3s ease;min-height:4px;}
+        .chart-bar:hover{opacity:.8;}
+        .status-badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;padding:3px 10px;border-radius:999px;}
+        .status-live{background:#ECFDF5;color:#059669;}.status-review{background:#FFF7ED;color:#D97706;}.status-draft{background:#F3F4F6;color:#6B7280;}
+    </style>
+    <link rel="stylesheet" href="/global-glass.css" />
+</head>
+<body class="pt-16">
+    <header class="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-100 h-16">
+        <div class="max-w-[1400px] mx-auto px-6 h-full flex items-center justify-between">
+            <a href="index.html" class="inline-block group"><img src="/uploads/origin_logo.png" alt="ORIGIN Logo" class="h-20 -my-2 w-auto object-contain group-hover:opacity-80 transition-opacity" style="image-rendering:-webkit-optimize-contrast; image-rendering:crisp-edges;" /></a>
+            <div class="flex items-center gap-4" id="header-auth">
+                <a class="relative p-2 text-gray-400 hover:text-atlas" href="#"><i class="ph ph-bell text-xl"></i><span class="absolute -top-0.5 -right-0.5 w-4 h-4 bg-red-500 text-white text-[9px] font-bold rounded-full flex items-center justify-center">5</span></a>
+                <a class="relative p-2 text-gray-400 hover:text-atlas" href="cart.html"><i class="ph ph-shopping-cart text-xl"></i></a>
+                <div class="flex items-center gap-2 bg-atlas/5 rounded-full pl-1 pr-4 py-1 cursor-pointer hover:bg-atlas/10 transition-colors">
+                    <div class="w-7 h-7 rounded-full bg-atlas flex items-center justify-center text-white text-[10px] font-bold" id="headerInitials">WE</div>
+                    <span class="text-xs font-bold text-atlas" id="headerName">WISE Engineering</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="max-w-[1400px] mx-auto px-6 py-8 flex gap-8">
+        <!-- Sidebar -->
+        <aside class="w-56 flex-shrink-0 hidden lg:block">
+            <div class="sticky top-24 space-y-1">
+                <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-4 px-3">クリエイター</p>
+                <a class="dash-nav-item active" href="creator-dashboard.html"><i class="ph ph-chart-line-up text-lg"></i> ダッシュボード</a>
+                <a class="dash-nav-item" href="#"><i class="ph ph-package text-lg"></i> 出品管理</a>
+                <a class="dash-nav-item" href="#"><i class="ph ph-currency-jpy text-lg"></i> 売上・振込</a>
+                <a class="dash-nav-item" href="#"><i class="ph ph-chart-bar text-lg"></i> アナリティクス</a>
+                <a class="dash-nav-item" href="#"><i class="ph ph-chat-circle-dots text-lg"></i> Q&A管理</a>
+                <a class="dash-nav-item" href="#"><i class="ph ph-star text-lg"></i> レビュー</a>
+                <a class="dash-nav-item" href="sell.html"><i class="ph ph-plus-circle text-lg"></i> 新規出品</a>
+                <div class="border-t border-gray-100 my-4"></div>
+                <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-4 px-3">マイページ</p>
+                <a class="dash-nav-item" href="buyer-dashboard.html"><i class="ph ph-books text-lg"></i> マイライブラリ</a>
+                <a class="dash-nav-item" href="favorites.html"><i class="ph ph-heart text-lg"></i> お気に入り</a>
+                <a class="dash-nav-item" href="#"><i class="ph ph-gear text-lg"></i> アカウント設定</a>
+            </div>
+        </aside>
+
+        <!-- Main -->
+        <main class="flex-1 min-w-0">
+            <!-- Welcome -->
+            <div class="flex items-center justify-between mb-8">
+                <div>
+                    <h1 class="font-display text-3xl font-bold mb-1">ダッシュボード</h1>
+                    <p class="text-sm text-gray-500" id="welcomeText">おかえりなさい、クリエイターさん</p>
+                </div>
+                <div class="flex items-center gap-3">
+                    <select class="text-xs border border-gray-200 rounded-lg px-3 py-2 font-bold text-gray-700 outline-none bg-white">
+                        <option>過去30日間</option>
+                        <option>過去7日間</option>
+                        <option>過去90日間</option>
+                        <option>全期間</option>
+                    </select>
+                    <a class="btn-atlas px-5 py-2.5 rounded-lg text-sm font-bold flex items-center gap-2" href="sell.html"><i class="ph ph-plus"></i> 新規出品</a>
+                </div>
+            </div>
+
+            <!-- KPI Cards -->
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                <div class="kpi-card">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-[10px] font-black text-gray-400 uppercase tracking-widest">総売上</span>
+                        <div class="w-8 h-8 bg-emerald-50 rounded-lg flex items-center justify-center"><i class="ph ph-currency-jpy text-emerald-600 text-lg"></i></div>
+                    </div>
+                    <span class="price-display text-3xl text-gray-900 block mb-1" id="dashTotalRevenue">¥...</span>
+                    <span class="text-xs font-bold text-emerald-600 flex items-center gap-1"><i class="ph ph-trend-up"></i> +23.5% <span class="text-gray-400">前月比</span></span>
+                </div>
+                <div class="kpi-card">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-[10px] font-black text-gray-400 uppercase tracking-widest">販売数</span>
+                        <div class="w-8 h-8 bg-blue-50 rounded-lg flex items-center justify-center"><i class="ph ph-shopping-bag text-blue-600 text-lg"></i></div>
+                    </div>
+                    <span class="price-display text-3xl text-gray-900 block mb-1" id="dashSalesCount">...</span>
+                    <span class="text-xs font-bold text-emerald-600 flex items-center gap-1"><i class="ph ph-trend-up"></i> +12.8% <span class="text-gray-400">前月比</span></span>
+                </div>
+                <div class="kpi-card">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-[10px] font-black text-gray-400 uppercase tracking-widest">出品数</span>
+                        <div class="w-8 h-8 bg-yellow-50 rounded-lg flex items-center justify-center"><i class="ph ph-package text-yellow-500 text-lg"></i></div>
+                    </div>
+                    <span class="price-display text-3xl text-gray-900 block mb-1" id="dashAssetCount">...</span>
+                    <span class="text-xs font-bold text-gray-400 flex items-center gap-1"><i class="ph ph-equals"></i> アクティブ</span>
+                </div>
+                <div class="kpi-card">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-[10px] font-black text-gray-400 uppercase tracking-widest">ページビュー</span>
+                        <div class="w-8 h-8 bg-purple-50 rounded-lg flex items-center justify-center"><i class="ph ph-eye text-purple-600 text-lg"></i></div>
+                    </div>
+                    <span class="price-display text-3xl text-gray-900 block mb-1">999+</span>
+                    <span class="text-xs font-bold text-emerald-600 flex items-center gap-1"><i class="ph ph-trend-up"></i> +31.2% <span class="text-gray-400">前月比</span></span>
+                </div>
+            </div>
+
+            <!-- Revenue Chart -->
+            <div class="bg-white border border-gray-100 rounded-2xl p-6 mb-8">
+                <div class="flex items-center justify-between mb-6">
+                    <div><h3 class="font-bold text-sm">売上推移</h3><p class="text-[10px] text-gray-400">過去12ヶ月</p></div>
+                    <div class="flex gap-4 text-[10px] font-bold">
+                        <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-atlas"></span> 売上</span>
+                        <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span> 販売数</span>
+                    </div>
+                </div>
+                <div class="flex items-end gap-2 h-44">
+                    <div class="flex-1 flex flex-col items-center gap-1">
+                        <div class="w-full bg-atlas/20 chart-bar" style="height:30%"></div>
+                        <span class="text-[9px] text-gray-400 font-bold">4月</span>
+                    </div>
+                    <div class="flex-1 flex flex-col items-center gap-1">
+                        <div class="w-full bg-atlas/30 chart-bar" style="height:35%"></div>
+                        <span class="text-[9px] text-gray-400 font-bold">5月</span>
+                    </div>
+                    <div class="flex-1 flex flex-col items-center gap-1">
+                        <div class="w-full bg-atlas/30 chart-bar" style="height:28%"></div>
+                        <span class="text-[9px] text-gray-400 font-bold">6月</span>
+                    </div>
+                    <div class="flex-1 flex flex-col items-center gap-1">
+                        <div class="w-full bg-atlas/40 chart-bar" style="height:45%"></div>
+                        <span class="text-[9px] text-gray-400 font-bold">7月</span>
+                    </div>
+                    <div class="flex-1 flex flex-col items-center gap-1">
+                        <div class="w-full bg-atlas/40 chart-bar" style="height:42%"></div>
+                        <span class="text-[9px] text-gray-400 font-bold">8月</span>
+                    </div>
+                    <div class="flex-1 flex flex-col items-center gap-1">
+                        <div class="w-full bg-atlas/50 chart-bar" style="height:55%"></div>
+                        <span class="text-[9px] text-gray-400 font-bold">9月</span>
+                    </div>
+                    <div class="flex-1 flex flex-col items-center gap-1">
+                        <div class="w-full bg-atlas/50 chart-bar" style="height:48%"></div>
+                        <span class="text-[9px] text-gray-400 font-bold">10月</span>
+                    </div>
+                    <div class="flex-1 flex flex-col items-center gap-1">
+                        <div class="w-full bg-atlas/60 chart-bar" style="height:62%"></div>
+                        <span class="text-[9px] text-gray-400 font-bold">11月</span>
+                    </div>
+                    <div class="flex-1 flex flex-col items-center gap-1">
+                        <div class="w-full bg-atlas/60 chart-bar" style="height:58%"></div>
+                        <span class="text-[9px] text-gray-400 font-bold">12月</span>
+                    </div>
+                    <div class="flex-1 flex flex-col items-center gap-1">
+                        <div class="w-full bg-atlas/70 chart-bar" style="height:72%"></div>
+                        <span class="text-[9px] text-gray-400 font-bold">1月</span>
+                    </div>
+                    <div class="flex-1 flex flex-col items-center gap-1">
+                        <div class="w-full bg-atlas/80 chart-bar" style="height:80%"></div>
+                        <span class="text-[9px] text-gray-400 font-bold">2月</span>
+                    </div>
+                    <div class="flex-1 flex flex-col items-center gap-1">
+                        <div class="w-full bg-atlas chart-bar" style="height:95%"></div>
+                        <span class="text-[9px] text-gray-900 font-bold">3月</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                <!-- 出品一覧 -->
+                <div class="bg-white border border-gray-100 rounded-2xl p-6">
+                    <div class="flex items-center justify-between mb-5">
+                        <h3 class="font-bold text-sm">出品アセット</h3>
+                        <a class="text-xs font-bold text-atlas hover:underline" href="#">すべて表示</a>
+                    </div>
+                    <div class="space-y-3" id="creatorAssetsList">
+                        <div class="p-4 text-center text-gray-400 text-xs">読み込み中...</div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="bg-white border border-gray-100 rounded-2xl p-6">
+                    <div class="flex items-center justify-between mb-5">
+                        <h3 class="font-bold text-sm">最近のアクティビティ</h3>
+                        <a class="text-xs font-bold text-atlas hover:underline" href="#">すべて表示</a>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="flex items-start gap-3">
+                            <div class="w-8 h-8 rounded-full bg-emerald-50 flex items-center justify-center flex-shrink-0"><i class="ph ph-shopping-bag text-emerald-600 text-sm"></i></div>
+                            <div><p class="text-xs font-bold text-gray-900">新規購入</p><p class="text-[11px] text-gray-500">書類自動化 AI が購入されました · ¥45,000</p><p class="text-[10px] text-gray-400 mt-1">3分前</p></div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="w-8 h-8 rounded-full bg-yellow-50 flex items-center justify-center flex-shrink-0"><i class="ph ph-star text-yellow-500 text-sm"></i></div>
+                            <div><p class="text-xs font-bold text-gray-900">新しいレビュー</p><p class="text-[11px] text-gray-500">Smart Lead Scraper に⭐5のレビュー</p><p class="text-[10px] text-gray-400 mt-1">1時間前</p></div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center flex-shrink-0"><i class="ph ph-chat-circle-dots text-blue-600 text-sm"></i></div>
+                            <div><p class="text-xs font-bold text-gray-900">新しいQ&A</p><p class="text-[11px] text-gray-500">書類自動化 AI に質問が投稿されました</p><p class="text-[10px] text-gray-400 mt-1">3時間前</p></div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="w-8 h-8 rounded-full bg-emerald-50 flex items-center justify-center flex-shrink-0"><i class="ph ph-shopping-bag text-emerald-600 text-sm"></i></div>
+                            <div><p class="text-xs font-bold text-gray-900">新規購入</p><p class="text-[11px] text-gray-500">AI Support Slack Bot が購入されました · ¥15,000</p><p class="text-[10px] text-gray-400 mt-1">5時間前</p></div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="w-8 h-8 rounded-full bg-purple-50 flex items-center justify-center flex-shrink-0"><i class="ph ph-users text-purple-600 text-sm"></i></div>
+                            <div><p class="text-xs font-bold text-gray-900">新しいフォロワー</p><p class="text-[11px] text-gray-500">Tanaka N. さんがフォローしました</p><p class="text-[10px] text-gray-400 mt-1">昨日</p></div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="w-8 h-8 rounded-full bg-emerald-50 flex items-center justify-center flex-shrink-0"><i class="ph ph-shopping-bag text-emerald-600 text-sm"></i></div>
+                            <div><p class="text-xs font-bold text-gray-900">新規購入 ×3</p><p class="text-[11px] text-gray-500">書類自動化 AI が3件購入されました</p><p class="text-[10px] text-gray-400 mt-1">昨日</p></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Revenue Breakdown & Top Products -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                <!-- Revenue Breakdown -->
+                <div class="bg-white border border-gray-100 rounded-2xl p-6">
+                    <h3 class="font-bold text-sm mb-5">売上内訳</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <div class="flex items-center justify-between mb-1.5"><span class="text-xs font-bold text-gray-600">書類自動化 AI</span><span class="text-xs font-bold text-gray-900">¥1,920,000 (67%)</span></div>
+                            <div class="h-2 bg-gray-100 rounded-full overflow-hidden"><div class="h-full bg-atlas rounded-full" style="width:67%"></div></div>
+                        </div>
+                        <div>
+                            <div class="flex items-center justify-between mb-1.5"><span class="text-xs font-bold text-gray-600">Smart Lead Scraper</span><span class="text-xs font-bold text-gray-900">¥504,000 (18%)</span></div>
+                            <div class="h-2 bg-gray-100 rounded-full overflow-hidden"><div class="h-full bg-blue-400 rounded-full" style="width:18%"></div></div>
+                        </div>
+                        <div>
+                            <div class="flex items-center justify-between mb-1.5"><span class="text-xs font-bold text-gray-600">AI Support Slack Bot</span><span class="text-xs font-bold text-gray-900">¥423,000 (15%)</span></div>
+                            <div class="h-2 bg-gray-100 rounded-full overflow-hidden"><div class="h-full bg-emerald-400 rounded-full" style="width:15%"></div></div>
+                        </div>
+                    </div>
+                    <div class="mt-6 pt-6 border-t border-gray-100">
+                        <div class="flex items-center justify-between">
+                            <div><p class="text-xs text-gray-400">次回振込予定</p><p class="text-sm font-bold text-gray-900">2026年4月15日</p></div>
+                            <div class="text-right"><p class="text-xs text-gray-400">振込予定額</p><p class="price-display text-xl text-atlas">¥348,000</p></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Top Products Performance -->
+                <div class="bg-white border border-gray-100 rounded-2xl p-6">
+                    <h3 class="font-bold text-sm mb-5">アセット別パフォーマンス</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-xs">
+                            <thead><tr class="border-b border-gray-100"><th class="text-left py-2 font-bold text-gray-400">アセット名</th><th class="text-right py-2 font-bold text-gray-400">PV</th><th class="text-right py-2 font-bold text-gray-400">CVR</th><th class="text-right py-2 font-bold text-gray-400">売上</th></tr></thead>
+                            <tbody class="font-medium text-gray-600">
+                                <tr class="border-b border-gray-50"><td class="py-3 font-bold text-gray-900">書類自動化 AI</td><td class="text-right py-3">12,400</td><td class="text-right py-3 text-emerald-600 font-bold">2.1%</td><td class="text-right py-3 font-bold text-gray-900">¥1.92M</td></tr>
+                                <tr class="border-b border-gray-50"><td class="py-3 font-bold text-gray-900">Smart Lead Scraper</td><td class="text-right py-3">3,200</td><td class="text-right py-3 text-emerald-600 font-bold">1.3%</td><td class="text-right py-3 font-bold text-gray-900">¥504K</td></tr>
+                                <tr class="border-b border-gray-50"><td class="py-3 font-bold text-gray-900">AI Support Slack Bot</td><td class="text-right py-3">2,820</td><td class="text-right py-3 text-emerald-600 font-bold">1.0%</td><td class="text-right py-3 font-bold text-gray-900">¥423K</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pending Actions -->
+            <div class="bg-white border border-gray-100 rounded-2xl p-6">
+                <h3 class="font-bold text-sm mb-5 flex items-center gap-2"><i class="ph ph-warning-circle text-amber-500"></i> 対応が必要な項目</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="border border-amber-200 bg-amber-50 rounded-xl p-4">
+                        <div class="flex items-center gap-2 mb-2"><i class="ph ph-chat-circle-dots text-amber-600"></i><span class="text-xs font-bold text-amber-800">未回答のQ&A: 2件</span></div>
+                        <p class="text-[11px] text-amber-700 mb-3">書類自動化 AI / Smart Lead Scraper</p>
+                        <button class="text-[10px] font-bold text-amber-700 hover:underline">回答する →</button>
+                    </div>
+                    <div class="border border-blue-200 bg-blue-50 rounded-xl p-4">
+                        <div class="flex items-center gap-2 mb-2"><i class="ph ph-shield-check text-blue-600"></i><span class="text-xs font-bold text-blue-800">審査結果待ち: 1件</span></div>
+                        <p class="text-[11px] text-blue-700 mb-3">カスタマーサポートAI</p>
+                        <button class="text-[10px] font-bold text-blue-700 hover:underline">状況を確認 →</button>
+                    </div>
+                    <div class="border border-gray-200 bg-gray-50 rounded-xl p-4">
+                        <div class="flex items-center gap-2 mb-2"><i class="ph ph-file-dashed text-gray-500"></i><span class="text-xs font-bold text-gray-700">下書き: 1件</span></div>
+                        <p class="text-[11px] text-gray-500 mb-3">議事録自動化ツール</p>
+                        <button class="text-[10px] font-bold text-gray-600 hover:underline">編集する →</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer class="bg-white border-t border-gray-100 py-8 mt-8">
+        <div class="max-w-[1400px] mx-auto px-6 flex items-center justify-between">
+            <img src="/uploads/origin_logo.png" alt="ORIGIN Logo" class="h-20 -my-2 w-auto object-contain group-hover:opacity-80 transition-opacity" style="image-rendering:-webkit-optimize-contrast; image-rendering:crisp-edges;" />
+            <p class="text-xs text-gray-400">© 2026 ORIGIN. All rights reserved.</p>
+        </div>
+    </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            if(!requireLogin('/creator-dashboard.html')) return;
+            initHeaderAuth();
+            
+            const user = await API.getMe();
+            if(user) {
+                document.getElementById('headerInitials').textContent = initials(user.display_name);
+                document.getElementById('headerName').textContent = user.display_name;
+                document.getElementById('welcomeText').textContent = `おかえりなさい、${user.display_name} さん`;
+            }
+            
+            try {
+                const dash = await API.getCreatorDashboard();
+                
+                // KPIs
+                document.getElementById('dashTotalRevenue').textContent = formatPrice(dash.stats.total_revenue || 0);
+                document.getElementById('dashSalesCount').textContent = (dash.stats.sales_count || 0).toLocaleString();
+                document.getElementById('dashAssetCount').textContent = (dash.assets ? dash.assets.length : 0).toLocaleString();
+                
+                // Assets
+                const list = document.getElementById('creatorAssetsList');
+                if(dash.assets && dash.assets.length > 0) {
+                    list.innerHTML = '';
+                    dash.assets.forEach(asset => {
+                        const el = document.createElement('div');
+                        el.className = 'flex items-center gap-4 p-3 rounded-xl hover:bg-gray-50 transition-colors cursor-pointer';
+                        el.onclick = () => window.location.href = `product.html?id=${asset.id}`;
+                        const thumb = asset.thumbnail_url || 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=100&q=80';
+                        
+                        let badgeHtml = '';
+                        if(asset.status === 'published') {
+                            badgeHtml = '<span class="status-badge status-live"><i class="ph ph-circle-fill text-[6px]"></i>公開中</span>';
+                        } else if(asset.status === 'reviewing') {
+                            badgeHtml = '<span class="status-badge status-review"><i class="ph ph-circle-fill text-[6px]"></i>審査中</span>';
+                        } else {
+                            badgeHtml = `<span class="status-badge status-draft"><i class="ph ph-circle-fill text-[6px]"></i>${asset.status}</span>`;
+                        }
+                        
+                        el.innerHTML = `
+                            <div class="w-12 h-10 rounded-lg bg-gray-100 overflow-hidden flex-shrink-0">
+                                <img alt="" class="w-full h-full object-cover" src="${thumb}"/>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <h4 class="font-bold text-xs truncate">${asset.title}</h4>
+                                <p class="text-[10px] text-gray-400">${formatPrice(asset.price_personal)}</p>
+                            </div>
+                            ${badgeHtml}
+                        `;
+                        list.appendChild(el);
+                    });
+                } else {
+                    list.innerHTML = '<div class="p-4 text-center text-xs text-gray-400">出品されているアセットはありません</div>';
+                }
+            } catch(e) {
+                console.error(e);
+                alert('ダッシュボードのデータ取得に失敗しました');
+            }
+        });
+    </script>
+</body>
+</html>

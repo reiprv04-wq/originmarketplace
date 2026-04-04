@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>管理パネル | ORIGIN ADMIN</title>
+    <meta content="ORIGIN マーケットプレイス管理画面。" name="description"/>
+    <link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@400;500;700;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="/api-client.js"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <style>
+        :root{--color-atlas:#1E3A5F;--color-meridian:#C9A84C;--font-display:'Cormorant Garamond',serif;--font-ui:'Inter','Noto Sans JP',sans-serif;--t:0.2s cubic-bezier(0.4,0,0.2,1);}
+        body{background:#0F172A;color:#E2E8F0;font-family:var(--font-ui);-webkit-font-smoothing:antialiased;}
+        .font-display{font-family:var(--font-display);}
+        .sidebar{background:#1E293B;border-right:1px solid rgba(255,255,255,.05);}
+        .admin-nav{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:10px;font-size:13px;font-weight:600;color:#94A3B8;transition:all .2s;cursor:pointer;}
+        .admin-nav:hover{background:rgba(255,255,255,.05);color:#E2E8F0;}
+        .admin-nav.active{background:rgba(30,58,95,.4);color:#60A5FA;font-weight:700;}
+        .admin-card{background:#1E293B;border:1px solid rgba(255,255,255,.05);border-radius:16px;transition:all .2s;}
+        .admin-card:hover{border-color:rgba(255,255,255,.1);}
+        .kpi{background:#1E293B;border:1px solid rgba(255,255,255,.05);border-radius:16px;padding:20px;}
+        .badge-green{background:rgba(16,185,129,.1);color:#10B981;font-size:10px;font-weight:700;padding:3px 10px;border-radius:999px;display:inline-flex;align-items:center;gap:4px;}
+        .badge-yellow{background:rgba(245,158,11,.1);color:#F59E0B;font-size:10px;font-weight:700;padding:3px 10px;border-radius:999px;display:inline-flex;align-items:center;gap:4px;}
+        .badge-red{background:rgba(239,68,68,.1);color:#EF4444;font-size:10px;font-weight:700;padding:3px 10px;border-radius:999px;display:inline-flex;align-items:center;gap:4px;}
+        .badge-blue{background:rgba(59,130,246,.1);color:#3B82F6;font-size:10px;font-weight:700;padding:3px 10px;border-radius:999px;display:inline-flex;align-items:center;gap:4px;}
+        .badge-gray{background:rgba(148,163,184,.1);color:#94A3B8;font-size:10px;font-weight:700;padding:3px 10px;border-radius:999px;display:inline-flex;align-items:center;gap:4px;}
+        .admin-btn{background:#3B82F6;color:#fff;padding:8px 16px;border-radius:8px;font-size:12px;font-weight:700;transition:all .2s;}
+        .admin-btn:hover{background:#2563EB;transform:translateY(-1px);}
+        .admin-btn-ghost{background:transparent;border:1px solid rgba(255,255,255,.1);color:#94A3B8;padding:7px 14px;border-radius:8px;font-size:12px;font-weight:600;transition:all .2s;}
+        .admin-btn-ghost:hover{border-color:rgba(255,255,255,.2);color:#E2E8F0;}
+        .chart-bar{border-radius:4px 4px 0 0;min-height:4px;transition:all .3s;}
+        .admin-table{width:100%;text-align:left;font-size:12px;}
+        .admin-table th{padding:10px 12px;font-weight:700;color:#64748B;border-bottom:1px solid rgba(255,255,255,.05);text-transform:uppercase;font-size:10px;letter-spacing:0.05em;}
+        .admin-table td{padding:12px;border-bottom:1px solid rgba(255,255,255,.03);}
+        .admin-table tr:hover td{background:rgba(255,255,255,.02);}
+        .admin-tab{padding:8px 16px;border-radius:8px;font-size:12px;font-weight:600;color:#64748B;cursor:pointer;transition:all .2s;}
+        .admin-tab:hover{color:#E2E8F0;}.admin-tab.active{background:#3B82F6;color:#fff;}
+        .panel{display:none;}.panel.active{display:block;}
+    </style>
+    <link rel="stylesheet" href="/global-glass.css" />
+</head>
+<body class="flex h-screen overflow-hidden">
+
+    <!-- Sidebar -->
+    <aside class="sidebar w-60 flex-shrink-0 flex flex-col">
+        <div class="px-5 py-5 border-b border-white/5 flex items-center gap-3">
+            <a class="font-display text-xl font-bold text-white" href="index.html">ORIGIN</a>
+            <span class="text-[9px] font-bold bg-blue-500/20 text-blue-400 px-2 py-0.5 rounded-full uppercase tracking-wider">Admin</span>
+        </div>
+        <nav class="flex-1 overflow-y-auto p-3 space-y-1" id="adminNav">
+            <a class="admin-nav active" data-panel="overview"><i class="ph ph-squares-four text-lg"></i> 概要</a>
+            <a class="admin-nav" data-panel="users"><i class="ph ph-users text-lg"></i> ユーザー管理</a>
+            <a class="admin-nav" data-panel="assets"><i class="ph ph-package text-lg"></i> アセット管理</a>
+            <a class="admin-nav" data-panel="transactions"><i class="ph ph-currency-jpy text-lg"></i> 取引管理</a>
+            <a class="admin-nav" data-panel="reviews"><i class="ph ph-chat-circle-dots text-lg"></i> レビュー管理</a>
+            <a class="admin-nav" data-panel="reports"><i class="ph ph-flag text-lg"></i> 通報・レポート <span class="ml-auto w-5 h-5 bg-red-500/20 text-red-400 text-[9px] font-bold rounded-full flex items-center justify-center">4</span></a>
+            <div class="border-t border-white/5 my-3"></div>
+            <a class="admin-nav" data-panel="settings"><i class="ph ph-gear text-lg"></i> サイト設定</a>
+        </nav>
+        <div class="p-4 border-t border-white/5">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white text-[10px] font-bold">AD</div>
+                <div><p class="text-xs font-bold text-white">Admin</p><p class="text-[10px] text-slate-500">admin@origin.jp</p></div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main -->
+    <main class="flex-1 overflow-y-auto">
+        <!-- Top Bar -->
+        <div class="sticky top-0 z-10 bg-[#0F172A]/95 backdrop-blur-md border-b border-white/5 px-8 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <h1 class="text-sm font-bold" id="panelTitle">概要</h1>
+                <span class="text-[10px] text-slate-500">最終更新: 2026/04/04 21:40</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <div class="relative"><i class="ph ph-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-sm"></i><input class="bg-white/5 border border-white/5 rounded-lg pl-9 pr-4 py-2 text-xs text-white outline-none focus:border-blue-500/30 w-56" placeholder="検索..." type="text"/></div>
+                <button class="relative p-2 text-slate-400 hover:text-white"><i class="ph ph-bell text-lg"></i><span class="absolute top-0.5 right-0.5 w-3.5 h-3.5 bg-red-500 text-white text-[8px] font-bold rounded-full flex items-center justify-center">4</span></button>
+            </div>
+        </div>
+
+        <div class="p-8">
+            <!-- Overview Panel -->
+            <div class="panel active" id="p-overview">
+                <!-- KPI Row -->
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                    <div class="kpi"><div class="flex items-center justify-between mb-2"><span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">総売上</span><div class="w-7 h-7 bg-emerald-500/10 rounded-lg flex items-center justify-center"><i class="ph ph-currency-jpy text-emerald-400 text-sm"></i></div></div><span class="font-display text-3xl font-bold text-white block mb-1" id="adminKpiRevenue">...</span><span class="text-xs font-bold text-emerald-400 flex items-center gap-1"><i class="ph ph-trend-up"></i> +18.2%</span></div>
+                    <div class="kpi"><div class="flex items-center justify-between mb-2"><span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">ユーザー</span><div class="w-7 h-7 bg-blue-500/10 rounded-lg flex items-center justify-center"><i class="ph ph-user-plus text-blue-400 text-sm"></i></div></div><span class="font-display text-3xl font-bold text-white block mb-1" id="adminKpiUsers">...</span><span class="text-xs font-bold text-emerald-400 flex items-center gap-1"><i class="ph ph-trend-up"></i> +24.6%</span></div>
+                    <div class="kpi"><div class="flex items-center justify-between mb-2"><span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">出品アセット</span><div class="w-7 h-7 bg-amber-500/10 rounded-lg flex items-center justify-center"><i class="ph ph-package text-amber-400 text-sm"></i></div></div><span class="font-display text-3xl font-bold text-white block mb-1" id="adminKpiAssets">...</span><span class="text-xs font-bold text-emerald-400 flex items-center gap-1"><i class="ph ph-trend-up"></i> +9.1%</span></div>
+                    <div class="kpi"><div class="flex items-center justify-between mb-2"><span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">審査待ち</span><div class="w-7 h-7 bg-orange-500/10 rounded-lg flex items-center justify-center"><i class="ph ph-hourglass text-orange-400 text-sm"></i></div></div><span class="font-display text-3xl font-bold text-white block mb-1" id="adminKpiReviewing">...</span><span class="text-xs font-bold text-orange-400 flex items-center gap-1"><i class="ph ph-warning"></i> 要対応</span></div>
+                </div>
+
+                <!-- Charts -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                    <div class="admin-card p-6">
+                        <div class="flex items-center justify-between mb-6"><h3 class="text-sm font-bold text-white">売上推移（日次）</h3>
+                            <div class="flex gap-1"><button class="admin-tab active">7D</button><button class="admin-tab">30D</button><button class="admin-tab">90D</button></div>
+                        </div>
+                        <div class="flex items-end gap-1.5 h-36">
+                            <div class="flex-1 bg-blue-500/30 chart-bar" style="height:55%"></div>
+                            <div class="flex-1 bg-blue-500/40 chart-bar" style="height:65%"></div>
+                            <div class="flex-1 bg-blue-500/40 chart-bar" style="height:50%"></div>
+                            <div class="flex-1 bg-blue-500/50 chart-bar" style="height:72%"></div>
+                            <div class="flex-1 bg-blue-500/50 chart-bar" style="height:68%"></div>
+                            <div class="flex-1 bg-blue-500/60 chart-bar" style="height:82%"></div>
+                            <div class="flex-1 bg-blue-500 chart-bar" style="height:95%"></div>
+                        </div>
+                        <div class="flex justify-between mt-2 text-[9px] text-slate-500 font-bold"><span>3/29</span><span>3/30</span><span>3/31</span><span>4/1</span><span>4/2</span><span>4/3</span><span>4/4</span></div>
+                    </div>
+                    <div class="admin-card p-6">
+                        <h3 class="text-sm font-bold text-white mb-6">カテゴリ別シェア</h3>
+                        <div class="space-y-4">
+                            <div><div class="flex justify-between text-xs mb-1"><span class="text-slate-400">業務自動化・DX</span><span class="text-white font-bold">45%</span></div><div class="h-2 bg-white/5 rounded-full overflow-hidden"><div class="h-full bg-blue-500 rounded-full" style="width:45%"></div></div></div>
+                            <div><div class="flex justify-between text-xs mb-1"><span class="text-slate-400">デザイン</span><span class="text-white font-bold">28%</span></div><div class="h-2 bg-white/5 rounded-full overflow-hidden"><div class="h-full bg-purple-500 rounded-full" style="width:28%"></div></div></div>
+                            <div><div class="flex justify-between text-xs mb-1"><span class="text-slate-400">コンポーネント</span><span class="text-white font-bold">17%</span></div><div class="h-2 bg-white/5 rounded-full overflow-hidden"><div class="h-full bg-emerald-500 rounded-full" style="width:17%"></div></div></div>
+                            <div><div class="flex justify-between text-xs mb-1"><span class="text-slate-400">教育・ナレッジ</span><span class="text-white font-bold">10%</span></div><div class="h-2 bg-white/5 rounded-full overflow-hidden"><div class="h-full bg-amber-500 rounded-full" style="width:10%"></div></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="admin-card p-6">
+                    <h3 class="text-sm font-bold text-white mb-4">最近のアクティビティ</h3>
+                    <div class="space-y-3">
+                        <div class="flex items-start gap-3"><div class="w-7 h-7 rounded-full bg-emerald-500/10 flex items-center justify-center flex-shrink-0 mt-0.5"><i class="ph ph-shopping-bag text-emerald-400 text-xs"></i></div><div><p class="text-xs text-slate-300"><span class="font-bold text-white">Tanaka N.</span> が「書類自動化 AI」を ¥45,000 で購入</p><p class="text-[10px] text-slate-500 mt-0.5">3分前</p></div></div>
+                        <div class="flex items-start gap-3"><div class="w-7 h-7 rounded-full bg-blue-500/10 flex items-center justify-center flex-shrink-0 mt-0.5"><i class="ph ph-user-plus text-blue-400 text-xs"></i></div><div><p class="text-xs text-slate-300"><span class="font-bold text-white">新規ユーザー登録</span> yamada_t@example.com</p><p class="text-[10px] text-slate-500 mt-0.5">12分前</p></div></div>
+                        <div class="flex items-start gap-3"><div class="w-7 h-7 rounded-full bg-orange-500/10 flex items-center justify-center flex-shrink-0 mt-0.5"><i class="ph ph-hourglass text-orange-400 text-xs"></i></div><div><p class="text-xs text-slate-300"><span class="font-bold text-white">新規アセット審査</span> 「カスタマーサポートAI」が申請されました</p><p class="text-[10px] text-slate-500 mt-0.5">25分前</p></div></div>
+                        <div class="flex items-start gap-3"><div class="w-7 h-7 rounded-full bg-red-500/10 flex items-center justify-center flex-shrink-0 mt-0.5"><i class="ph ph-flag text-red-400 text-xs"></i></div><div><p class="text-xs text-slate-300"><span class="font-bold text-white">通報</span> レビューに不適切なコンテンツ報告</p><p class="text-[10px] text-slate-500 mt-0.5">1時間前</p></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Users Panel -->
+            <div class="panel" id="p-users">
+                <div class="flex items-center justify-between mb-6">
+                    <div class="flex gap-2"><button class="admin-tab active">すべて (8,420)</button><button class="admin-tab">バイヤー (7,840)</button><button class="admin-tab">クリエイター (580)</button><button class="admin-tab">停止中 (12)</button></div>
+                    <div class="flex gap-2"><input class="bg-white/5 border border-white/5 rounded-lg px-3 py-2 text-xs text-white outline-none w-48" placeholder="ユーザー検索..." type="text"/><button class="admin-btn-ghost">エクスポート</button></div>
+                </div>
+                <div class="admin-card overflow-hidden">
+                    <table class="admin-table">
+                        <thead><tr><th>ユーザー</th><th>ロール</th><th>登録日</th><th>購入数</th><th>ステータス</th><th>操作</th></tr></thead>
+                        <tbody id="adminUsersList">
+                            <tr><td colspan="6" class="text-center py-4">読み込み中...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Assets Panel -->
+            <div class="panel" id="p-assets">
+                <div class="flex items-center justify-between mb-6">
+                    <div class="flex gap-2"><button class="admin-tab active">すべて (2,400)</button><button class="admin-tab">公開中 (2,180)</button><button class="admin-tab">審査中 (28)</button><button class="admin-tab">非公開 (192)</button></div>
+                    <input class="bg-white/5 border border-white/5 rounded-lg px-3 py-2 text-xs text-white outline-none w-48" placeholder="アセット検索..." type="text"/>
+                </div>
+                <div class="admin-card overflow-hidden">
+                    <table class="admin-table">
+                        <thead><tr><th>アセット</th><th>クリエイター</th><th>カテゴリ</th><th>価格</th><th>販売数</th><th>評価</th><th>ステータス</th><th>操作</th></tr></thead>
+                        <tbody id="adminAssetsList">
+                            <tr><td colspan="8" class="text-center py-4">読み込み中...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Transactions Panel -->
+            <div class="panel" id="p-transactions">
+                <div class="flex items-center justify-between mb-6">
+                    <div class="flex gap-2"><button class="admin-tab active">すべて</button><button class="admin-tab">完了</button><button class="admin-tab">返金</button><button class="admin-tab">係争中</button></div>
+                    <div class="flex gap-2"><select class="bg-white/5 border border-white/5 rounded-lg px-3 py-2 text-xs text-white outline-none"><option>今月</option><option>先月</option><option>全期間</option></select><button class="admin-btn-ghost">エクスポート</button></div>
+                </div>
+                <div class="grid grid-cols-3 gap-4 mb-6">
+                    <div class="kpi"><p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">今月の売上</p><p class="font-display text-2xl font-bold text-white">¥12,480,000</p></div>
+                    <div class="kpi"><p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">手数料収入</p><p class="font-display text-2xl font-bold text-emerald-400">¥1,497,600</p></div>
+                    <div class="kpi"><p class="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">返金額</p><p class="font-display text-2xl font-bold text-red-400">¥86,000</p></div>
+                </div>
+                <div class="admin-card overflow-hidden">
+                    <table class="admin-table">
+                        <thead><tr><th>注文番号</th><th>バイヤー</th><th>アセット</th><th>金額</th><th>日時</th><th>ステータス</th></tr></thead>
+                        <tbody>
+                            <tr><td class="text-blue-400 font-bold">#ORG-0842</td><td class="text-white text-xs">田中 直人</td><td class="text-slate-400 text-xs">書類自動化 AI</td><td class="text-white font-bold">¥75,900</td><td class="text-slate-500">2026/04/04 21:30</td><td><span class="badge-green">完了</span></td></tr>
+                            <tr><td class="text-blue-400 font-bold">#ORG-0841</td><td class="text-white text-xs">佐藤 美咲</td><td class="text-slate-400 text-xs">Smart Lead Scraper</td><td class="text-white font-bold">¥24,000</td><td class="text-slate-500">2026/04/04 20:15</td><td><span class="badge-green">完了</span></td></tr>
+                            <tr><td class="text-blue-400 font-bold">#ORG-0840</td><td class="text-white text-xs">山口 太郎</td><td class="text-slate-400 text-xs">GPT-4 プロンプト集</td><td class="text-white font-bold">¥4,980</td><td class="text-slate-500">2026/04/04 18:42</td><td><span class="badge-green">完了</span></td></tr>
+                            <tr><td class="text-blue-400 font-bold">#ORG-0839</td><td class="text-white text-xs">高橋 健一</td><td class="text-slate-400 text-xs">書類自動化 AI</td><td class="text-white font-bold">¥45,000</td><td class="text-slate-500">2026/04/04 16:30</td><td><span class="badge-yellow">返金処理中</span></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Reviews Panel -->
+            <div class="panel" id="p-reviews">
+                <div class="flex items-center justify-between mb-6">
+                    <div class="flex gap-2"><button class="admin-tab active">最新</button><button class="admin-tab">通報済み</button><button class="admin-tab">非表示</button></div>
+                </div>
+                <div class="space-y-4">
+                    <div class="admin-card p-5 flex items-start gap-4">
+                        <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white text-[9px] font-bold flex-shrink-0">TN</div>
+                        <div class="flex-1">
+                            <div class="flex items-center gap-2 mb-1"><span class="text-xs font-bold text-white">田中 直人</span><span class="text-yellow-400 text-xs">★★★★★</span><span class="text-[10px] text-slate-500">書類自動化 AI · 2時間前</span></div>
+                            <p class="text-xs text-slate-300 leading-relaxed">非常に優れたワークフローです。セットアップも簡単で、すぐに業務効率化を実現できました。サポートも迅速で助かりました。</p>
+                        </div>
+                        <div class="flex gap-2"><button class="admin-btn-ghost text-[10px]">非表示</button></div>
+                    </div>
+                    <div class="admin-card p-5 flex items-start gap-4 border border-red-500/20">
+                        <div class="w-8 h-8 rounded-full bg-gray-500 flex items-center justify-center text-white text-[9px] font-bold flex-shrink-0">XX</div>
+                        <div class="flex-1">
+                            <div class="flex items-center gap-2 mb-1"><span class="text-xs font-bold text-white">anonymous_x</span><span class="text-yellow-400 text-xs">★☆☆☆☆</span><span class="text-[10px] text-slate-500">Smart Lead Scraper · 5時間前</span><span class="badge-red ml-2"><i class="ph ph-flag"></i>通報あり</span></div>
+                            <p class="text-xs text-slate-300 leading-relaxed">不適切な表現を含むレビュー内容（管理者確認必要）</p>
+                        </div>
+                        <div class="flex gap-2"><button class="admin-btn text-[10px]">対応する</button><button class="admin-btn-ghost text-[10px] text-red-400">削除</button></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reports Panel -->
+            <div class="panel" id="p-reports">
+                <div class="flex items-center justify-between mb-6">
+                    <div class="flex gap-2"><button class="admin-tab active">未対応 (4)</button><button class="admin-tab">対応中 (2)</button><button class="admin-tab">解決済み</button></div>
+                </div>
+                <div class="space-y-4">
+                    <div class="admin-card p-5">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="flex items-center gap-3"><span class="badge-red"><i class="ph ph-flag"></i>著作権侵害</span><span class="text-xs font-bold text-white">書類自動化 AI のレビューに関する通報</span></div>
+                            <span class="text-[10px] text-slate-500">2時間前</span>
+                        </div>
+                        <p class="text-xs text-slate-400 mb-4">通報者: tanaka_n · 理由: 他者の著作物を無断使用している疑い</p>
+                        <div class="flex gap-2"><button class="admin-btn text-[10px]">調査開始</button><button class="admin-btn-ghost text-[10px]">却下</button></div>
+                    </div>
+                    <div class="admin-card p-5">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="flex items-center gap-3"><span class="badge-yellow"><i class="ph ph-warning"></i>不適切コンテンツ</span><span class="text-xs font-bold text-white">スパムアセットの報告</span></div>
+                            <span class="text-[10px] text-slate-500">5時間前</span>
+                        </div>
+                        <p class="text-xs text-slate-400 mb-4">通報者: wise_eng · 理由: 説明と異なるコンテンツが含まれる</p>
+                        <div class="flex gap-2"><button class="admin-btn text-[10px]">調査開始</button><button class="admin-btn-ghost text-[10px]">却下</button></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Panel -->
+            <div class="panel" id="p-settings">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="admin-card p-6">
+                        <h3 class="text-sm font-bold text-white mb-4">一般設定</h3>
+                        <div class="space-y-4">
+                            <div><label class="text-xs font-bold text-slate-400 block mb-2">サイト名</label><input class="bg-white/5 border border-white/5 rounded-lg px-3 py-2.5 text-sm text-white outline-none w-full focus:border-blue-500/30" value="ORIGIN Marketplace"/></div>
+                            <div><label class="text-xs font-bold text-slate-400 block mb-2">サイト説明</label><textarea class="bg-white/5 border border-white/5 rounded-lg px-3 py-2.5 text-sm text-white outline-none w-full h-20 resize-none focus:border-blue-500/30">AI時代のデジタルアセットマーケットプレイス</textarea></div>
+                            <div><label class="text-xs font-bold text-slate-400 block mb-2">メンテナンスモード</label>
+                                <div class="flex items-center gap-3"><div class="toggle-track" onclick="this.classList.toggle('on')" style="background:#374151"><div class="toggle-thumb"></div></div><span class="text-xs text-slate-400">現在オフ</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="admin-card p-6">
+                        <h3 class="text-sm font-bold text-white mb-4">手数料設定</h3>
+                        <div class="space-y-4">
+                            <div><label class="text-xs font-bold text-slate-400 block mb-2">プラットフォーム手数料 (%)</label><input class="bg-white/5 border border-white/5 rounded-lg px-3 py-2.5 text-sm text-white outline-none w-full focus:border-blue-500/30" value="12" type="number"/></div>
+                            <div><label class="text-xs font-bold text-slate-400 block mb-2">決済手数料 (%)</label><input class="bg-white/5 border border-white/5 rounded-lg px-3 py-2.5 text-sm text-white outline-none w-full focus:border-blue-500/30" value="3.6" type="number" step="0.1"/></div>
+                            <div><label class="text-xs font-bold text-slate-400 block mb-2">最低出品価格 (¥)</label><input class="bg-white/5 border border-white/5 rounded-lg px-3 py-2.5 text-sm text-white outline-none w-full focus:border-blue-500/30" value="500" type="number"/></div>
+                        </div>
+                        <button class="admin-btn mt-6">設定を保存</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.querySelectorAll('[data-panel]').forEach(nav=>{
+            nav.addEventListener('click',(e)=>{
+                e.preventDefault();
+                document.querySelectorAll('.admin-nav').forEach(n=>n.classList.remove('active'));
+                document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+                nav.classList.add('active');
+                const panelId='p-'+nav.dataset.panel;
+                document.getElementById(panelId).classList.add('active');
+                const titles={'overview':'概要','users':'ユーザー管理','assets':'アセット管理','transactions':'取引管理','reviews':'レビュー管理','reports':'通報・レポート','settings':'サイト設定'};
+                document.getElementById('panelTitle').textContent=titles[nav.dataset.panel]||'';
+            });
+        });
+
+        // Toggle asset status
+        window.toggleAssetStatus = async function(id, currentStatus) {
+            const newStatus = currentStatus === 'published' ? 'suspended' : 'published';
+            try {
+                await API.setAssetStatus(id, newStatus);
+                loadAdminData(); // refresh
+            } catch(e) {
+                alert('エラーが発生しました: ' + e.message);
+            }
+        };
+
+        // Load admin data
+        async function loadAdminData() {
+            try {
+                const stats = await API.getAdminStats();
+                document.getElementById('adminKpiUsers').textContent = stats.total_users;
+                document.getElementById('adminKpiAssets').textContent = stats.total_assets;
+                document.getElementById('adminKpiRevenue').textContent = formatPrice(stats.total_revenue || 0);
+
+                const users = await API.getAdminUsers();
+                let userHtml = '';
+                for(let u of users) {
+                    const rBadge = u.role === 'admin' ? '<span class="badge-red">管理者</span>' : '<span class="badge-blue">一般</span>';
+                    userHtml += `<tr>
+                        <td>
+                            <div class="flex items-center gap-3">
+                                <div class="w-7 h-7 rounded-full bg-blue-500 flex items-center justify-center text-white text-[9px] font-bold">${initials(u.display_name)}</div>
+                                <div><p class="font-bold text-white text-xs">${u.display_name}</p><p class="text-[10px] text-slate-500">${u.email}</p></div>
+                            </div>
+                        </td>
+                        <td>${rBadge}</td>
+                        <td class="text-slate-400">${formatDate(u.created_at)}</td>
+                        <td class="text-white font-bold">-</td>
+                        <td><span class="badge-green"><i class="ph ph-circle-fill text-[6px]"></i>アクティブ</span></td>
+                        <td><button class="admin-btn-ghost text-[10px]">詳細</button></td>
+                    </tr>`;
+                }
+                document.getElementById('adminUsersList').innerHTML = userHtml;
+
+                const assets = await API.getAdminAssets();
+                let assetHtml = '';
+                for(let a of assets) {
+                    let sBadge = `<span class="badge-gray">${a.status}</span>`;
+                    let actions = `<button class="admin-btn text-[10px]" onclick="toggleAssetStatus('${a.id}', '${a.status}')">${a.status === 'published' ? '停止' : '公開'}</button>`;
+                    if(a.status === 'published') sBadge = '<span class="badge-green"><i class="ph ph-circle-fill text-[6px]"></i>公開中</span>';
+                    if(a.status === 'suspended') sBadge = '<span class="badge-red"><i class="ph ph-circle-fill text-[6px]"></i>停止中</span>';
+
+                    assetHtml += `<tr>
+                        <td class="font-bold text-white text-xs">${a.title}</td>
+                        <td class="text-slate-400">${a.creator_name}</td>
+                        <td><span class="badge-blue">${a.category_id}</span></td>
+                        <td class="text-white font-bold">${formatPrice(a.price_personal)}</td>
+                        <td class="text-white">-</td>
+                        <td class="text-slate-500">-</td>
+                        <td>${sBadge}</td>
+                        <td><div class="flex gap-2">${actions}</div></td>
+                    </tr>`;
+                }
+                document.getElementById('adminAssetsList').innerHTML = assetHtml;
+                
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            if(!requireLogin('/admin.html')) return;
+            const me = await API.getMe();
+            if(me.role !== 'admin') {
+                alert('管理者権限がありません');
+                window.location.href = '/';
+                return;
+            }
+            loadAdminData();
+        });
+    </script>
+</body>
+</html>

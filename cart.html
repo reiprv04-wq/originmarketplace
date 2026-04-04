@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>カート | ORIGIN</title>
+    <meta content="ショッピングカートの内容を確認。" name="description"/>
+    <link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@400;500;700;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="/api-client.js"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <style>
+        :root{--color-atlas:#1E3A5F;--color-meridian:#C9A84C;--font-display:'Cormorant Garamond',serif;--font-ui:'Inter','Noto Sans JP',sans-serif;--transition:0.2s cubic-bezier(0.4,0,0.2,1);}
+        body{background:#F8FAFC;color:#111827;font-family:var(--font-ui);-webkit-font-smoothing:antialiased;}
+        .font-display{font-family:var(--font-display);}.bg-atlas{background-color:var(--color-atlas);}.text-atlas{color:var(--color-atlas);}
+        .btn-atlas{background-color:var(--color-atlas);color:#fff;transition:var(--transition);}.btn-atlas:hover{background-color:#162a45;transform:translateY(-1px);box-shadow:0 4px 12px rgba(30,58,95,.15);}
+        .price-display{font-family:var(--font-display);font-weight:700;}
+        .cart-item{transition:var(--transition);}.cart-item:hover{background:#F8FAFC;}
+    </style>
+    <link rel="stylesheet" href="/global-glass.css" />
+</head>
+<body class="pt-16">
+    <header class="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-100 h-16">
+        <div class="max-w-[1200px] mx-auto px-6 h-full flex items-center justify-between">
+            <a href="index.html" class="inline-block group"><img src="/uploads/origin_logo.png" alt="ORIGIN Logo" class="h-20 -my-2 w-auto object-contain group-hover:opacity-80 transition-opacity" style="image-rendering:-webkit-optimize-contrast; image-rendering:crisp-edges;" /></a>
+            <div class="flex items-center gap-3" id="header-auth">
+                <a class="text-sm font-bold text-gray-600 hover:text-atlas px-3 py-2" href="login.html">ログイン</a>
+                <a class="btn-atlas px-5 py-2 rounded-lg text-sm font-bold" href="sell.html">出品する</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-[1200px] mx-auto px-6 py-8">
+        <nav class="flex items-center gap-2 text-xs font-bold text-gray-400 mb-8 uppercase tracking-widest">
+            <a class="hover:text-atlas" href="index.html">Home</a><i class="ph ph-caret-right text-[10px]"></i><span class="text-gray-900">カート</span>
+        </nav>
+
+        <h1 class="font-display text-4xl font-bold mb-8">ショッピングカート</h1>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <!-- Cart Items -->
+            <div class="lg:col-span-8 space-y-4">
+                <div id="cartItemsList">
+                    <div class="text-center py-12 text-gray-400 font-bold">読み込み中...</div>
+                </div>
+                <!-- Continue Shopping -->
+                <a class="flex items-center gap-2 text-sm font-bold text-atlas hover:underline mt-4" href="search.html"><i class="ph ph-arrow-left"></i> 買い物を続ける</a>
+            </div>
+            </div>
+
+            <!-- Order Summary -->
+            <div class="lg:col-span-4">
+                <div class="sticky top-24">
+                    <div class="bg-white border border-gray-100 rounded-2xl p-6 shadow-lg">
+                        <h3 class="text-xs font-black text-gray-400 uppercase tracking-widest mb-6">注文サマリー</h3>
+                        <div class="space-y-3 mb-6 pb-6 border-b border-gray-100" id="cartSummaryBlock">
+                            <div class="flex justify-between text-sm"><span class="text-gray-500">小計 (0点)</span><span class="font-bold">¥0</span></div>
+                            <div class="flex justify-between text-sm"><span class="text-gray-500">プラットフォーム手数料</span><span class="font-bold">¥0</span></div>
+                            <div class="flex justify-between text-sm text-green-600"><span>割引</span><span class="font-bold">-¥0</span></div>
+                        </div>
+                        <div class="flex justify-between items-baseline mb-6" id="cartTotalBlock">
+                            <span class="text-sm font-bold text-gray-900">合計（税込）</span>
+                            <span class="price-display text-3xl text-atlas">¥0</span>
+                        </div>
+                        <!-- Coupon -->
+                        <div class="flex gap-2 mb-6">
+                            <input class="flex-1 border border-gray-200 rounded-lg px-4 py-2.5 text-sm outline-none focus:border-atlas/30" placeholder="クーポンコード" type="text"/>
+                            <button class="px-4 py-2.5 border border-gray-200 rounded-lg text-sm font-bold text-gray-600 hover:border-atlas hover:text-atlas transition-all">適用</button>
+                        </div>
+                        <a class="w-full btn-atlas py-4 rounded-xl font-bold text-base flex items-center justify-center gap-2 mb-3" href="checkout.html"><i class="ph ph-lock-simple"></i> 購入手続きへ</a>
+                        <div class="flex items-center justify-center gap-4 mt-4">
+                            <i class="ph ph-credit-card text-gray-300 text-lg"></i>
+                            <i class="ph ph-stripe-logo text-gray-300 text-lg"></i>
+                            <i class="ph ph-shield-check text-gray-300 text-lg"></i>
+                        </div>
+                        <p class="text-[10px] text-center text-gray-400 mt-3">SSL暗号化通信 · 安全な決済</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-white border-t border-gray-100 py-8 mt-16">
+        <div class="max-w-[1200px] mx-auto px-6 flex items-center justify-between">
+            <img src="/uploads/origin_logo.png" alt="ORIGIN Logo" class="h-20 -my-2 w-auto object-contain group-hover:opacity-80 transition-opacity" style="image-rendering:-webkit-optimize-contrast; image-rendering:crisp-edges;" />
+            <p class="text-xs text-gray-400">© 2026 ORIGIN. All rights reserved.</p>
+        </div>
+    </footer>
+    <script>
+        async function loadCart() {
+            if (!requireLogin('/cart.html')) return;
+            const uiList = document.getElementById('cartItemsList');
+            const summaryBlock = document.getElementById('cartSummaryBlock');
+            const totalBlock = document.getElementById('cartTotalBlock');
+            try {
+                const res = await API.getCart();
+                if(!res.items || res.items.length === 0) {
+                    uiList.innerHTML = '<div class="text-center py-12 text-gray-400 font-bold bg-white border border-gray-100 rounded-xl">カートに商品がありません</div>';
+                    summaryBlock.innerHTML = `<div class="flex justify-between text-sm"><span class="text-gray-500">小計 (0点)</span><span class="font-bold">¥0</span></div>`;
+                    totalBlock.innerHTML = `<span class="text-sm font-bold text-gray-900">合計（税込）</span><span class="price-display text-3xl text-atlas">¥0</span>`;
+                    return;
+                }
+                
+                let sum = 0;
+                uiList.innerHTML = '';
+                for(let item of res.items) {
+                    const priceKey = "price_" + item.license_type;
+                    const price = item[priceKey] || 0;
+                    sum += price;
+                    
+                    const el = document.createElement('div');
+                    el.className = 'cart-item bg-white border border-gray-100 rounded-xl p-6 flex gap-6 mb-4';
+                    el.innerHTML = `
+                        <div class="w-28 h-20 rounded-lg bg-gray-100 overflow-hidden flex-shrink-0">
+                            <img alt="${item.title}" class="w-full h-full object-cover" src="${item.thumbnail_url || 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80'}"/>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-start justify-between">
+                                <div>
+                                    <h3 class="font-bold text-sm mb-1">${item.title}</h3>
+                                    <p class="text-[10px] text-gray-400 font-bold">${item.creator_name} · ライセンス: <span class="text-atlas">${item.license_type}</span></p>
+                                </div>
+                                <button class="text-gray-300 hover:text-red-500 transition-colors p-1" onclick="removeItem('${item.id}')"><i class="ph ph-trash text-lg"></i></button>
+                            </div>
+                            <div class="flex items-center justify-between mt-4">
+                                <span class="text-xs font-bold text-gray-600 bg-gray-50 px-3 py-1 rounded-full">${item.license_type}</span>
+                                <span class="price-display text-xl text-atlas">${formatPrice(price)}</span>
+                            </div>
+                        </div>
+                    `;
+                    uiList.appendChild(el);
+                }
+                
+                summaryBlock.innerHTML = `
+                    <div class="flex justify-between text-sm"><span class="text-gray-500">小計 (${res.items.length}点)</span><span class="font-bold">${formatPrice(sum)}</span></div>
+                    <div class="flex justify-between text-sm"><span class="text-gray-500">プラットフォーム手数料</span><span class="font-bold">¥0</span></div>
+                `;
+                totalBlock.innerHTML = `<span class="text-sm font-bold text-gray-900">合計（税込）</span><span class="price-display text-3xl text-atlas">${formatPrice(sum)}</span>`;
+                
+            } catch(e) {
+                uiList.innerHTML = '<div class="text-center py-12 text-red-500 font-bold">エラーが発生しました</div>';
+                console.error(e);
+            }
+        }
+
+        async function removeItem(id) {
+            try {
+                await API.removeFromCart(id);
+                loadCart();
+            } catch(e) {
+                alert('削除に失敗しました: ' + e.message);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initHeaderAuth();
+            loadCart();
+        });
+    </script>
+</body>
+</html>

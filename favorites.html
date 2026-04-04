@@ -1,137 +1,111 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="utf-8"/>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>気になる | ORIGIN</title>
-    
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com" rel="preconnect"/>
-    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@400;500;700;900&family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
-    
-    <!-- Phosphor Icons -->
+    <meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>お気に入り | ORIGIN</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@400;500;700;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
-    
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
-    
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <style>
-        :root {
-            --color-atlas: #1E3A5F;
-            --color-meridian: #C9A84C;
-            --color-charcoal: #111827;
-            --font-display: 'Cormorant Garamond', serif;
-            --font-ui: 'Inter', 'Noto Sans JP', sans-serif;
-        }
-        body {
-            background-color: #F8FAFC;
-            color: var(--color-charcoal);
-            font-family: var(--font-ui);
-        }
-        .progress-gradient {
-            background: linear-gradient(to right, #00CFFF, #B400FF, #FF00E4, #FFB800);
-        }
+        :root{--color-atlas:#1E3A5F;--color-meridian:#C9A84C;--font-display:'Cormorant Garamond',serif;--font-ui:'Inter','Noto Sans JP',sans-serif;--transition:0.2s cubic-bezier(0.4,0,0.2,1);}
+        body{background:#F8FAFC;color:#111827;font-family:var(--font-ui);-webkit-font-smoothing:antialiased;}
+        .font-display{font-family:var(--font-display);}.bg-atlas{background-color:var(--color-atlas);}.text-atlas{color:var(--color-atlas);}
+        .btn-atlas{background-color:var(--color-atlas);color:#fff;transition:var(--transition);}.btn-atlas:hover{background-color:#162a45;transform:translateY(-1px);}
+        .price-display{font-family:var(--font-display);font-weight:700;}
+        .dash-nav-item{transition:var(--transition);display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:10px;font-size:13px;font-weight:600;color:#6B7280;}
+        .dash-nav-item:hover{background:#F3F4F6;color:var(--color-atlas);}
+        .dash-nav-item.active{background:#EEF2FF;color:var(--color-atlas);font-weight:700;}
+        .asset-card{transition:var(--transition);border:1px solid #E5E7EB;background:#fff;border-radius:12px;}
+        .asset-card:hover{transform:translateY(-4px);box-shadow:0 20px 25px -5px rgba(0,0,0,.05);border-color:#D1D5DB;}
     </style>
+    <link rel="stylesheet" href="/global-glass.css" />
 </head>
 <body class="pt-16">
-
-    <header class="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-100 h-16 flex items-center justify-between px-6">
-        <a class="font-display text-2xl font-bold" href="index.html">ORIGIN</a>
-        <div class="flex-1 max-w-xl mx-12">
-            <input class="w-full bg-gray-100 border-none rounded-full px-5 py-2 text-sm" placeholder="アセットを検索" type="text"/>
-        </div>
-        <div class="flex items-center gap-4">
-             <i class="ph ph-bell text-xl text-gray-400"></i>
-             <div class="w-8 h-8 rounded-full bg-atlas"></div>
+    <header class="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-100 h-16">
+        <div class="max-w-[1400px] mx-auto px-6 h-full flex items-center justify-between">
+            <a href="index.html" class="inline-block group"><img src="/uploads/origin_logo.png" alt="ORIGIN Logo" class="h-20 -my-2 w-auto object-contain group-hover:opacity-80 transition-opacity" style="image-rendering:-webkit-optimize-contrast; image-rendering:crisp-edges;" /></a>
+            <div class="flex items-center gap-4">
+                <a class="relative p-2 text-gray-400 hover:text-atlas" href="#"><i class="ph ph-bell text-xl"></i></a>
+                <a class="relative p-2 text-gray-400 hover:text-atlas" href="cart.html"><i class="ph ph-shopping-cart text-xl"></i></a>
+                <div class="w-8 h-8 rounded-full bg-atlas flex items-center justify-center text-white text-xs font-bold cursor-pointer">YY</div>
+            </div>
         </div>
     </header>
 
-    <main class="max-w-[1200px] mx-auto px-6 py-12">
-        
-        <!-- Breadcrumb -->
-        <nav class="flex gap-2 text-xs font-bold text-gray-400 uppercase tracking-widest mb-10">
-            <a href="index.html" class="hover:text-atlas">ホーム</a>
-            <i class="ph ph-caret-right mt-0.5"></i>
-            <span class="text-gray-900">気になる</span>
-        </nav>
-
-        <h1 class="text-3xl font-black mb-12">気になる</h1>
-
-        <!-- Empty State -->
-        <div class="bg-white rounded-2xl py-24 text-center border border-gray-100 mb-20 shadow-sm">
-            <div class="w-16 h-16 bg-rose-50 rounded-full flex items-center justify-center mx-auto mb-6">
-                <i class="ph ph-heart-fill text-rose-500 text-2xl"></i>
+    <div class="max-w-[1400px] mx-auto px-6 py-8 flex gap-8">
+        <aside class="w-56 flex-shrink-0 hidden lg:block">
+            <div class="sticky top-24 space-y-1">
+                <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-4 px-3">マイページ</p>
+                <a class="dash-nav-item" href="buyer-dashboard.html"><i class="ph ph-books text-lg"></i> マイライブラリ</a>
+                <a class="dash-nav-item active" href="favorites.html"><i class="ph ph-heart text-lg"></i> お気に入り</a>
+                <a class="dash-nav-item" href="history.html"><i class="ph ph-clock-counter-clockwise text-lg"></i> 閲覧履歴</a>
+                <a class="dash-nav-item" href="#"><i class="ph ph-receipt text-lg"></i> 購入履歴</a>
+                <a class="dash-nav-item" href="#"><i class="ph ph-bell text-lg"></i> 通知</a>
+                <div class="border-t border-gray-100 my-4"></div>
+                <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-4 px-3">クリエイター</p>
+                <a class="dash-nav-item" href="creator-dashboard.html"><i class="ph ph-chart-line-up text-lg"></i> ダッシュボード</a>
+                <a class="dash-nav-item" href="sell.html"><i class="ph ph-plus-circle text-lg"></i> 新規出品</a>
             </div>
-            <h2 class="text-xl font-black text-gray-900 mb-2">プロジェクトはありません</h2>
-            <p class="text-gray-400 text-sm font-medium">一覧やプロジェクトページから登録すると、ここで見ることができます。</p>
-        </div>
+        </aside>
 
-        <!-- Recommendations Section -->
-        <div>
-            <h2 class="text-2xl font-black mb-8">あなたへのおすすめ</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                
-                <!-- Recommendation Item 1 (Manual Card) -->
-                <div class="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 group">
-                    <div class="aspect-video relative overflow-hidden">
-                        <img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3XSrilkmRGgSVD1XLRiDVUGa3-LI579e2D2mZ1pnkAhofcXjQUyTYmkA4RUIhnFiBXWkX7MVn2Ni5kqMP1yKWlMm1LTamPeHkFK-NNKAMlgGzzOEN86ySIlsnK5uPQSDC1pg6rJx6cquzPkg2uj62EHYswnlmpFavtNu2S4QccujfdkdWFwcjJMVxC9Yl_-xGQY2xGfosTpbQm_NgqbphO8Z5SqCIQfTgc3aiJ4VzdRPIAsv5gadLneqTMKLtz704vfuj7JQmr60" alt="Rec1">
-                    </div>
-                    <div class="p-6">
-                        <div class="flex items-center gap-3 mb-4">
-                            <div class="w-6 h-6 rounded-full bg-atlas flex items-center justify-center text-[8px] text-white font-bold">ED</div>
-                            <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">EDITORIAL INC.</span>
-                        </div>
-                        <h3 class="font-bold text-lg mb-4 text-gray-900 leading-snug">機能も中身も詰めて史上最強へ！新構造AI活用財布</h3>
-                        <div class="flex justify-between items-baseline mb-4">
-                            <span class="text-2xl font-black text-gray-900">¥4,951,726</span>
-                            <button class="text-gray-400 hover:text-rose-500 transition-colors"><i class="ph ph-heart text-2xl"></i></button>
-                        </div>
-                        <div class="space-y-3">
-                            <div class="h-2 w-full bg-gray-100 rounded-full overflow-hidden">
-                                <div class="h-full progress-gradient" style="width: 85%"></div>
-                            </div>
-                            <div class="flex justify-between text-[11px] font-black italic text-gray-400 uppercase tracking-tighter">
-                                <span><i class="ph ph-clock"></i> 残り21時間</span>
-                                <span class="text-atlas">16926% 達成</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <main class="flex-1 min-w-0">
+            <h1 class="font-display text-3xl font-bold mb-8">お気に入り</h1>
 
-                <!-- Recommendation Item 2 (Manual Card) -->
-                <div class="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 group">
-                    <div class="aspect-video relative overflow-hidden">
-                        <img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida/ADBb0uguU9-Y-Ff2WIi4fDFIyGRL7XxrQcm2azkrbzoXCncjcYlagyBPkq8fobVaT4lqkgq1HywClXJWxyQf_70Rl_mkIgRgU1u3XMglZFyBv5RK4-zksEU6HF49w1xFkv0_aVyMOAiJPMm3g53y0CokRFrX3vBrU4QGotTZ4mdZziB1217RJ-bILW5a9nG0MoTVgYx9SFJiG6M6XrlVmR73ewo1OUTl9PH2Ku6t392BbfeP8S6RhcWusrMIxgAyk52vQ7Qj_UnVivup" alt="Rec2">
-                    </div>
-                    <div class="p-6">
-                        <div class="flex items-center gap-3 mb-4">
-                            <div class="w-6 h-6 rounded-full bg-gray-900 flex items-center justify-center text-[8px] text-white font-bold">WE</div>
-                            <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">WISE ENGINEERING</span>
-                        </div>
-                        <h3 class="font-bold text-lg mb-4 text-gray-900 leading-snug">「書類自動化 AI」から、待望のプロフェッショナルシリーズ誕生！</h3>
-                        <div class="flex justify-between items-baseline mb-4">
-                            <span class="text-2xl font-black text-gray-900">¥7,704,750</span>
-                            <button class="text-gray-400 hover:text-rose-500 transition-colors"><i class="ph ph-heart text-2xl"></i></button>
-                        </div>
-                        <div class="space-y-3">
-                            <div class="h-2 w-full bg-gray-100 rounded-full overflow-hidden">
-                                <div class="h-full progress-gradient" style="width: 70%"></div>
-                            </div>
-                            <div class="flex justify-between text-[11px] font-black italic text-gray-400 uppercase tracking-tighter">
-                                <span><i class="ph ph-clock"></i> 残り74日</span>
-                                <span class="text-atlas">7704% 達成</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+            <!-- Favorites Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5" id="favoritesGrid">
+                <div class="col-span-full text-center py-20 text-gray-400 font-bold">読み込み中...</div>
             </div>
+        </main>
+    </div>
+
+    <footer class="bg-white border-t border-gray-100 py-8 mt-8">
+        <div class="max-w-[1400px] mx-auto px-6 flex items-center justify-between">
+            <img src="/uploads/origin_logo.png" alt="ORIGIN Logo" class="h-20 -my-2 w-auto object-contain group-hover:opacity-80 transition-opacity" style="image-rendering:-webkit-optimize-contrast; image-rendering:crisp-edges;" />
+            <p class="text-xs text-gray-400">© 2026 ORIGIN. All rights reserved.</p>
         </div>
+    </footer>
+    <script>
+        async function loadFavorites() {
+            const grid = document.getElementById('favoritesGrid');
+            try {
+                const favorites = await API.getFavorites();
+                if (favorites.length === 0) {
+                    grid.innerHTML = '<div class="col-span-full text-center py-20 text-gray-500 font-bold">お気に入りのアセットはありません</div>';
+                    return;
+                }
+                grid.innerHTML = favorites.map(asset => `
+                    <a class="asset-card overflow-hidden flex flex-col group" href="product.html?id=${asset.id}">
+                        <div class="aspect-[16/10] bg-gray-50 relative overflow-hidden">
+                            <button class="absolute top-3 right-3 z-10 bg-white/90 text-red-500 text-sm font-bold p-1.5 rounded-lg hover:bg-red-50 transition-colors" onclick="event.preventDefault(); removeFavorite('${asset.id}')"><i class="ph-fill ph-heart"></i></button>
+                            <img alt="${asset.title}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="${asset.thumbnail_url || '/uploads/asset_placeholder.png'}" />
+                        </div>
+                        <div class="p-4 flex-1 flex flex-col">
+                            <h3 class="font-bold text-sm mb-1 group-hover:text-atlas transition-colors">${asset.title}</h3>
+                            <p class="text-[10px] text-gray-400 font-bold mb-3">${asset.creator_name}</p>
+                            <div class="mt-auto flex items-center justify-between pt-3 border-t border-gray-100">
+                                <span class="price-display text-lg text-atlas">${formatPrice(asset.price_personal)}</span>
+                                <span class="text-xs font-bold text-gray-400">⭐ ${asset.avg_rating || '0.0'}</span>
+                            </div>
+                        </div>
+                    </a>
+                `).join('');
+            } catch (e) {
+                grid.innerHTML = '<div class="col-span-full text-center py-20 text-red-500 font-bold">エラーが発生しました</div>';
+            }
+        }
 
-    </main>
+        async function removeFavorite(id) {
+            if (confirm('お気に入りから削除しますか？')) {
+                await API.toggleFavorite(id);
+                loadFavorites();
+            }
+        }
 
-    <footer class="py-12 border-t border-gray-100 opacity-10 text-center font-display text-4xl font-bold tracking-tighter">ORIGIN</footer>
-
+        document.addEventListener('DOMContentLoaded', () => {
+            initHeaderAuth();
+            loadFavorites();
+        });
+    </script>
 </body>
 </html>

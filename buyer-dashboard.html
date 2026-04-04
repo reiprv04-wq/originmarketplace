@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>マイライブラリ | ORIGIN</title>
+    <meta content="購入したアセットの管理・ダウンロード。" name="description"/>
+    <link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@400;500;700;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="/api-client.js"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <style>
+        :root{--color-atlas:#1E3A5F;--color-meridian:#C9A84C;--font-display:'Cormorant Garamond',serif;--font-ui:'Inter','Noto Sans JP',sans-serif;--transition:0.2s cubic-bezier(0.4,0,0.2,1);}
+        body{background:#F8FAFC;color:#111827;font-family:var(--font-ui);-webkit-font-smoothing:antialiased;}
+        .font-display{font-family:var(--font-display);}.bg-atlas{background-color:var(--color-atlas);}.text-atlas{color:var(--color-atlas);}
+        .btn-atlas{background-color:var(--color-atlas);color:#fff;transition:var(--transition);}.btn-atlas:hover{background-color:#162a45;transform:translateY(-1px);}
+        .price-display{font-family:var(--font-display);font-weight:700;}
+        .dash-nav-item{transition:var(--transition);display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:10px;font-size:13px;font-weight:600;color:#6B7280;}
+        .dash-nav-item:hover{background:#F3F4F6;color:var(--color-atlas);}
+        .dash-nav-item.active{background:#EEF2FF;color:var(--color-atlas);font-weight:700;}
+        .tab-btn{transition:all .2s;cursor:pointer;}.tab-btn.active{color:#111827;border-bottom:2px solid var(--color-atlas);}
+        .lib-card{transition:var(--transition);border:1px solid #E5E7EB;background:#fff;border-radius:12px;}
+        .lib-card:hover{box-shadow:0 10px 15px -3px rgba(0,0,0,.05);border-color:#D1D5DB;}
+    </style>
+    <link rel="stylesheet" href="/global-glass.css" />
+</head>
+<body class="pt-16">
+    <header class="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-100 h-16">
+        <div class="max-w-[1400px] mx-auto px-6 h-full flex items-center justify-between">
+            <a href="index.html" class="inline-block group"><img src="/uploads/origin_logo.png" alt="ORIGIN Logo" class="h-20 -my-2 w-auto object-contain group-hover:opacity-80 transition-opacity" style="image-rendering:-webkit-optimize-contrast; image-rendering:crisp-edges;" /></a>
+            <div class="flex items-center gap-4" id="header-auth">
+                <a class="relative p-2 text-gray-400 hover:text-atlas" href="#"><i class="ph ph-bell text-xl"></i><span class="absolute -top-0.5 -right-0.5 w-4 h-4 bg-red-500 text-white text-[9px] font-bold rounded-full flex items-center justify-center">3</span></a>
+                <a class="relative p-2 text-gray-400 hover:text-atlas" href="cart.html"><i class="ph ph-shopping-cart text-xl"></i></a>
+                <div class="w-8 h-8 rounded-full bg-atlas flex items-center justify-center text-white text-xs font-bold cursor-pointer">YY</div>
+            </div>
+        </div>
+    </header>
+
+    <div class="max-w-[1400px] mx-auto px-6 py-8 flex gap-8">
+        <!-- Sidebar -->
+        <aside class="w-56 flex-shrink-0 hidden lg:block">
+            <div class="sticky top-24 space-y-1">
+                <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-4 px-3">マイページ</p>
+                <a class="dash-nav-item active" href="buyer-dashboard.html"><i class="ph ph-books text-lg"></i> マイライブラリ</a>
+                <a class="dash-nav-item" href="favorites.html"><i class="ph ph-heart text-lg"></i> お気に入り</a>
+                <a class="dash-nav-item" href="history.html"><i class="ph ph-clock-counter-clockwise text-lg"></i> 閲覧履歴</a>
+                <a class="dash-nav-item" href="#"><i class="ph ph-receipt text-lg"></i> 購入履歴</a>
+                <a class="dash-nav-item" href="#"><i class="ph ph-bell text-lg"></i> 通知</a>
+                <div class="border-t border-gray-100 my-4"></div>
+                <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-4 px-3">クリエイター</p>
+                <a class="dash-nav-item" href="creator-dashboard.html"><i class="ph ph-chart-line-up text-lg"></i> ダッシュボード</a>
+                <a class="dash-nav-item" href="sell.html"><i class="ph ph-plus-circle text-lg"></i> 新規出品</a>
+            </div>
+        </aside>
+
+        <!-- Main -->
+        <main class="flex-1 min-w-0">
+            <div class="flex items-center justify-between mb-8">
+                <h1 class="font-display text-3xl font-bold">マイライブラリ</h1>
+                <div class="flex items-center gap-4">
+                    <div class="relative">
+                        <i class="ph ph-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                        <input class="pl-10 pr-4 py-2 bg-white border border-gray-200 rounded-lg text-sm outline-none focus:border-atlas/30 w-64" placeholder="ライブラリ内を検索..." type="text"/>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="grid grid-cols-4 gap-4 mb-8">
+                <div class="bg-white border border-gray-100 rounded-xl p-5 text-center"><span class="text-2xl font-black text-gray-900 block">12</span><span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">購入済み</span></div>
+                <div class="bg-white border border-gray-100 rounded-xl p-5 text-center"><span class="text-2xl font-black text-atlas block">3</span><span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">アップデート</span></div>
+                <div class="bg-white border border-gray-100 rounded-xl p-5 text-center"><span class="text-2xl font-black text-gray-900 block">5</span><span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">お気に入り</span></div>
+                <div class="bg-white border border-gray-100 rounded-xl p-5 text-center"><span class="text-2xl font-black text-gray-900 block">2</span><span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">レビュー待ち</span></div>
+            </div>
+
+            <!-- Update Notice -->
+            <div class="bg-blue-50 border border-blue-100 rounded-xl p-4 mb-8 flex items-center gap-4">
+                <div class="w-10 h-10 bg-atlas rounded-lg flex items-center justify-center text-white flex-shrink-0"><i class="ph ph-arrow-circle-up text-xl"></i></div>
+                <div class="flex-1"><p class="text-sm font-bold text-gray-900">3件のアセットにアップデートがあります</p><p class="text-xs text-gray-500">最新バージョンをダウンロードしてください。</p></div>
+                <button class="text-xs font-bold text-atlas hover:underline">すべて更新</button>
+            </div>
+
+            <!-- Tabs -->
+            <div class="border-b border-gray-200 mb-6 flex gap-6">
+                <button class="tab-btn active pb-3 text-sm font-bold">すべて (12)</button>
+                <button class="tab-btn pb-3 text-sm font-bold text-gray-400">業務DX (5)</button>
+                <button class="tab-btn pb-3 text-sm font-bold text-gray-400">デザイン (3)</button>
+                <button class="tab-btn pb-3 text-sm font-bold text-gray-400">コンポーネント (2)</button>
+                <button class="tab-btn pb-3 text-sm font-bold text-gray-400">教育 (2)</button>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5" id="libraryGrid">
+                <div class="col-span-full text-center py-12 text-gray-400 font-bold">読み込み中...</div>
+            </div>
+            <!-- Pagination -->
+            <div class="flex items-center justify-center gap-2 mt-10 hidden" id="paginationControls">
+            </div>
+        </main>
+    </div>
+
+    <footer class="bg-white border-t border-gray-100 py-8 mt-8">
+        <div class="max-w-[1400px] mx-auto px-6 flex items-center justify-between">
+            <img src="/uploads/origin_logo.png" alt="ORIGIN Logo" class="h-20 -my-2 w-auto object-contain group-hover:opacity-80 transition-opacity" style="image-rendering:-webkit-optimize-contrast; image-rendering:crisp-edges;" />
+            <p class="text-xs text-gray-400">© 2026 ORIGIN. All rights reserved.</p>
+        </div>
+    </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            if(!requireLogin('/buyer-dashboard.html')) return;
+            initHeaderAuth();
+            
+            const grid = document.getElementById('libraryGrid');
+            try {
+                const dashboardInfo = await API.getBuyerDashboard();
+                const libraryItems = dashboardInfo.library || [];
+                
+                // Update Quick Info
+                document.querySelector('.text-2xl.font-black.text-gray-900.block').textContent = libraryItems.length;
+                
+                if (libraryItems.length === 0) {
+                    grid.innerHTML = '<div class="col-span-full py-12 text-center text-sm font-bold text-gray-400 border border-gray-100 rounded-xl bg-white">ライブラリは空です</div>';
+                    return;
+                }
+                
+                grid.innerHTML = '';
+                for (let item of libraryItems) {
+                    const el = document.createElement('div');
+                    el.className = 'lib-card overflow-hidden';
+                    const thumbnailUrl = item.thumbnail_url || 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80';
+                    el.innerHTML = `
+                        <div class="aspect-[16/10] bg-gray-50 relative overflow-hidden">
+                            <img alt="${item.title}" class="w-full h-full object-cover" src="${thumbnailUrl}"/>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-bold text-sm mb-1 truncate">${item.title}</h3>
+                            <p class="text-[10px] text-gray-400 font-bold mb-3">${item.creator_name} · 購入: ${formatDate(item.created_at)}</p>
+                            <div class="flex items-center justify-between">
+                                <span class="text-[10px] font-bold text-atlas bg-atlas/5 px-2 py-1 rounded-full">${item.license_type}</span>
+                                <a href="product.html?id=${item.asset_id}" class="text-xs font-bold text-atlas flex items-center gap-1 hover:underline"><i class="ph ph-books"></i> 詳細</a>
+                            </div>
+                        </div>
+                    `;
+                    grid.appendChild(el);
+                }
+                
+            } catch(e) {
+                grid.innerHTML = '<div class="col-span-full py-12 text-center text-sm font-bold text-red-500">エラーが発生しました</div>';
+            }
+        });
+    </script>
+</body>
+</html>

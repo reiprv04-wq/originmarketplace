@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>ログイン・登録 | ORIGIN</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@400;500;700;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script src="/api-client.js"></script>
+    <style>
+        :root{--color-atlas:#1E3A5F;--color-meridian:#C9A84C;--font-display:'Cormorant Garamond',serif;--font-ui:'Inter','Noto Sans JP',sans-serif;--transition:0.2s cubic-bezier(0.4,0,0.2,1);}
+        body{background:#F8FAFC;color:#111827;font-family:var(--font-ui);-webkit-font-smoothing:antialiased;}
+        .font-display{font-family:var(--font-display);}.bg-atlas{background-color:var(--color-atlas);}.text-atlas{color:var(--color-atlas);}
+        .btn-atlas{background-color:var(--color-atlas);color:#fff;transition:var(--transition);}.btn-atlas:hover{background-color:#162a45;transform:translateY(-1px);box-shadow:0 8px 20px -6px rgba(30,58,95,.4);}
+        .form-input{width:100%;border:1px solid rgba(255,255,255,0.6);border-radius:12px;padding:14px 16px;font-size:14px;outline:none;transition:all .2s;background:rgba(255,255,255,0.5);box-shadow:inset 0 2px 4px rgba(0,0,0,0.02);}
+        .form-input:focus{border-color:rgba(30,58,95,.3);background:#fff;box-shadow:0 0 0 4px rgba(30,58,95,.05);}
+        .tab-btn{padding:12px 0;font-weight:800;font-size:13px;color:#9CA3AF;border-bottom:2px solid transparent;cursor:pointer;flex:1;text-align:center;transition:all .2s;text-transform:uppercase;letter-spacing:0.05em;}
+        .tab-btn.active{color:var(--color-atlas);border-bottom-color:var(--color-atlas);}
+        .auth-panel{display:none;}.auth-panel.active{display:block;animation:fadeIn 0.4s cubic-bezier(0.4,0,0.2,1);}
+        .glass-panel{background:rgba(255,255,255,0.7);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid rgba(255,255,255,0.8);box-shadow:0 24px 48px -12px rgba(0,0,0,0.1),inset 0 1px 0 rgba(255,255,255,0.6);}
+        @keyframes fadeIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+    </style>
+    <link rel="stylesheet" href="/global-glass.css" />
+</head>
+<body class="relative flex items-center justify-center min-h-screen p-6 overflow-hidden bg-slate-50">
+    
+    <!-- Abstract Ambient Background -->
+    <div class="absolute inset-0 z-0 pointer-events-none">
+        <div class="absolute top-[-15%] left-[-10%] w-[60vw] h-[60vw] bg-gradient-to-br from-atlas/10 to-meridian/10 rounded-full blur-[120px]"></div>
+        <div class="absolute bottom-[-15%] right-[-10%] w-[70vw] h-[70vw] bg-gradient-to-tl from-atlas/15 via-transparent to-transparent rounded-full blur-[120px]"></div>
+        
+    </div>
+
+    <!-- Official Brand Logo (Top Left) -->
+    <a class="absolute top-8 left-8 z-20 group" href="index.html"><img src="/uploads/origin_logo.png" alt="ORIGIN Logo" class="h-24 sm:h-28 w-auto object-contain group-hover:opacity-80 transition-opacity drop-shadow-sm" /></a>
+
+    <!-- Glassmorphic Form Container -->
+    <div class="relative z-10 w-full max-w-[420px] glass-panel rounded-[24px] p-8 sm:p-10">
+        <div class="text-center mb-10">
+            <h2 class="text-2xl font-black text-gray-900 mb-2">Welcome Back</h2>
+            <p class="text-[11px] font-bold text-gray-500 uppercase tracking-widest">Sign in to continue</p>
+        </div>
+
+        <!-- Error Message -->
+        <div id="errorMessage" class="hidden bg-red-50 text-red-600 text-xs font-bold p-3 rounded-lg mb-6 text-center"></div>
+
+        <div class="flex border-b border-gray-200 mb-6">
+            <button class="tab-btn active" onclick="switchTab('login')">ログイン</button>
+            <button class="tab-btn" onclick="switchTab('register')">新規登録</button>
+        </div>
+
+        <!-- Login Panel -->
+        <form class="auth-panel active space-y-5" id="panel-login" onsubmit="handleLogin(event)">
+            <div>
+                <label class="block text-xs font-bold text-gray-600 mb-1.5">メールアドレス</label>
+                <input class="form-input" id="loginEmail" placeholder="you@example.com" type="email" required/>
+            </div>
+            <div>
+                <label class="block text-xs font-bold text-gray-600 mb-1.5">パスワード</label>
+                <input class="form-input" id="loginPassword" placeholder="••••••••" type="password" required/>
+            </div>
+            <button class="w-full btn-atlas py-3.5 rounded-xl font-bold text-sm" type="submit">ログイン</button>
+        </form>
+
+        <!-- Register Panel -->
+        <form class="auth-panel space-y-5" id="panel-register" onsubmit="handleRegister(event)">
+            <div>
+                <label class="block text-xs font-bold text-gray-600 mb-1.5">表示名 / ブランド名</label>
+                <input class="form-input" id="regDisplayName" placeholder="Taro Yamada" type="text" required/>
+            </div>
+            <div>
+                <label class="block text-xs font-bold text-gray-600 mb-1.5">ユーザーID（英数字）</label>
+                <input class="form-input" id="regUsername" placeholder="username" type="text" required pattern="[A-Za-z0-9_]+"/>
+            </div>
+            <div>
+                <label class="block text-xs font-bold text-gray-600 mb-1.5">メールアドレス</label>
+                <input class="form-input" id="regEmail" placeholder="you@example.com" type="email" required/>
+            </div>
+            <div>
+                <label class="block text-xs font-bold text-gray-600 mb-1.5">パスワード（8文字以上）</label>
+                <input class="form-input" id="regPassword" placeholder="••••••••" type="password" required minlength="8"/>
+            </div>
+            <button class="w-full btn-atlas py-3.5 rounded-xl font-bold text-sm" type="submit">アカウントを作成</button>
+        </form>
+    </div>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const redirectUrl = urlParams.get('redirect') || '/index.html';
+        const initTab = urlParams.get('tab') || 'login';
+
+        function showError(msg) {
+            const el = document.getElementById('errorMessage');
+            if (msg) { el.textContent = msg; el.classList.remove('hidden'); }
+            else { el.classList.add('hidden'); }
+        }
+
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.auth-panel').forEach(p => p.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById('panel-' + tab).classList.add('active');
+            showError('');
+        }
+
+        if (initTab === 'register') {
+            document.querySelectorAll('.tab-btn')[1].classList.add('active');
+            document.querySelectorAll('.tab-btn')[0].classList.remove('active');
+            document.getElementById('panel-register').classList.add('active');
+            document.getElementById('panel-login').classList.remove('active');
+        }
+
+        async function handleLogin(e) {
+            e.preventDefault();
+            showError('');
+            try {
+                await API.login(document.getElementById('loginEmail').value, document.getElementById('loginPassword').value);
+                window.location.href = redirectUrl;
+            } catch (err) { showError(err.message); }
+        }
+
+        async function handleRegister(e) {
+            e.preventDefault();
+            showError('');
+            try {
+                await API.register(
+                    document.getElementById('regEmail').value,
+                    document.getElementById('regPassword').value,
+                    document.getElementById('regDisplayName').value,
+                    document.getElementById('regUsername').value
+                );
+                window.location.href = redirectUrl;
+            } catch (err) { showError(err.message); }
+        }
+    </script>
+</body>
+</html>

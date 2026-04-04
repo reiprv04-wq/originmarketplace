@@ -1,0 +1,16 @@
+{
+  "name": "origin-marketplace",
+  "version": "1.0.0",
+  "description": "ORIGIN AI Asset Marketplace",
+  "main": "server.js",
+  "scripts": {
+    "dev": "node server.js",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.7.0",
+    "express": "^4.21.0",
+    "multer": "^1.4.5-lts.1",
+    "uuid": "^10.0.0"
+  }
+}

@@ -1,156 +1,121 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="utf-8"/>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>応援購入ありがとうございます！ | ORIGIN</title>
-    
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com" rel="preconnect"/>
-    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@400;500;700;900&family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
-    
-    <!-- Phosphor Icons -->
+    <meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>購入完了 | ORIGIN</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@400;500;700;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
-    
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
-    
+    <script src="/api-client.js"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <style>
-        :root {
-            --color-atlas: #1E3A5F;
-            --color-meridian: #C9A84C;
-            --color-pale-steel: #F8FAFC;
-            --color-charcoal: #111827;
-            --color-white: #FFFFFF;
-            
-            --font-display: 'Cormorant Garamond', serif;
-            --font-editorial: 'Newsreader', serif;
-            --font-ui: 'Inter', 'Noto Sans JP', sans-serif;
-        }
-
-        body {
-            background-color: #F8FAFC;
-            color: var(--color-charcoal);
-            font-family: var(--font-ui);
-            line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        .font-display { font-family: var(--font-display); }
-        
-        .progress-line {
-            height: 4px;
-            background: #FFD200;
-            position: relative;
-        }
-        .progress-dot {
-            width: 14px;
-            height: 14px;
-            background: #FFD200;
-            border-radius: 50%;
-            position: absolute;
-            top: 50%;
-            left: 100%;
-            transform: translate(-50%, -50%);
-            box-shadow: 0 0 0 6px rgba(255, 210, 0, 0.4);
-        }
-
-        .btn-atlas {
-            background-color: var(--color-atlas);
-            color: var(--color-white);
-            transition: all 0.2s;
-        }
-        .btn-atlas:hover { 
-            background-color: #162a45;
-            transform: translateY(-1px);
-        }
-
-        .success-checkmark {
-            width: 100px;
-            height: 100px;
-            margin: 0 auto 2rem;
-            background: #10B981;
-            border-radius: 50%;
-            display: flex;
-            items-center: center;
-            justify-content: center;
-            color: white;
-            font-size: 50px;
-            animation: bounce 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        @keyframes bounce {
-            0% { transform: scale(0.5); opacity: 0; }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); opacity: 1; }
-        }
+        :root{--color-atlas:#1E3A5F;--color-meridian:#C9A84C;--font-display:'Cormorant Garamond',serif;--font-ui:'Inter','Noto Sans JP',sans-serif;--transition:0.2s cubic-bezier(0.4,0,0.2,1);}
+        body{background:#F8FAFC;color:#111827;font-family:var(--font-ui);-webkit-font-smoothing:antialiased;}
+        .font-display{font-family:var(--font-display);}.bg-atlas{background-color:var(--color-atlas);}.text-atlas{color:var(--color-atlas);}
+        .btn-atlas{background-color:var(--color-atlas);color:#fff;transition:var(--transition);}.btn-atlas:hover{background-color:#162a45;transform:translateY(-1px);box-shadow:0 4px 12px rgba(30,58,95,.15);}
+        .price-display{font-family:var(--font-display);font-weight:700;}
+        .step-dot{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;}
+        .step-done{background:var(--color-atlas);color:#fff;}
+        .step-line{height:2px;flex:1;background:var(--color-atlas);}
+        @keyframes checkPop{0%{transform:scale(0)}50%{transform:scale(1.2)}100%{transform:scale(1)}}
+        .check-anim{animation:checkPop .5s ease-out;}
+        @keyframes fadeUp{0%{opacity:0;transform:translateY(20px)}100%{opacity:1;transform:translateY(0)}}
+        .fade-up{animation:fadeUp .6s ease-out .3s both;}
+        .fade-up-2{animation:fadeUp .6s ease-out .5s both;}
+        .fade-up-3{animation:fadeUp .6s ease-out .7s both;}
     </style>
+    <link rel="stylesheet" href="/global-glass.css" />
 </head>
 <body>
-
-    <!-- Stepper -->
-    <div class="bg-white border-b border-gray-100 py-8 px-6">
-        <div class="max-w-3xl mx-auto">
-            <div class="progress-line rounded-full">
-                <div class="progress-dot"></div>
-            </div>
-            <div class="flex justify-between mt-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">
-                <span>1. Confirm Details</span>
-                <span>2. Payment</span>
-                <span class="text-gray-900">3. Complete</span>
-            </div>
+    <!-- Progress Steps -->
+    <div class="bg-white border-b border-gray-100 py-6 px-6">
+        <div class="max-w-lg mx-auto flex items-center gap-0">
+            <div class="step-dot step-done"><i class="ph ph-check"></i></div>
+            <div class="step-line"></div>
+            <div class="step-dot step-done"><i class="ph ph-check"></i></div>
+            <div class="step-line"></div>
+            <div class="step-dot step-done check-anim"><i class="ph ph-check"></i></div>
+        </div>
+        <div class="max-w-lg mx-auto flex justify-between mt-3 text-[10px] font-bold uppercase tracking-widest text-atlas">
+            <span>カート</span><span>お支払い</span><span>完了</span>
         </div>
     </div>
 
-    <main class="max-w-2xl mx-auto px-6 py-20 text-center">
-        
-        <div class="success-checkmark flex items-center justify-center">
-            <i class="ph ph-check-bold"></i>
-        </div>
-
-        <h1 class="text-3xl font-black text-gray-900 mb-4">応援購入が完了しました！</h1>
-        <p class="text-gray-500 font-medium mb-12">書類自動化 AI パッケージの応援、誠にありがとうございます。<br/>詳細はご登録のメールアドレスにお送りいたしました。</p>
-
-        <div class="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm mb-12 text-left">
-            <h3 class="font-bold text-gray-900 mb-6 border-b border-gray-100 pb-4">注文概要</h3>
-            <div class="space-y-4 text-sm font-medium">
-                <div class="flex justify-between text-gray-400">
-                    <span>注文番号</span>
-                    <span class="text-gray-900">#ORG-82755781</span>
-                </div>
-                <div class="flex justify-between text-gray-400">
-                    <span>応援金額</span>
-                    <span class="text-gray-900">¥46,900</span>
-                </div>
-                <div class="flex justify-between text-gray-400">
-                    <span>お届け予定</span>
-                    <span class="text-gray-900">2026年05月末</span>
-                </div>
+    <main class="max-w-[600px] mx-auto px-6 py-16 text-center">
+        <!-- Success Animation -->
+        <div class="check-anim mb-8">
+            <div class="w-24 h-24 bg-emerald-50 rounded-full flex items-center justify-center mx-auto ring-4 ring-emerald-100">
+                <i class="ph-fill ph-check-circle text-5xl text-emerald-500"></i>
             </div>
         </div>
 
-        <div class="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="index.html" class="px-8 py-4 bg-gray-900 text-white rounded-xl font-bold hover:bg-black transition-colors">
-                トップページに戻る
-            </a>
-            <a href="#" class="px-8 py-4 border border-gray-200 text-gray-700 rounded-xl font-bold hover:bg-gray-50 transition-colors">
-                購入履歴を確認
-            </a>
+        <h1 class="font-display text-4xl font-bold mb-4 fade-up">ご購入ありがとうございます！</h1>
+        <p class="text-gray-500 mb-2 fade-up">注文番号: <span class="font-bold text-gray-900" id="orderIdDisplay">...</span></p>
+        <p class="text-sm text-gray-500 mb-10 fade-up">購入完了メールを送信しました。</p>
+
+        <!-- Purchase Summary -->
+        <div class="bg-white border border-gray-100 rounded-2xl p-6 text-left mb-8 fade-up-2">
+            <h3 class="text-xs font-black text-gray-400 uppercase tracking-widest mb-4">購入内容</h3>
+            <div class="space-y-4 mb-6 pb-6 border-b border-gray-100" id="orderItemsContainer">
+                <div class="text-center py-4 text-gray-400 text-xs">読み込み中...</div>
+            </div>
+            <div class="flex justify-between text-sm font-bold">
+                <span class="text-gray-500">お支払い合計</span>
+                <span class="price-display text-xl text-atlas" id="orderTotalDisplay">¥0</span>
+            </div>
         </div>
 
-        <div class="mt-20 pt-20 border-t border-gray-100 opacity-20 flex justify-center gap-10">
-            <i class="ph ph-brand-x text-2xl"></i>
-            <i class="ph ph-brand-facebook text-2xl"></i>
-            <i class="ph ph-brand-slack text-2xl"></i>
+        <!-- Actions -->
+        <div class="space-y-3 fade-up-3">
+            <a class="w-full btn-atlas py-4 rounded-xl font-bold text-base flex items-center justify-center gap-2" href="buyer-dashboard.html"><i class="ph ph-books"></i> マイライブラリへ</a>
+            <a class="w-full py-3 border border-gray-200 rounded-xl text-sm font-bold text-gray-600 hover:border-atlas hover:text-atlas transition-all flex items-center justify-center gap-2" href="search.html"><i class="ph ph-magnifying-glass"></i> 他のアセットを探す</a>
+            <a class="text-xs font-bold text-gray-400 hover:text-atlas inline-flex items-center gap-1 mt-2" href="index.html"><i class="ph ph-house"></i> トップページへ</a>
         </div>
-
     </main>
 
-    <footer class="py-12 px-6 opacity-30 text-center">
-        <span class="font-display text-2xl font-bold block mb-2">ORIGIN</span>
-        <p class="text-[10px] font-bold uppercase tracking-widest">Digital Asset & AI Workflow Marketplace</p>
+    <footer class="py-8 px-6 border-t border-gray-100 mt-10">
+        <div class="max-w-[600px] mx-auto flex items-center justify-between">
+            <img src="/uploads/origin_logo.png" alt="ORIGIN Logo" class="h-20 -my-2 w-auto object-contain group-hover:opacity-80 transition-opacity" style="image-rendering:-webkit-optimize-contrast; image-rendering:crisp-edges;" />
+            <p class="text-xs text-gray-400">© 2026 ORIGIN. All rights reserved.</p>
+        </div>
     </footer>
-
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            if(!requireLogin('/complete.html')) return;
+            try {
+                const orders = await API.getOrders();
+                if(orders && orders.length > 0) {
+                    const latest = orders[0];
+                    document.getElementById('orderIdDisplay').textContent = '#' + latest.id.split('-')[0].toUpperCase();
+                    document.getElementById('orderTotalDisplay').textContent = formatPrice(latest.total_price);
+                    
+                    const container = document.getElementById('orderItemsContainer');
+                    let itemsHtml = '';
+                    let items = [];
+                    try {
+                        items = JSON.parse(latest.items_json);
+                    } catch(e) {}
+                    
+                    if(items.length > 0) {
+                        for(let item of items) {
+                            itemsHtml += `
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-9 rounded-lg bg-gray-100 overflow-hidden flex-shrink-0">
+                                    <img alt="" class="w-full h-full object-cover" src="${item.thumbnail_url || 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80'}"/>
+                                </div>
+                                <div class="flex-1 min-w-0"><p class="text-xs font-bold">${item.title}</p><p class="text-[10px] text-gray-400">${item.license_type}</p></div>
+                                <a href="buyer-dashboard.html" class="text-xs font-bold text-atlas flex items-center gap-1 hover:underline"><i class="ph ph-books"></i> ライブラリ</a>
+                            </div>`;
+                        }
+                    } else {
+                        itemsHtml = '<p class="text-xs text-gray-500">商品情報の読み込みに失敗しました。</p>';
+                    }
+                    container.innerHTML = itemsHtml;
+                }
+            } catch(e) {
+                console.error(e);
+            }
+        });
+    </script>
 </body>
 </html>

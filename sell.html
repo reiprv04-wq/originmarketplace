@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>アセットを出品する | ORIGIN</title>
+    <meta name="description" content="ORIGINで、あなたのAIアセット・テンプレート・ワークフローを出品しましょう。"/>
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@400;500;700;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="/api-client.js"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link rel="stylesheet" href="sell-wizard.css"/>
+    <link rel="stylesheet" href="/global-glass.css" />
+</head>
+<body class="pt-16">
+
+<!-- Header -->
+<header class="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100 h-16">
+  <div class="max-w-[1200px] mx-auto px-6 h-full flex items-center justify-between">
+    <div class="flex items-center gap-6">
+      <a class="flex items-center gap-2" href="index.html">
+        <img src="/uploads/origin_logo.png" alt="ORIGIN Logo" class="h-20 -my-2 w-auto object-contain group-hover:opacity-80 transition-opacity" style="image-rendering:-webkit-optimize-contrast; image-rendering:crisp-edges;" />
+      </a>
+      <span style="font-size:11px;font-weight:800;color:#9CA3AF;text-transform:uppercase;letter-spacing:0.08em">出品センター</span>
+    </div>
+    <div class="flex items-center gap-3">
+      <button onclick="saveDraft();showAutosave('下書きを保存しました')" style="font-size:13px;font-weight:700;color:#6B7280;padding:8px 16px;border:1.5px solid #E5E7EB;border-radius:8px;background:white;cursor:pointer">💾 下書き保存</button>
+      <a href="index.html" style="font-size:13px;font-weight:600;color:#9CA3AF;padding:8px 12px;text-decoration:none">キャンセル</a>
+    </div>
+  </div>
+</header>
+
+<!-- Progress Bar -->
+<div style="max-width:700px;margin:0 auto;padding:24px 24px 0">
+  <div class="wizard-progress">
+    <div class="wizard-step-item">
+      <div class="step-circle active" id="step-circle-1" onclick="goToStep(1)">1</div>
+      <span class="step-label" style="left:18px;transform:none">基本情報</span>
+      <div class="step-line" id="step-line-1"></div>
+    </div>
+    <div class="wizard-step-item">
+      <div class="step-circle" id="step-circle-2" onclick="goToStep(2)">2</div>
+      <span class="step-label" style="left:18px;transform:none">メディア</span>
+      <div class="step-line" id="step-line-2"></div>
+    </div>
+    <div class="wizard-step-item">
+      <div class="step-circle" id="step-circle-3" onclick="goToStep(3)">3</div>
+      <span class="step-label" style="left:18px;transform:none">ファイル</span>
+      <div class="step-line" id="step-line-3"></div>
+    </div>
+    <div class="wizard-step-item">
+      <div class="step-circle" id="step-circle-4" onclick="goToStep(4)">4</div>
+      <span class="step-label" style="left:18px;transform:none">価格</span>
+      <div class="step-line" id="step-line-4"></div>
+    </div>
+    <div class="wizard-step-item">
+      <div class="step-circle" id="step-circle-5" onclick="goToStep(5)">5</div>
+      <span class="step-label" style="left:18px;transform:none">要件</span>
+      <div class="step-line" id="step-line-5"></div>
+    </div>
+    <div class="wizard-step-item">
+      <div class="step-circle" id="step-circle-6" onclick="goToStep(6)">6</div>
+      <span class="step-label" style="left:18px;transform:none">確認</span>
+    </div>
+  </div>
+</div>
+
+<!-- Main Wizard Content -->
+<main style="max-width:900px;margin:0 auto;padding:40px 24px 80px">
+
+  <!-- Step 1: Basic Info -->
+  <div class="wizard-panel active" id="step-1">
+    <h2 style="font-family:var(--font-display);font-size:32px;font-weight:700;margin-bottom:6px">基本情報</h2>
+    <p style="font-size:13px;color:#9CA3AF;font-weight:500;margin-bottom:28px">アセットのタイトル、カテゴリ、詳細説明を入力してください</p>
+    <div id="step-1-content"></div>
+    <div class="step-footer">
+      <div></div>
+      <button class="btn-atlas" style="padding:12px 32px;border-radius:10px;font-size:14px;font-weight:700;border:none;cursor:pointer;display:flex;align-items:center;gap:8px" onclick="nextStep()">
+        次へ: メディア <i class="ph ph-arrow-right"></i></button>
+    </div>
+  </div>
+
+  <!-- Step 2: Media -->
+  <div class="wizard-panel" id="step-2">
+    <h2 style="font-family:var(--font-display);font-size:32px;font-weight:700;margin-bottom:6px">メディア・プレビュー</h2>
+    <p style="font-size:13px;color:#9CA3AF;font-weight:500;margin-bottom:28px">商品の魅力を伝えるサムネイル、スクリーンショット、動画を設定</p>
+    <div id="step-2-content"></div>
+    <div class="step-footer">
+      <button style="padding:12px 24px;border-radius:10px;font-size:13px;font-weight:700;border:1.5px solid #E5E7EB;background:white;cursor:pointer;color:#6B7280;display:flex;align-items:center;gap:6px" onclick="prevStep()">
+        <i class="ph ph-arrow-left"></i> 基本情報</button>
+      <button class="btn-atlas" style="padding:12px 32px;border-radius:10px;font-size:14px;font-weight:700;border:none;cursor:pointer;display:flex;align-items:center;gap:8px" onclick="nextStep()">
+        次へ: ファイル <i class="ph ph-arrow-right"></i></button>
+    </div>
+  </div>
+
+  <!-- Step 3: Files -->
+  <div class="wizard-panel" id="step-3">
+    <h2 style="font-family:var(--font-display);font-size:32px;font-weight:700;margin-bottom:6px">ファイルアップロード</h2>
+    <p style="font-size:13px;color:#9CA3AF;font-weight:500;margin-bottom:28px">購入者に提供するファイルまたは外部リンクを設定</p>
+    <div id="step-3-content"></div>
+    <div class="step-footer">
+      <button style="padding:12px 24px;border-radius:10px;font-size:13px;font-weight:700;border:1.5px solid #E5E7EB;background:white;cursor:pointer;color:#6B7280;display:flex;align-items:center;gap:6px" onclick="prevStep()">
+        <i class="ph ph-arrow-left"></i> メディア</button>
+      <button class="btn-atlas" style="padding:12px 32px;border-radius:10px;font-size:14px;font-weight:700;border:none;cursor:pointer;display:flex;align-items:center;gap:8px" onclick="nextStep()">
+        次へ: 価格 <i class="ph ph-arrow-right"></i></button>
+    </div>
+  </div>
+
+  <!-- Step 4: Pricing -->
+  <div class="wizard-panel" id="step-4">
+    <h2 style="font-family:var(--font-display);font-size:32px;font-weight:700;margin-bottom:6px">価格・ライセンス設定</h2>
+    <p style="font-size:13px;color:#9CA3AF;font-weight:500;margin-bottom:28px">販売価格とライセンス条件を設定</p>
+    <div id="step-4-content"></div>
+    <div class="step-footer">
+      <button style="padding:12px 24px;border-radius:10px;font-size:13px;font-weight:700;border:1.5px solid #E5E7EB;background:white;cursor:pointer;color:#6B7280;display:flex;align-items:center;gap:6px" onclick="prevStep()">
+        <i class="ph ph-arrow-left"></i> ファイル</button>
+      <button class="btn-atlas" style="padding:12px 32px;border-radius:10px;font-size:14px;font-weight:700;border:none;cursor:pointer;display:flex;align-items:center;gap:8px" onclick="nextStep()">
+        次へ: 要件 <i class="ph ph-arrow-right"></i></button>
+    </div>
+  </div>
+
+  <!-- Step 5: Setup -->
+  <div class="wizard-panel" id="step-5">
+    <h2 style="font-family:var(--font-display);font-size:32px;font-weight:700;margin-bottom:6px">セットアップ情報・要件</h2>
+    <p style="font-size:13px;color:#9CA3AF;font-weight:500;margin-bottom:28px">導入手順、必須要件、FAQを設定</p>
+    <div id="step-5-content"></div>
+    <div class="step-footer">
+      <button style="padding:12px 24px;border-radius:10px;font-size:13px;font-weight:700;border:1.5px solid #E5E7EB;background:white;cursor:pointer;color:#6B7280;display:flex;align-items:center;gap:6px" onclick="prevStep()">
+        <i class="ph ph-arrow-left"></i> 価格</button>
+      <button class="btn-atlas" style="padding:12px 32px;border-radius:10px;font-size:14px;font-weight:700;border:none;cursor:pointer;display:flex;align-items:center;gap:8px" onclick="nextStep()">
+        次へ: 確認 <i class="ph ph-arrow-right"></i></button>
+    </div>
+  </div>
+
+  <!-- Step 6: Confirm -->
+  <div class="wizard-panel" id="step-6">
+    <h2 style="font-family:var(--font-display);font-size:32px;font-weight:700;margin-bottom:6px">確認・公開</h2>
+    <p style="font-size:13px;color:#9CA3AF;font-weight:500;margin-bottom:28px">入力内容を確認し、出品を申請してください</p>
+    <div id="step-6-content"></div>
+  </div>
+
+</main>
+
+<!-- Autosave Indicator -->
+<div class="autosave-indicator" id="autosaveIndicator"></div>
+
+<!-- Footer -->
+<footer style="background:white;border-top:1px solid #F3F4F6;padding:24px 0;text-align:center">
+  <img src="/uploads/origin_logo.png" alt="ORIGIN Logo" class="h-20 -my-2 w-auto object-contain group-hover:opacity-80 transition-opacity" style="image-rendering:-webkit-optimize-contrast; image-rendering:crisp-edges;" />
+  <p style="font-size:9px;font-weight:700;color:#9CA3AF;text-transform:uppercase;letter-spacing:0.08em;margin-top:6px">© 2026 ORIGIN CLOUD. ALL RIGHTS RESERVED.</p>
+</footer>
+
+<script src="sell-wizard.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    requireLogin('/sell.html');
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>アセットを探す | ORIGIN — AIアセットマーケットプレイス</title>
+    <meta content="AIテンプレート・デジタルアセットの検索・一覧。カテゴリ・ツール・価格帯で絞り込み。" name="description"/>
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@400;500;700;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="/api-client.js"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <style>
+        :root {
+            --color-atlas: #1E3A5F;
+            --color-meridian: #C9A84C;
+            --color-charcoal: #111827;
+            --font-display: 'Cormorant Garamond', serif;
+            --font-ui: 'Inter', 'Noto Sans JP', sans-serif;
+            --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        body { background:#F8FAFC; color:var(--color-charcoal); font-family:var(--font-ui); -webkit-font-smoothing:antialiased; }
+        .font-display { font-family:var(--font-display); }
+        .bg-atlas { background-color:var(--color-atlas); }
+        .text-atlas { color:var(--color-atlas); }
+        .btn-atlas { background-color:var(--color-atlas); color:#fff; transition:var(--transition); }
+        .btn-atlas:hover { background-color:#162a45; transform:translateY(-1px); box-shadow:0 4px 12px rgba(30,58,95,.15); }
+        .asset-card { transition:var(--transition); border:1px solid #E5E7EB; background:#fff; }
+        .asset-card:hover { transform:translateY(-4px); box-shadow:0 20px 25px -5px rgba(0,0,0,.05); border-color:#D1D5DB; }
+        .price-display { font-family:var(--font-display); font-weight:700; }
+        .filter-check { accent-color:var(--color-atlas); }
+        .zone-tab { transition:var(--transition); }
+        .zone-tab.active { background:var(--color-atlas); color:#fff; }
+        .zone-tab:not(.active):hover { background:#EEF2FF; }
+        input[type="range"] { accent-color:var(--color-atlas); }
+        .sort-select { appearance:none; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M3 5l3 3 3-3' stroke='%236B7280' stroke-width='1.5' fill='none'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 12px center; }
+    </style>
+    <link rel="stylesheet" href="/global-glass.css" />
+</head>
+<body>
+    <!-- Header -->
+    <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-100 h-16">
+        <div class="max-w-[1400px] mx-auto px-6 h-full flex items-center justify-between">
+            <div class="flex items-center gap-6">
+                <a class="flex items-center gap-2" href="index.html">
+                    <img src="/uploads/origin_logo.png" alt="ORIGIN Logo" class="h-20 -my-2 w-auto object-contain group-hover:opacity-80 transition-opacity" style="image-rendering:-webkit-optimize-contrast; image-rendering:crisp-edges;" />
+                </a>
+                <nav class="hidden lg:flex items-center gap-1 ml-4">
+                    <a class="zone-tab active text-xs font-bold px-4 py-2 rounded-full" href="#">すべて</a>
+                    <a class="zone-tab text-xs font-bold px-4 py-2 rounded-full text-gray-500" href="#">業務自動化・DX</a>
+                    <a class="zone-tab text-xs font-bold px-4 py-2 rounded-full text-gray-500" href="#">デザイン</a>
+                    <a class="zone-tab text-xs font-bold px-4 py-2 rounded-full text-gray-500" href="#">コンポーネント</a>
+                    <a class="zone-tab text-xs font-bold px-4 py-2 rounded-full text-gray-500" href="#">教育</a>
+                </nav>
+            </div>
+            <div class="flex items-center gap-3" id="header-auth">
+                <!-- populated dynamically -->
+            </div>
+            <a class="btn-atlas px-5 py-2.5 rounded-lg text-sm font-bold ml-1" href="sell.html">出品する</a>
+        </div>
+    </header>
+
+    <main class="max-w-[1400px] mx-auto px-6 py-8">
+        <!-- Breadcrumb -->
+        <nav class="flex items-center gap-2 text-xs font-bold text-gray-400 mb-6 uppercase tracking-widest">
+            <a class="hover:text-atlas" href="index.html">Home</a>
+            <i class="ph ph-caret-right text-[10px]"></i>
+            <span class="text-gray-900">アセットを探す</span>
+        </nav>
+
+        <!-- Search Bar -->
+        <div class="mb-8">
+            <div class="relative max-w-2xl">
+                <i class="ph ph-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-lg"></i>
+                <input class="w-full pl-12 pr-4 py-3.5 bg-white border border-gray-200 rounded-xl text-sm font-medium focus:ring-2 focus:ring-atlas/10 focus:border-atlas/30 transition-all outline-none shadow-sm" placeholder="キーワードで検索..." type="text" id="searchInput"/>
+            </div>
+        </div>
+
+        <div class="flex gap-8">
+            <!-- Sidebar Filters -->
+            <aside class="hidden lg:block w-64 flex-shrink-0">
+                <div class="sticky top-24 space-y-6">
+                    <!-- Category Filter -->
+                    <div class="bg-white rounded-xl border border-gray-100 p-5">
+                        <h3 class="text-xs font-black text-gray-900 uppercase tracking-widest mb-4">カテゴリ</h3>
+                        <div class="space-y-2.5">
+                            <label class="flex items-center gap-3 text-sm font-medium text-gray-600 cursor-pointer hover:text-atlas transition-colors">
+                                <input type="checkbox" class="filter-check rounded" checked/> Notionテンプレート <span class="ml-auto text-[10px] font-bold text-gray-400">24</span>
+                            </label>
+                            <label class="flex items-center gap-3 text-sm font-medium text-gray-600 cursor-pointer hover:text-atlas transition-colors">
+                                <input type="checkbox" class="filter-check rounded"/> ノーコードワークフロー <span class="ml-auto text-[10px] font-bold text-gray-400">18</span>
+                            </label>
+                            <label class="flex items-center gap-3 text-sm font-medium text-gray-600 cursor-pointer hover:text-atlas transition-colors">
+                                <input type="checkbox" class="filter-check rounded"/> スプレッドシート <span class="ml-auto text-[10px] font-bold text-gray-400">12</span>
+                            </label>
+                            <label class="flex items-center gap-3 text-sm font-medium text-gray-600 cursor-pointer hover:text-atlas transition-colors">
+                                <input type="checkbox" class="filter-check rounded"/> AIプロンプト <span class="ml-auto text-[10px] font-bold text-gray-400">31</span>
+                            </label>
+                            <label class="flex items-center gap-3 text-sm font-medium text-gray-600 cursor-pointer hover:text-atlas transition-colors">
+                                <input type="checkbox" class="filter-check rounded"/> UIデザイン <span class="ml-auto text-[10px] font-bold text-gray-400">15</span>
+                            </label>
+                            <label class="flex items-center gap-3 text-sm font-medium text-gray-600 cursor-pointer hover:text-atlas transition-colors">
+                                <input type="checkbox" class="filter-check rounded"/> UIコンポーネント <span class="ml-auto text-[10px] font-bold text-gray-400">9</span>
+                            </label>
+                            <label class="flex items-center gap-3 text-sm font-medium text-gray-600 cursor-pointer hover:text-atlas transition-colors">
+                                <input type="checkbox" class="filter-check rounded"/> オンライン講座 <span class="ml-auto text-[10px] font-bold text-gray-400">7</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Tool/Platform Filter -->
+                    <div class="bg-white rounded-xl border border-gray-100 p-5">
+                        <h3 class="text-xs font-black text-gray-900 uppercase tracking-widest mb-4">ツール</h3>
+                        <div class="space-y-2.5">
+                            <label class="flex items-center gap-3 text-sm font-medium text-gray-600 cursor-pointer hover:text-atlas transition-colors">
+                                <input type="checkbox" class="filter-check rounded"/> Notion
+                            </label>
+                            <label class="flex items-center gap-3 text-sm font-medium text-gray-600 cursor-pointer hover:text-atlas transition-colors">
+                                <input type="checkbox" class="filter-check rounded"/> n8n
+                            </label>
+                            <label class="flex items-center gap-3 text-sm font-medium text-gray-600 cursor-pointer hover:text-atlas transition-colors">
+                                <input type="checkbox" class="filter-check rounded"/> Figma
+                            </label>
+                            <label class="flex items-center gap-3 text-sm font-medium text-gray-600 cursor-pointer hover:text-atlas transition-colors">
+                                <input type="checkbox" class="filter-check rounded"/> Excel / Sheets
+                            </label>
+                            <label class="flex items-center gap-3 text-sm font-medium text-gray-600 cursor-pointer hover:text-atlas transition-colors">
+                                <input type="checkbox" class="filter-check rounded"/> React / Vue
+                            </label>
+                            <label class="flex items-center gap-3 text-sm font-medium text-gray-600 cursor-pointer hover:text-atlas transition-colors">
+                                <input type="checkbox" class="filter-check rounded"/> ChatGPT / Claude
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Price Range -->
+                    <div class="bg-white rounded-xl border border-gray-100 p-5">
+                        <h3 class="text-xs font-black text-gray-900 uppercase tracking-widest mb-4">価格帯</h3>
+                        <div class="space-y-3">
+                            <input type="range" min="0" max="100000" value="50000" class="w-full h-1.5" id="priceRange"/>
+                            <div class="flex items-center justify-between text-xs font-bold text-gray-500">
+                                <span>¥0</span>
+                                <span id="priceValue">〜 ¥50,000</span>
+                            </div>
+                            <label class="flex items-center gap-2 text-sm font-medium text-gray-600 cursor-pointer mt-2">
+                                <input type="checkbox" class="filter-check rounded"/> 無料のみ表示
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- License -->
+                    <div class="bg-white rounded-xl border border-gray-100 p-5">
+                        <h3 class="text-xs font-black text-gray-900 uppercase tracking-widest mb-4">ライセンス</h3>
+                        <div class="space-y-2.5">
+                            <label class="flex items-center gap-3 text-sm font-medium text-gray-600 cursor-pointer hover:text-atlas transition-colors">
+                                <input type="checkbox" class="filter-check rounded"/> 個人利用
+                            </label>
+                            <label class="flex items-center gap-3 text-sm font-medium text-gray-600 cursor-pointer hover:text-atlas transition-colors">
+                                <input type="checkbox" class="filter-check rounded"/> 商用利用可
+                            </label>
+                            <label class="flex items-center gap-3 text-sm font-medium text-gray-600 cursor-pointer hover:text-atlas transition-colors">
+                                <input type="checkbox" class="filter-check rounded"/> チーム / 企業
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Rating -->
+                    <div class="bg-white rounded-xl border border-gray-100 p-5">
+                        <h3 class="text-xs font-black text-gray-900 uppercase tracking-widest mb-4">評価</h3>
+                        <div class="space-y-2.5">
+                            <label class="flex items-center gap-3 text-sm font-medium text-gray-600 cursor-pointer hover:text-atlas transition-colors">
+                                <input type="radio" name="rating" class="filter-check"/> ⭐ 4.5以上
+                            </label>
+                            <label class="flex items-center gap-3 text-sm font-medium text-gray-600 cursor-pointer hover:text-atlas transition-colors">
+                                <input type="radio" name="rating" class="filter-check"/> ⭐ 4.0以上
+                            </label>
+                            <label class="flex items-center gap-3 text-sm font-medium text-gray-600 cursor-pointer hover:text-atlas transition-colors">
+                                <input type="radio" name="rating" class="filter-check" checked/> すべて
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Main Content -->
+            <div class="flex-1 min-w-0">
+                <!-- Controls -->
+                <div class="flex items-center justify-between mb-6">
+                    <p class="text-sm font-bold text-gray-500"><span class="text-gray-900">116</span> 件のアセット</p>
+                    <div class="flex items-center gap-4">
+                        <select id="sortSelect" class="sort-select bg-white border border-gray-200 rounded-lg px-4 py-2 pr-8 text-sm font-bold text-gray-700 outline-none focus:border-atlas/30" onchange="doSearch()">
+                            <option value="popular">人気順</option>
+                            <option value="new">新着順</option>
+                            <option value="price_asc">価格：安い順</option>
+                            <option value="price_desc">価格：高い順</option>
+                            <option value="rating">評価順</option>
+                        </select>
+                        <div class="flex border border-gray-200 rounded-lg overflow-hidden">
+                            <button class="p-2.5 bg-atlas text-white" id="gridView"><i class="ph ph-squares-four text-sm"></i></button>
+                            <button class="p-2.5 bg-white text-gray-400 hover:text-atlas" id="listView"><i class="ph ph-list text-sm"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6" id="productGrid">
+                    <div class="col-span-full text-center py-20 text-gray-400 font-bold">読み込み中...</div>
+                </div>
+
+                <!-- Pagination -->
+                <div class="flex items-center justify-center gap-2 mt-12">
+                    <button class="w-10 h-10 rounded-lg bg-atlas text-white text-sm font-bold">1</button>
+                    <button class="w-10 h-10 rounded-lg bg-white border border-gray-200 text-sm font-bold text-gray-600 hover:border-atlas hover:text-atlas transition-colors">2</button>
+                    <button class="w-10 h-10 rounded-lg bg-white border border-gray-200 text-sm font-bold text-gray-600 hover:border-atlas hover:text-atlas transition-colors">3</button>
+                    <span class="text-gray-400 px-2">...</span>
+                    <button class="w-10 h-10 rounded-lg bg-white border border-gray-200 text-sm font-bold text-gray-600 hover:border-atlas hover:text-atlas transition-colors">12</button>
+                    <button class="w-10 h-10 rounded-lg bg-white border border-gray-200 text-sm font-bold text-gray-600 hover:border-atlas hover:text-atlas transition-colors"><i class="ph ph-caret-right"></i></button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-100 py-16 mt-16">
+        <div class="max-w-[1400px] mx-auto px-6 grid grid-cols-2 lg:grid-cols-5 gap-12">
+            <div class="col-span-2">
+                <img src="/uploads/origin_logo.png" alt="ORIGIN Logo" class="h-20 -my-2 w-auto object-contain group-hover:opacity-80 transition-opacity" style="image-rendering:-webkit-optimize-contrast; image-rendering:crisp-edges;" />
+                <p class="text-sm text-gray-400 max-w-xs leading-relaxed font-medium">Build from zero. Start here. 次世代のビルダーとクリエイターのためのデジタルアセットマーケットプレイス。</p>
+            </div>
+            <div>
+                <h4 class="text-sm font-bold mb-4 text-gray-900">カテゴリ</h4>
+                <ul class="flex flex-col gap-3 text-sm font-medium text-gray-500">
+                    <li><a class="hover:text-atlas" href="#">業務自動化・DX</a></li>
+                    <li><a class="hover:text-atlas" href="#">デザイン・クリエイティブ</a></li>
+                    <li><a class="hover:text-atlas" href="#">コンポーネント</a></li>
+                    <li><a class="hover:text-atlas" href="#">教育・ナレッジ</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-sm font-bold mb-4 text-gray-900">サービス</h4>
+                <ul class="flex flex-col gap-3 text-sm font-medium text-gray-500">
+                    
+                    <li><a class="hover:text-atlas" href="#">利用規約</a></li>
+                    <li><a class="hover:text-atlas" href="#">プライバシーポリシー</a></li>
+                    <li><a class="hover:text-atlas" href="#">特定商取引法</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-sm font-bold mb-4 text-gray-900">サポート</h4>
+                <ul class="flex flex-col gap-3 text-sm font-medium text-gray-500">
+                    <li><a class="hover:text-atlas" href="#">ヘルプセンター</a></li>
+                    <li><a class="hover:text-atlas" href="#">お問い合わせ</a></li>
+                    <li><a class="hover:text-atlas" href="#">コミュニティガイドライン</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="max-w-[1400px] mx-auto px-6 mt-12 pt-8 border-t border-gray-100 flex items-center justify-between">
+            <p class="text-xs text-gray-400 font-medium">© 2026 ORIGIN. All rights reserved.</p>
+            <div class="flex gap-4 text-gray-400">
+                <a class="hover:text-atlas transition-colors" href="#"><i class="ph ph-x-logo text-lg"></i></a>
+                <a class="hover:text-atlas transition-colors" href="#"><i class="ph ph-youtube-logo text-lg"></i></a>
+                <a class="hover:text-atlas transition-colors" href="#"><i class="ph ph-note text-lg"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Price range
+        const priceRange = document.getElementById('priceRange');
+        const priceValue = document.getElementById('priceValue');
+        if(priceRange) priceRange.addEventListener('input', e => {
+            priceValue.textContent = '〜 ¥' + parseInt(e.target.value).toLocaleString();
+        });
+        const searchInput = document.getElementById('searchInput');
+        const sortSelect = document.getElementById('sortSelect');
+        const productGrid = document.getElementById('productGrid');
+        
+        let typingTimer;
+
+        async function doSearch() {
+            productGrid.innerHTML = '<div class="col-span-full text-center py-20 text-gray-400 font-bold">読み込み中...</div>';
+            
+            const params = {
+                search: searchInput.value,
+                sort: sortSelect.value,
+                max_price: priceRange.value
+            };
+            
+            try {
+                const res = await API.getAssets(params);
+                if (res.assets.length === 0) {
+                    productGrid.innerHTML = '<div class="col-span-full text-center py-20 text-gray-500 font-bold">一致するアセットが見つかりませんでした</div>';
+                    return;
+                }
+                
+                productGrid.innerHTML = res.assets.map(asset => `
+                    <a class="asset-card rounded-xl overflow-hidden flex flex-col group" href="product.html?id=${asset.id}">
+                        <div class="aspect-[16/10] bg-gray-50 relative overflow-hidden">
+                            <img alt="${asset.title}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="${asset.thumbnail_url || '/uploads/asset_placeholder.png'}" />
+                        </div>
+                        <div class="p-5 flex-1 flex flex-col">
+                            <div class="flex items-center gap-2 mb-3">
+                                <div class="w-5 h-5 rounded-full bg-atlas flex items-center justify-center text-[8px] text-white font-bold">${initials(asset.creator_name)}</div>
+                                <span class="text-[10px] font-bold text-gray-400 uppercase">${asset.creator_name}</span>
+                            </div>
+                            <h3 class="font-bold text-sm leading-tight mb-3 group-hover:text-atlas transition-colors">${asset.title}</h3>
+                            <div class="mt-auto flex items-center justify-between pt-3 border-t border-gray-100">
+                                <span class="price-display text-lg text-atlas">${formatPrice(asset.price_personal)}</span>
+                                <div class="flex items-center gap-1.5">
+                                    <i class="ph-fill ph-star text-meridian text-xs"></i>
+                                    <span class="text-xs font-bold">${asset.avg_rating || '0.0'}</span>
+                                    <span class="text-[10px] text-gray-400">(${asset.sales_count})</span>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                `).join('');
+                document.querySelector('p.text-sm.font-bold.text-gray-500 span').textContent = res.total;
+            } catch (e) {
+                console.error(e);
+                productGrid.innerHTML = '<div class="col-span-full text-center py-20 text-red-500 font-bold">エラーが発生しました</div>';
+            }
+        }
+
+        searchInput.addEventListener('input', () => {
+            clearTimeout(typingTimer);
+            typingTimer = setTimeout(doSearch, 500);
+        });
+
+        if(priceRange) priceRange.addEventListener('change', () => doSearch());
+
+        // Zone tabs
+        document.querySelectorAll('.zone-tab').forEach(tab => {
+            tab.addEventListener('click', e => {
+                e.preventDefault();
+                document.querySelectorAll('.zone-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+            });
+        });
+
+        // Initialize header auth and init search
+        initHeaderAuth();
+        doSearch();
+    </script>
+</body>
+</html>
